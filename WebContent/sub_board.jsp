@@ -1,5 +1,5 @@
-<%@ page contentType="text/html; charset=utf-8"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"%>
+<%@taglib prefix="q" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,17 +13,26 @@
 </head>
 <body>
 <div>
-기초수학 리스트
-	<table border="1" class="table">
-		<th>순번</th>
-		<th>작성자</th>
-		<th>질문</th>
-		<tr>
-			<td>첫</td>
-			<td>번</td>
-			<td>째</td>
-		</tr>
-	</table>
+${ rList }
+
+<table border="1" class="table">
+<thead>
+<tr>
+	<th>순번</th>
+	<th>작성자</th>
+	<th>질문</th>
+</tr>	
+</thead>
+	<tr>
+	<q:forEach items="${ rList }" var="t">
+		<td>t.no</td>
+		<td>t.ch</td>
+		<td>t.stid</td>
+		<td>t.title</td>
+		<td>t.content</td>
+	</q:forEach>
+	</tr>
+</table>
 	<a href="write.jsp">
 		<img src="image/pencil-line.svg"/>
 	</a>
