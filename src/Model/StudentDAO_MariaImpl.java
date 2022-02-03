@@ -45,6 +45,7 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		return isExist;
 	}
 	
+	
 	// 학생을 테이블에 추가하는 함수
 	@Override
 	public int add(StudentVO pvo) throws Exception {
@@ -69,6 +70,7 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		return uc;
 	}
 
+	
 	// 학생의 id/pw 로 로그인 시도를 하고
 	// 성공하면 0, 없는 아이디면 1, 비밀번호가 틀리면 2 를 반환
 	@Override
@@ -98,7 +100,4 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		else return 0;
 	}
 	
-	
-	
-
 }
