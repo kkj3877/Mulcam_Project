@@ -42,10 +42,7 @@ public class BeanUtil {
 	
 	// Setter 에서 property 이름을 추출하는 함수
 	public static String propertyOfSetter( String setterName ) {
-		if ( setterName.equals("setContent") ) { return "content"; }
-		if ( setterName.equals("setNo") ) { return "no"; }
-		if ( setterName.equals("setAuthor") ) { return "author"; }
-		
-		return null;
+		System.out.println(setterName.substring(3, 4).toLowerCase() + setterName.substring(4));
+		return setterName.substring(3, 4).toLowerCase() + setterName.substring(4);
 	}
 }

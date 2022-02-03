@@ -166,7 +166,8 @@ public class MainController extends HttpServlet {
 			try {
 				// uri 에 해당하는 컨트롤러와 함수를 실행하고 결과를 반환받는다.
 				Object obj = mtd.invoke(target, params);
-				String prefix = "/WEB-INF/jsp/";
+				String prefix = "";
+				// String prefix = "/WEB-INF/jsp/";
 				String suffix = ".jsp";
 				
 				if (obj == null) { System.out.println("obj == null"); }
