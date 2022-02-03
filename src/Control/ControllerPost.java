@@ -51,12 +51,12 @@ public class ControllerPost {
 	(@RequestParam("subject") String subject, @ModelAttribute("PostVO") PostVO pvo)
 		throws Exception
 	{
-		System.out.println("ControllerPost:: add");
+		System.out.println("ControllerPost:: add:: " + subject);
 		
 		PostDAO dao = new PostDAO_MariaImpl(jtpl);
-		dao.findAll(subject);
+		dao.add(subject, null);
 		
-		return "redirect:sub_board?sub="+subject;
+		return "redirect:sub_board.do?subject="+subject;
 	}
 	
 	
@@ -65,12 +65,13 @@ public class ControllerPost {
 	(@RequestParam("sub") String subject, @ModelAttribute("PostVO") PostVO pvo)
 		throws Exception
 	{
-		System.out.println("ControllerPost:: del");
+		System.out.println("ControllerPost:: del:: " + subject);
 		
 		PostDAO dao = new PostDAO_MariaImpl(jtpl);
-		dao.findAll(subject);
+		dao.delByPK(subject, null);
 		
-		return "redirect:sub_board?sub="+subject;
+		
+		return "redirect:sub_board.do?subject="+subject;
 	}
 	
 }
