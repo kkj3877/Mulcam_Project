@@ -59,10 +59,10 @@ public class ControllerMember {
 		*/
 		
 		if (dao.findByStid(pvo)) {
-			// response.setContentType("text/html; charset=utf-8");
-			// PrintWriter writer = response.getWriter();
-			// writer.println("<script>alert('이미 가입한 학번입니다'); location.href='"++"';</script>")
-			System.out.println("이미 가입한 학번입니다.");
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			writer.println("<script>alert('이미 가입한 학번입니다'); location.href='login.jsp'</script>");
+			return null;
 		}
 		else {
 			dao.add(pvo);
@@ -75,6 +75,18 @@ public class ControllerMember {
 	public String login() throws Exception
 	{
 		System.out.println("ControllerMember:: login");
+		
+		return "login";
+	}
+	
+	@RequestMapping("/logintry.do")
+	public String logintry
+		(@ModelAttribute("StudentVO") StudentVO pvo, HttpServletResponse response)
+			throws Exception
+	{
+		System.out.println("ControllerMember:: logintry");
+		System.out.println(">> stid : " + pvo.getStid());
+		System.out.println(">>   pw : " + pvo.getPw());
 		
 		return "login";
 	}
