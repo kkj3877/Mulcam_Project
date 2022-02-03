@@ -31,14 +31,17 @@
 	Sign up	
 	<div>
 		<div class="b">
-			<input type="text" name="" value="학번"/>
+			<input type="text" name="name" value="이름"/>
+		</div>
+		<div class="b">
+			<input type="text" name="stid" value="학번"/>
 		</div>
 		<br/>
 		<div class="d">
-			<input type="text" name="" value="이메일"/>
+			<input type="text" name="mail" value="이메일"/>
 		</div>
 		<div class="c">
-			<input type="text" name="" value="비밀번호"/>
+			<input type="text" name="pw" value="비밀번호"/>
 		</div>
 	</div>
 	<div>

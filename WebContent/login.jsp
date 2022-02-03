@@ -26,11 +26,11 @@
 	Login	
 	<div>
 		<div class="b">
-		<input type="text" name="" value="학번"/>
+		<input type="text" name="stid" value="학번"/>
 		</div>
 		<br/>
 		<div class="c">
-		<input type="text" name="" value="비밀번호"/>
+		<input type="text" name="pw" value="비밀번호"/>
 		</div>
 	</div>
 	<div>
