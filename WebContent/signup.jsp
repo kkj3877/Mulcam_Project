@@ -29,7 +29,7 @@
 
 <div class="a">
 	Sign up	
-	<form method="POST" action="signup.do">
+	<form method="POST" action="signuptry.do">
 		<div>
 		<div class="b">
 			<input type="text" name="name" value="ÀÌ¸§"/>

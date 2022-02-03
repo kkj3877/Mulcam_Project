@@ -22,9 +22,9 @@
  상민 경준 프로젝트
 </div>
  <br/>
- 	<a href="login.jsp">Login</a>
+ 	<a href="login.do">Login</a>
  	<br/>
- 	<a href="signup.jsp">Sign Up</a>
+ 	<a href="signup.do">Sign Up</a>
 </div>
 
 </body>
