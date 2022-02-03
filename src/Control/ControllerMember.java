@@ -38,7 +38,8 @@ public class ControllerMember {
 	
 	@RequestMapping("/signuptry.do")
 	public String signuptry
-		(@ModelAttribute("StudentVO") StudentVO pvo, HttpServletResponse response ) throws Exception
+		(@ModelAttribute("StudentVO") StudentVO pvo, HttpServletResponse response )
+			throws Exception
 	{
 		System.out.println("ControllerMember:: signuptry");
 		System.out.println(">> stid : " + pvo.getStid());
@@ -59,10 +60,10 @@ public class ControllerMember {
 		*/
 		
 		if (dao.findByStid(pvo)) {
-			// response.setContentType("text/html; charset=utf-8");
-			// PrintWriter writer = response.getWriter();
-			// writer.println("<script>alert('이미 가입한 학번입니다'); location.href='"++"';</script>")
-			System.out.println("이미 가입한 학번입니다.");
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			writer.println("<script>alert('이미 가입한 학번입니다'); location.href='login.jsp'</script>");
+			return null;
 		}
 		else {
 			dao.add(pvo);
@@ -77,6 +78,23 @@ public class ControllerMember {
 		System.out.println("ControllerMember:: login");
 		
 		return "login";
+	}
+	
+	@RequestMapping("/logintry.do")
+	public String logintry
+		(@ModelAttribute("StudentVO") StudentVO pvo)
+			throws Exception
+	{
+		System.out.println("ControllerMember:: logintry");
+		System.out.println(">> stid : " + pvo.getStid());
+		System.out.println(">>   pw : " + pvo.getPw());
+		
+		StudentDAO dao = new StudentDAO_MariaImpl(jtpl);
+		int result = dao.loginTry(pvo);
+		if (result == 1) { return "redirect:start.do?wrong_stid"; }
+		else if (result == 2) { return "redirect:login.do?wrong_pw"; }
+		
+		return "redirect:subs.do";
 	}
 	
 }

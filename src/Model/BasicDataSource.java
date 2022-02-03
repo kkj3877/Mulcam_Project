@@ -30,7 +30,7 @@ public class BasicDataSource {
 		this.password = password;
 	}
 	
-	public Connection getConnerction() throws ClassNotFoundException, SQLException {
+	public Connection getConnection() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
 		try {
 			Class.forName(driverClassName);

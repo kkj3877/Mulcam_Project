@@ -16,6 +16,11 @@ public class PostVO {
 	private Integer ch = null;
 	public Integer getCh() { return ch; }
 	public void setCh(Integer ch) { this.ch = ch; }
+	
+	// 질문 제목
+	private String title = null;
+	public String getTitle() { return title; }
+	public void setTitle(String title) { this.title = title; }
 
 	// 질문 내용
 	private String content = null;
