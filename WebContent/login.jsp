@@ -19,12 +19,9 @@
 </style>
 </head>
 <body>
-
-
 <div class="a">
-
 	Login	
-<form method="POST" action="login.do">
+<form method="POST" action="logintry.do">
 	<div>
 		<div class="b">
 			<input type="text" name="stid" value="학번"/>
@@ -38,9 +35,7 @@
 		<a href="board.jsp">완료</a>
 		<input type="submit"/>
 	</div>
-	
 </form>
-
 </div>
 </body>
 </html>
