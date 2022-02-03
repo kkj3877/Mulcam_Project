@@ -1,0 +1,34 @@
+// 회원(학생) 정보 테이블 생성 SQL
+CREATE TABLE Student_T(
+  stid INT PRIMARY KEY,
+  pw VARCHAR(15) NOT NULL,
+  name VARCHAR(15) NOT NULL,
+  mail VARCHAR(30) NOT NULL
+);
+
+// 과목별 질문 테이블 생성 SQL
+과목 : 기초수학(Basic), 미적분학(Calc), 선형대수학(Linear)
+
+CREATE TABLE 과목_T (
+  no INT AUTO_INCREMENT PRIMARY KEY,
+  stid INT NOT NULL,
+  ch INT NOT NULL,
+  content VARCHAR(600),
+  ans VARCHAR(600),
+  fsn_q CHAR(36),
+  fsn_a CHAR(36)
+);
+
+
+// 테이블 삭제 SQL
+DROP TABLE ??;
+
+// 테이블 조회 SQL
+SELECT * FROM ??;
+
+// 레코드 삽입 SQL
+INSERT INTO ?? VALUES( );
+
+// PK 값으로 삭제하는 SQL
+DELETE FROM ?? WHERE no=?;
+
