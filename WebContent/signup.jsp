@@ -29,7 +29,8 @@
 
 <div class="a">
 	Sign up	
-	<div>
+	<form method="POST" action="signup.do">
+		<div>
 		<div class="b">
 			<input type="text" name="name" value="이름"/>
 		</div>
@@ -43,11 +44,12 @@
 		<div class="c">
 			<input type="text" name="pw" value="비밀번호"/>
 		</div>
-	</div>
-	<div>
-		<input type="submit"/>
-	</div>
-	<a href="login.jsp">완료</a>
+		</div>
+		<div>
+			<a href="login.jsp">완료</a>
+			<input type="submit"/>
+		</div>
+	</form>
 </div>
 </body>
 </html>
