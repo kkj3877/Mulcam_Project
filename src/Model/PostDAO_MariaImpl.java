@@ -19,26 +19,38 @@ public class PostDAO_MariaImpl implements PostDAO {
 	@Override
 	public List<PostVO> findAll(String subject) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: findAll("+subject+")");
+		String tableName = subject+"_T";
 		
-		/*
-		String sql = "SELECT * FROM ? ORDER BY no DESC";
-		 
+		String sql = "SELECT * FROM Basic_T ORDER BY no DESC;";
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				// stmt.setString(1, tableName);
+			}
+		};
+		
 		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
 			@Override
 			public PostVO mapRow(ResultSet rs) throws SQLException {
 				PostVO vo = new PostVO();
+				
 				vo.setNo(rs.getInt("no"));
+				vo.setStid(rs.getInt("stid"));
+				vo.setCh(rs.getInt("ch"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setAns(rs.getString("ans"));
+				vo.setFsn_a(rs.getString("fsn_q"));
+				vo.setFsn_q(rs.getString("fsn_a"));
 				
 				return vo;
 			}
 		};
 		
-		
 		// SQL 문을 실행하고, rowMapper의 mapRow에 명시된 규칙대로 레코드들을
 		// List 화 시켜 반환한다.
-		return jtpl.query(sql, rowMapper);
-		*/
-		return null;
+		return jtpl.query(sql, pss, rowMapper);
 	}
 	
 	// -------------------------------------------------------------------------------

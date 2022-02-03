@@ -3,6 +3,9 @@ package Control;
 import Model.PostDAO;
 import Model.PostDAO_MariaImpl;
 import Model.PostVO;
+
+import java.util.List;
+
 import Model.JdbcTemplate;
 
 @Control
@@ -26,11 +29,12 @@ public class ControllerPost {
 		System.out.println("ControllerPost:: sub_board:: " + subject );
 		
 		PostDAO dao = new PostDAO_MariaImpl(jtpl);
-		dao.findAll(subject);
+		List<PostVO> rList = dao.findAll(subject);
 		
 		ModelAndView mnv = new ModelAndView();
 		mnv.setViewName("sub_board");
 		mnv.addObject("subject", subject);
+		mnv.addObject("rList", rList);
 		
 		return mnv;
 	}

@@ -21,7 +21,7 @@ public class JdbcTemplate {
 		PreparedStatement stmt = null;
 		
 		try {
-			conn = dataSource.getConnerction();
+			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(sql);
 			pss.setValues(stmt);
 			uc = stmt.executeUpdate();
@@ -45,7 +45,7 @@ public class JdbcTemplate {
 		PreparedStatement stmt = null;
 		
 		try {
-			conn = dataSource.getConnerction();
+			conn = dataSource.getConnection();
 			stmt = psc.createPreparedStatement(conn);
 			if ( stmt == null ) {
 				throw new Exception("invalid Statment");
@@ -75,7 +75,7 @@ public class JdbcTemplate {
 		ResultSet rs = null;
 		
 		try {
-			conn = dataSource.getConnerction();
+			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
 			
@@ -109,7 +109,7 @@ public class JdbcTemplate {
 		ResultSet rs = null;
 		
 		try {
-			conn = dataSource.getConnerction();
+			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(sql);
 			pss.setValues(stmt); // setValues 에 명시된 규칙에 따라 ? 를 채워넣음
 			rs = stmt.executeQuery();
@@ -131,6 +131,38 @@ public class JdbcTemplate {
 		}
 		
 		return rl;
+	}
+	
+	
+	// query 문으로 하나의 레코드를 찾아 인스턴스를 반환하는 함수
+	public <T> T queryForObject
+		(String sql, PreparedStatementSetter pss, RowMapper<T> rowMapper)
+			throws Exception
+	{
+		T vo = null;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dataSource.getConnection();
+			stmt = conn.prepareStatement(sql);
+			pss.setValues(stmt);
+			rs = stmt.executeQuery();
+			if ( rs.next() ) {
+				vo = rowMapper.mapRow(rs);
+				if ( rs.next() ) {
+					throw new SQLException("too many record");
+				}
+			}
+		}
+		catch ( SQLException e ) { throw e; }
+		finally {
+			if ( rs != null ) rs.close();
+			if ( stmt != null ) stmt.close();
+			if ( conn != null ) conn.close();
+		}
+		
+		return vo;
 	}
 	
 }
