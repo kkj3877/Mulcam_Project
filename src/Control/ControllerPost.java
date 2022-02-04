@@ -9,6 +9,8 @@ import Model.StudentVO;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import Model.JdbcTemplate;
 
 @Control
@@ -22,10 +24,12 @@ public class ControllerPost {
 	public void setPostDAO(PostDAO_MariaImpl dao) {
 		this.postDAO = dao;
 	}
+	
 	private StudentDAO studentDAO = null;
 	public void setStudentDAO(StudentDAO_MariaImpl dao) {
 		this.studentDAO = dao;
 	}
+	
 	
 	@RequestMapping("/status.do")
 	public ModelAndView status() throws Exception {
@@ -77,7 +81,17 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: ask:: " + subject );
 		
-		return "ask.jsp?subject="+subject;
+		return "write.jsp?subject="+subject;
+	}
+	
+	
+	@RequestMapping("/question.do")
+	public String question(HttpServletRequest request) throws Exception
+	{
+		String subject = request.getParameter("");
+		System.out.println("ControllerPost:: question:: ");
+		
+		return "write.jsp?subject="+subject;
 	}
 	
 	
