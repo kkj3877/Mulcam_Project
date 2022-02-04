@@ -82,15 +82,17 @@ function abcd(value){
 		<th>³»¿ë</th>
 	</tr>	
 	</thead>
-		<tr>
+		
 		<q:forEach items="${ rList }" var="t">
+		<tr>
 			<td>${ t.no }</td>
 			<td>${ t.stid }</td>
 			<td>${ t.ch }</td>
 			<td>${ t.title }</td>
 			<td>${ t.content }</td>
-		</q:forEach>
 		</tr>
+		</q:forEach>
+		
 	</table>
 	<div align="right">
 		<a href="write.jsp">

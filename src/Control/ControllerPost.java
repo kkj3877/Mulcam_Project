@@ -88,10 +88,20 @@ public class ControllerPost {
 	@RequestMapping("/question.do")
 	public String question(HttpServletRequest request) throws Exception
 	{
-		String subject = request.getParameter("");
+		String subject = request.getParameter("subject");
+		String title = request.getParameter("title");
+		String ch = request.getParameter("ch");
+		String content = request.getParameter("content");
+		String subject2 = (String)request.getAttribute("subject");
 		System.out.println("ControllerPost:: question:: ");
+		System.out.println("subject : " + subject);
+		System.out.println("subject2 : " + subject2);
+		System.out.println("ch : " + ch);
+		System.out.println("content : " + content);
 		
-		return "write.jsp?subject="+subject;
+		
+		return null;
+		//return "write.jsp?subject="+subject;
 	}
 	
 	
