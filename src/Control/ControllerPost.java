@@ -7,7 +7,13 @@ import Model.StudentDAO;
 import Model.StudentDAO_MariaImpl;
 import Model.StudentVO;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.oreilly.servlet.MultipartRequest;
 
 import Model.JdbcTemplate;
 
@@ -22,10 +28,12 @@ public class ControllerPost {
 	public void setPostDAO(PostDAO_MariaImpl dao) {
 		this.postDAO = dao;
 	}
+	
 	private StudentDAO studentDAO = null;
 	public void setStudentDAO(StudentDAO_MariaImpl dao) {
 		this.studentDAO = dao;
 	}
+	
 	
 	@RequestMapping("/status.do")
 	public ModelAndView status() throws Exception {
@@ -72,12 +80,76 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/ask.do")
-	public String ask
+	public ModelAndView ask
 		(@RequestParam("subject") String subject) throws Exception
 	{
 		System.out.println("ControllerPost:: ask:: " + subject );
 		
-		return "write.jsp?subject="+subject;
+		ModelAndView mnv = new ModelAndView();
+		mnv.setViewName("write");
+		mnv.addObject("subject", subject);
+		
+		return mnv;
+	}
+	
+	
+	@RequestMapping("/question.do")
+	public String question(HttpServletRequest request) throws Exception
+	{
+		System.out.println("ControllerPost:: question:: ");
+		
+		postDAO.getClass();
+		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
+		
+		// 과목명
+		String subject = mpr.getParameter("subject");
+		if ( subject == null ) return "redirect:subs.do?ecode=invalid_content";
+		System.out.println("subject : " + subject);
+		
+		String errorString = null;
+		// 질문 제목
+		String title = mpr.getParameter("title");
+		if ( title == null ) errorString = "invalid_title";
+		System.out.println("title : " + title);
+		
+		// 질문 챕터
+		String ch = mpr.getParameter("ch");
+		if ( ch == null ) errorString = "invalid_ch";
+		System.out.println("ch : " + ch);
+		
+		// 질문 내용
+		String content = mpr.getParameter("content");
+		System.out.println("content : " + content);
+		
+		PostVO pvo = new PostVO();
+		pvo.setStid(1234);
+		pvo.setTitle(title);
+		pvo.setCh(Integer.parseInt(ch));
+		pvo.setContent(content);
+		
+		// 질문 사진이 있다면 사진 저장 및 UUID 저장
+		String ofn = mpr.getOriginalFileName("fsn_q");
+		if ( ofn != null ) {
+			// 사진 파일의 확장자 따로 분리하여 저장
+			int dotIdx = ofn.lastIndexOf('.');
+			String extension = ofn.substring(dotIdx);
+			System.out.println("extension["+extension+"]");
+			
+			File file = mpr.getFile("fsn_q");
+			
+			String fsn_q = UUID.randomUUID().toString().substring(0, 31);
+			file.renameTo( new File( Util.uploadDir() + fsn_q + extension) );
+			System.out.println("fsn_q : " + fsn_q + extension);
+			pvo.setFsn_q(fsn_q);
+		}
+		
+		if ( errorString != null ) {
+			return null;
+		}
+		
+		postDAO.add(subject, pvo);
+		
+		return "redirect:sub_board.do?subject="+"Basic";
 	}
 	
 	

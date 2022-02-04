@@ -43,6 +43,7 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		
 		String sql = "SELECT * FROM Student_T where stid=?";
 		
+		// final Integer stid = pvo.getStid();
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
@@ -60,10 +61,8 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		};
 		
 		List<StudentVO> ls = jtpl.query(sql, pss, rowMapper);
-		if (ls.size() != 0) {
-			isExist = true;
-		}
-		
+		if (!ls.isEmpty()) isExist = true;
+		System.out.println("isExist = "+isExist);
 		return isExist;
 	}
 
