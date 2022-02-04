@@ -19,7 +19,6 @@ public class ControllerPost {
 	@RequestMapping("/subs.do")
 	public String subs() throws Exception {
 		System.out.println("ControllerPost:: subs");
-		
 		return "subs";
 	}
 	
