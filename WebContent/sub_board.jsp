@@ -83,74 +83,13 @@ function abcd(value){
 	</tr>	
 	</thead>
 		<tr>
-			<td>1</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>6</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>7</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>8</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>9</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
-		</tr>
-		<tr>
-			<td>10</td>
-			<td>201610788</td>
-			<td>2</td>
-			<td>미적분 1단원 3번문제</td>
-			<td>abcdefg hijk lmnot</td>
+		<q:forEach items="${ rList }" var="t">
+			<td>${ t.no }</td>
+			<td>${ t.stid }</td>
+			<td>${ t.ch }</td>
+			<td>${ t.title }</td>
+			<td>${ t.content }</td>
+		</q:forEach>
 		</tr>
 	</table>
 	<div align="right">
@@ -162,8 +101,3 @@ function abcd(value){
 </div>
 </body>
 </html>
-
-
-
-
-
