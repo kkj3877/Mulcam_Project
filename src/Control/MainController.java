@@ -37,6 +37,7 @@ public class MainController extends HttpServlet {
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
+		System.out.println("init()");
 		// DataSource 를 구성해준다.
 		String l = config.getInitParameter("dataSourceSettings");
 		// 0:driverClassName, 1:url, 2:username, 3:password
