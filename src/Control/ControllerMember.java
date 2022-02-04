@@ -1,8 +1,5 @@
 package Control;
 
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import Model.JdbcTemplate;
@@ -60,15 +57,15 @@ public class ControllerMember {
 		*/
 		
 		if (dao.findByStid(pvo)) {
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter writer = response.getWriter();
-			writer.println("<script>alert('이미 가입한 학번입니다'); location.href='login.jsp'</script>");
-			return null;
+			// response.setContentType("text/html; charset=utf-8");
+			// PrintWriter writer = response.getWriter();
+			// writer.println("<script>alert('이미 가입한 학번입니다'); location.href='"++"';</script>")
+			return "redirect:login.do?ecode=wrong_stid";
 		}
 		else {
 			dao.add(pvo);
 		}
-		return "login";
+		return "login.do";
 	}
 	
 	
@@ -79,6 +76,7 @@ public class ControllerMember {
 		
 		return "login";
 	}
+	
 	
 	@RequestMapping("/logintry.do")
 	public String logintry
@@ -91,10 +89,9 @@ public class ControllerMember {
 		
 		StudentDAO dao = new StudentDAO_MariaImpl(jtpl);
 		int result = dao.loginTry(pvo);
-		if (result == 1) { return "redirect:start.do?wrong_stid"; }
-		else if (result == 2) { return "redirect:login.do?wrong_pw"; }
+		if (result == 1) { return "redirect:start.do?ecode=wrong_stid"; }
+		if (result == 2) { return "redirect:login.do?ecode=wrong_pw"; }
 		
 		return "redirect:subs.do";
 	}
-	
 }

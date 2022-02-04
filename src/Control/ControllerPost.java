@@ -3,6 +3,9 @@ package Control;
 import Model.PostDAO;
 import Model.PostDAO_MariaImpl;
 import Model.PostVO;
+import Model.StudentDAO;
+import Model.StudentDAO_MariaImpl;
+import Model.StudentVO;
 
 import java.util.List;
 
@@ -14,6 +17,29 @@ public class ControllerPost {
 	private JdbcTemplate jtpl = null;
 	public JdbcTemplate getJtpl() { return jtpl; }
 	public void setJtpl(JdbcTemplate jtpl) { this.jtpl = jtpl; }
+	
+	
+	@RequestMapping("/status.do")
+	public ModelAndView status() throws Exception {
+		System.out.println("ControllerPost:: status");
+		
+		StudentDAO daoS = new StudentDAO_MariaImpl(jtpl);
+		List<StudentVO> Students = daoS.findAll();
+		
+		PostDAO dao = new PostDAO_MariaImpl(jtpl);
+		List<PostVO> Basic = dao.findAll("Basic");
+		List<PostVO> Calc = dao.findAll("Calc");
+		List<PostVO> Linear = dao.findAll("Linear");
+		
+		ModelAndView mnv = new ModelAndView();
+		mnv.setViewName("status");
+		mnv.addObject("Students", Students);
+		mnv.addObject("Basic", Basic);
+		mnv.addObject("Calc", Calc);
+		mnv.addObject("Linear", Linear);
+		
+		return mnv;
+	}
 	
 	
 	@RequestMapping("/subs.do")

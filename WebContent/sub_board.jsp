@@ -29,11 +29,11 @@ ${ rList }
 </thead>
 	<q:forEach items="${ rList }" var="t">
 	<tr>
-		<td>t.no</td>
-		<td>t.ch</td>
-		<td>t.stid</td>
-		<td>t.title</td>
-		<td>t.content</td>
+		<td>${t.no}</td>
+		<td>${t.ch}</td>
+		<td>${t.stid}</td>
+		<td>${t.title}</td>
+		<td>${t.content}</td>
 	</tr>
 	</q:forEach>
 </table>
