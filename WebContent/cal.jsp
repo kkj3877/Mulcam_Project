@@ -13,7 +13,7 @@
 </head>
 <body>
 <div>
-미적분학 리스트
+미적분학 리스트 헤헤
 	<table border="1" class="table">
 		<th>순번</th>
 		<th>작성자</th>
