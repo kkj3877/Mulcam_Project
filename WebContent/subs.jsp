@@ -30,7 +30,7 @@ a {
 <div class="a">
 과목 목록
 	<div id="b">
-	<a href="sub_board.jsp">기초수학 및 연습</a>
+	<a href="cal.jsp">기초수학 및 연습</a>
 	</div>
 	<div id="b">
 	<a href="sub_board.do?subject=Calc">미적분학</a>
