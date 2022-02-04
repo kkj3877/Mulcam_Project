@@ -1,20 +1,21 @@
-<%@ page contentType="text/html; charset=utf-8"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style type="text/css">
 .a {
+	width:200px;
+	height:150px;
 	text-align:center;
 	position:absolute;
-	width:300px;
-	margin:150px 0px 0px 0px;
+	top:40%;
+	left:50%;
+	margin-left:-100px;
+	margin-top:-75px;
 	border:1px solid;
 }
-#width {
-	width:200px;
-}
+
 </style>
 </head>
 <body>
