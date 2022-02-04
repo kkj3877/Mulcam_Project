@@ -1,9 +1,10 @@
-<%@ page contentType="text/html; charset=utf-8"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"%>
+<%@taglib prefix="q" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <style type="text/css">
@@ -35,6 +36,8 @@ h1 {
 	padding-left:-10px;
 }
 </style>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <h1>力格</h1>
@@ -52,7 +55,8 @@ h1 {
 	</ol>
 
 	<div id="main" class="item">
-		<form method="GET" action="sub_board.jsp" enctype="multipart/form-data">
+		<form method="POST" action="question.do" enctype="multipart/form-data">
+		<input type="hidden"  value="${ subject }"/>
 			<div>
 				<input type="text" name="title" value="力格"/>
 			</div>
@@ -75,7 +79,6 @@ h1 {
 			</div>
 			<div>
 				<input type="submit"/>
-				<a href="cal.jsp">累己</a>
 			</div>		
 		</form>
 	</div>
