@@ -27,7 +27,6 @@ ${ rList }
 	<th>³»¿ë</th>
 </tr>	
 </thead>
-	
 	<q:forEach items="${ rList }" var="t">
 	<tr>
 		<td>t.no</td>
@@ -37,7 +36,6 @@ ${ rList }
 		<td>t.content</td>
 	</tr>
 	</q:forEach>
-	
 </table>
 	<a href="write.jsp">
 		<img src="image/pencil-line.svg"/>
