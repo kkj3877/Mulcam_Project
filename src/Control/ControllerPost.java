@@ -77,7 +77,7 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: ask:: " + subject );
 		
-		return "ask.jsp?subject="+subject;
+		return "write.jsp?subject="+subject;
 	}
 	
 	
