@@ -18,6 +18,10 @@ import javax.servlet.http.HttpSession;
 
 import Model.BasicDataSource;
 import Model.JdbcTemplate;
+import Model.PostDAO;
+import Model.PostDAO_MariaImpl;
+import Model.StudentDAO;
+import Model.StudentDAO_MariaImpl;
 
 public class MainController extends HttpServlet {
 	
@@ -51,6 +55,9 @@ public class MainController extends HttpServlet {
 		// DataSource 를 멤버변수로 가지는 JTPL 을 만든다.
 		JdbcTemplate jtpl = new JdbcTemplate(dataSource);
 		
+		PostDAO postDAO = new PostDAO_MariaImpl(jtpl);
+		StudentDAO studentDAO = new StudentDAO_MariaImpl(jtpl);
+		
 		// ServletConfig 로부터 controller 들의 이름을 받아와 ',' 를 기준으로 분리한다.
 		l = config.getInitParameter("controllerNames");
 		String[] controllerNames = l.split(",");
@@ -62,8 +69,6 @@ public class MainController extends HttpServlet {
 				if ( annotControl != null ) {
 					// 컨트롤러들에게 JTPL 에 대한 포인터를 넘겨준다.
 					Object obj = cls.newInstance();
-					Method setter = cls.getMethod("setJtpl", JdbcTemplate.class);
-					if (setter != null) setter.invoke(obj, jtpl);
 					
 					// 각 클래스들에서 함수들을 보며 RequestMapping 어노테이션이 있는지 확인한다.
 					Method[] mtds = cls.getMethods();
@@ -74,6 +79,12 @@ public class MainController extends HttpServlet {
 						if ( annotRM != null ) {
 							String uri = annotRM.value();
 							methodMap.put(uri, new MethodAndTarget(mtd, obj));
+						}
+						else {
+							String mtdName = mtd.getName();
+							if (mtdName.equals("setJtpl")) mtd.invoke(obj, jtpl);
+							else if (mtdName.equals("setPostDAO")) mtd.invoke(obj, postDAO);
+							else if (mtdName.equals("setStudentDAO")) mtd.invoke(obj, studentDAO);
 						}
 					}
 				}
@@ -153,7 +164,6 @@ public class MainController extends HttpServlet {
 							p = paramTypes[i].newInstance();
 							// populate : 인스턴스의 setter 함수들을 호출하여 매개변수들을 setting
 							BeanUtil.populate(request, p);
-							
 						}
 						catch (InstantiationException | IllegalAccessException e) {
 							e.printStackTrace();

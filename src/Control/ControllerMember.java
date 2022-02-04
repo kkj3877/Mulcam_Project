@@ -14,6 +14,10 @@ public class ControllerMember {
 	public JdbcTemplate getJtpl() { return jtpl; }
 	public void setJtpl(JdbcTemplate jtpl) { this.jtpl = jtpl; }
 	
+	private StudentDAO studentDAO = null;
+	public void setStudentDAO(StudentDAO dao) {
+		this.studentDAO = dao;
+	}
 	
 	@RequestMapping("/start.do")
 	public String start() throws Exception
@@ -46,9 +50,6 @@ public class ControllerMember {
 		System.out.println(">> name : " + pvo.getName());
 		System.out.println(">> mail : " + pvo.getMail());
 		
-		
-		StudentDAO dao = new StudentDAO_MariaImpl(jtpl);
-		
 		/*
 		if (ls.size() != 0) {
 			System.out.println("이미 가입한 학번입니다( " + ls.get(0).getName() + ")");
@@ -59,14 +60,14 @@ public class ControllerMember {
 		}
 		*/
 		
-		if (dao.findByStid(pvo)) {
+		if (studentDAO.findByStid(pvo)) {
 			// response.setContentType("text/html; charset=utf-8");
 			// PrintWriter writer = response.getWriter();
 			// writer.println("<script>alert('이미 가입한 학번입니다'); location.href='"++"';</script>")
 			return "redirect:login.do?ecode=wrong_stid";
 		}
 		else {
-			dao.add(pvo);
+			studentDAO.add(pvo);
 		}
 		return "login";
 	}
@@ -90,8 +91,7 @@ public class ControllerMember {
 		System.out.println(">> stid : " + pvo.getStid());
 		System.out.println(">>   pw : " + pvo.getPw());
 		
-		StudentDAO dao = new StudentDAO_MariaImpl(jtpl);
-		int result = dao.loginTry(pvo);
+		int result = studentDAO.loginTry(pvo);
 		if (result == 1) { return "redirect:start?ecode=wrong_stid"; }
 		if (result == 2) { return "redirect:login?ecode=wrong_pw"; }
 		

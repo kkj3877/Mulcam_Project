@@ -16,4 +16,5 @@ public interface StudentDAO {
 	// 학생의 id/pw 로 로그인 시도를 하고
 	// 성공하면 0, 없는 아이디면 1, 비밀번호가 틀리면 2를 반환
 	public int loginTry( StudentVO pvo ) throws Exception;
+	
 }

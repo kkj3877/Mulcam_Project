@@ -11,6 +11,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 	private JdbcTemplate jtpl = null;
 	
 	public PostDAO_MariaImpl(JdbcTemplate jtpl) {
+		System.out.println("Create Instance : PostDAO_MariaImpl");
 		this.jtpl = jtpl;
 	}
 	
