@@ -6,8 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style type="text/css">
 .a {
+	width:200px;
+	height:150px;
 	text-align:center;
-	padding-top:120px;
+	position:absolute;
+	top:40%;
+	left:50%;
+	margin-left:-100px;
+	margin-top:-75px;
 }
 #b {
 	border:1px solid;
