@@ -11,6 +11,7 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 	private JdbcTemplate jtpl = null;
 	
 	public StudentDAO_MariaImpl(JdbcTemplate jtpl) {
+		System.out.println("Create Instance : PostDAO_MariaImple");
 		this.jtpl = jtpl;
 	}
 	
@@ -97,7 +98,7 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
-				stmt.setInt(1,  pvo.getStid());
+				stmt.setInt(1, pvo.getStid());
 			}
 		};
 		

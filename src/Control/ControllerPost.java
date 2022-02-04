@@ -18,18 +18,24 @@ public class ControllerPost {
 	public JdbcTemplate getJtpl() { return jtpl; }
 	public void setJtpl(JdbcTemplate jtpl) { this.jtpl = jtpl; }
 	
+	private PostDAO postDAO = null;
+	public void setPostDAO(PostDAO_MariaImpl dao) {
+		this.postDAO = dao;
+	}
+	private StudentDAO studentDAO = null;
+	public void setStudentDAO(StudentDAO_MariaImpl dao) {
+		this.studentDAO = dao;
+	}
 	
 	@RequestMapping("/status.do")
 	public ModelAndView status() throws Exception {
 		System.out.println("ControllerPost:: status");
 		
-		StudentDAO daoS = new StudentDAO_MariaImpl(jtpl);
-		List<StudentVO> Students = daoS.findAll();
+		List<StudentVO> Students = studentDAO.findAll();
 		
-		PostDAO dao = new PostDAO_MariaImpl(jtpl);
-		List<PostVO> Basic = dao.findAll("Basic");
-		List<PostVO> Calc = dao.findAll("Calc");
-		List<PostVO> Linear = dao.findAll("Linear");
+		List<PostVO> Basic = postDAO.findAll("Basic");
+		List<PostVO> Calc = postDAO.findAll("Calc");
+		List<PostVO> Linear = postDAO.findAll("Linear");
 		
 		ModelAndView mnv = new ModelAndView();
 		mnv.setViewName("status");
@@ -54,8 +60,7 @@ public class ControllerPost {
 	public ModelAndView sub_board(@RequestParam("subject") String subject) throws Exception {
 		System.out.println("ControllerPost:: sub_board:: " + subject );
 		
-		PostDAO dao = new PostDAO_MariaImpl(jtpl);
-		List<PostVO> rList = dao.findAll(subject);
+		List<PostVO> rList = postDAO.findAll(subject);
 		
 		ModelAndView mnv = new ModelAndView();
 		mnv.setViewName("sub_board");
@@ -83,8 +88,7 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: add:: " + subject);
 		
-		PostDAO dao = new PostDAO_MariaImpl(jtpl);
-		dao.add(subject, null);
+		postDAO.add(subject, null);
 		
 		return "redirect:sub_board.do?subject="+subject;
 	}
@@ -97,9 +101,7 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: del:: " + subject);
 		
-		PostDAO dao = new PostDAO_MariaImpl(jtpl);
-		dao.delByPK(subject, null);
-		
+		postDAO.delByPK(subject, null);
 		
 		return "redirect:sub_board.do?subject="+subject;
 	}
