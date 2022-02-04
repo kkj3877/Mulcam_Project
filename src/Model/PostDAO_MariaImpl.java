@@ -20,7 +20,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 	public List<PostVO> findAll(String subject) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: findAll("+subject+")");
 		String tableName = subject+"_T";
-		String sql = "SELECT * FROM "+tableName+" ORDER BY no DESC";
+		String sql = "SELECT * FROM12 "+tableName+" ORDER BY no DESC";
 		
 		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
 			@Override
