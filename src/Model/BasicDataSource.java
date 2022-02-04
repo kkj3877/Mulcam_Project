@@ -23,12 +23,14 @@ public class BasicDataSource {
 	public String getPassword() { return password; }
 	public void setPassword(String password) { this.password = password; }
 	
+	
 	public BasicDataSource(String driverClassName, String url, String username, String password) {
 		this.driverClassName = driverClassName;
 		this.url = url;
 		this.username = username;
 		this.password = password;
 	}
+	
 	
 	public Connection getConnection() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
@@ -40,6 +42,7 @@ public class BasicDataSource {
 		
 		return conn;
 	}
+	
 	
 	public void close() {}
 }
