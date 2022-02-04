@@ -4,9 +4,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
 <style type="text/css">
 a {
 	color: black;
@@ -36,7 +34,7 @@ h1 {
 	padding-left:-10px;
 }
 </style>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
@@ -56,7 +54,7 @@ h1 {
 
 	<div id="main" class="item">
 		<form method="POST" action="question.do" enctype="multipart/form-data">
-		<input type="hidden"  value="${ subject }"/>
+		<input type="hidden" name="subject" value="${subject}"/>
 			<div>
 				<input type="text" name="title" value="Á¦¸ñ"/>
 			</div>

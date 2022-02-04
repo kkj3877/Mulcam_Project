@@ -47,27 +47,32 @@ public class PostDAO_MariaImpl implements PostDAO {
 	}
 	
 	// -------------------------------------------------------------------------------
-	// Bang_T 에 레코드를 하나 추가하는 함수
+	// Subject_T 에 레코드를 하나 추가하는 함수
 	@Override
 	public int add(String subject, PostVO pvo) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: add("+subject+")");
+		String tableName = subject+"_T";
+		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL)";
 		
-		/*
-		String sql = "INSERT INTO ? VALUES(DEFAULT,?,?)";
-		String content = pvo.getContent();
-		String author = pvo.getAuthor();
+		final Integer stid = 1234;
+		final Integer ch = pvo.getCh();
+		final String title = pvo.getTitle();
+		final String content = pvo.getContent();
+		final String fsn_q = pvo.getFsn_q();
 		
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
-				stmt.setString(1, content);
-				stmt.setString(2, author);
+				stmt.setInt(1, stid);
+				stmt.setInt(2, ch);
+				stmt.setString(3, title);
+				stmt.setString(4, content);
+				stmt.setString(5, fsn_q);
 			}
 		};
 		
+		System.out.println(stid+", "+ch+", "+title+", "+content+", "+fsn_q);
 		return jtpl.update(sql, pss);
-		*/
-		return 0;
 	}
 	
 	// -------------------------------------------------------------------------------

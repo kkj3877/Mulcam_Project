@@ -1,5 +1,7 @@
 package Control;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletResponse;
 
 import Model.JdbcTemplate;
@@ -43,12 +45,24 @@ public class ControllerMember {
 			throws Exception
 	{
 		System.out.println("ControllerMember:: signuptry");
+		
 		Integer stid = pvo.getStid();
-		if ( stid == null ) return "redirect:login.do?ecode=blank_stid";
-		System.out.println(">> stid : " + pvo.getStid());
-		System.out.println(">>   pw : " + pvo.getPw());
-		System.out.println(">> name : " + pvo.getName());
-		System.out.println(">> mail : " + pvo.getMail());
+		if (stid == null) return "redirect:signup.do?ecode=blank_stid";
+		if (stid == -1) return "redirect:signup.do?ecode=blank_stid";
+		
+		String pw = pvo.getPw();
+		if (pw == null) return "redirect:signup.do?ecode=blank_pw";
+		
+		String name = pvo.getName();
+		if (name == null) return "redirect:signup.do?ecode=blank_name";
+		
+		String mail = pvo.getMail();
+		if (mail == null) return "redirect:signup.do?ecode=blank_mail";
+		
+		System.out.println(">> stid : " + stid);
+		System.out.println(">>   pw : " + pw);
+		System.out.println(">> name : " + name);
+		System.out.println(">> mail : " + mail);
 		
 		/*
 		if (ls.size() != 0) {
@@ -61,15 +75,18 @@ public class ControllerMember {
 		*/
 		
 		if (studentDAO.findByStid(pvo)) {
-			// response.setContentType("text/html; charset=utf-8");
-			// PrintWriter writer = response.getWriter();
-			// writer.println("<script>alert('이미 가입한 학번입니다'); location.href='"++"';</script>")
-			return "redirect:login.do?ecode=wrong_stid";
+			System.out.println("here");
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			writer.println("<script>alert('이미 가입한 학번입니다'); location.href='login.do';</script>");
+			// writer.println("<script>alert('이미 가입한 학번입니다');</script>");
+			writer.close();
 		}
 		else {
 			studentDAO.add(pvo);
 		}
-		return "login";
+		return null;
+		// return "login.do";
 	}
 	
 	
@@ -92,8 +109,8 @@ public class ControllerMember {
 		System.out.println(">>   pw : " + pvo.getPw());
 		
 		int result = studentDAO.loginTry(pvo);
-		if (result == 1) { return "redirect:start?ecode=wrong_stid"; }
-		if (result == 2) { return "redirect:login?ecode=wrong_pw"; }
+		if (result == 1) { return "redirect:start.do?ecode=wrong_stid"; }
+		if (result == 2) { return "redirect:login.do?ecode=wrong_pw"; }
 		
 		return "redirect:subs.do";
 	}

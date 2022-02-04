@@ -2,6 +2,7 @@ package Control;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
@@ -222,6 +223,7 @@ public class MainController extends HttpServlet {
 				}
 			}
 			catch ( Exception e ) { e.printStackTrace(); }
+			
 		}
 	}
 }

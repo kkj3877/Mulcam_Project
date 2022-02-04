@@ -108,7 +108,6 @@ public class JdbcTemplate {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		System.out.println(sql);
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(sql);
