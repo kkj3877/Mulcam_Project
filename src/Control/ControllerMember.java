@@ -39,10 +39,13 @@ public class ControllerMember {
 			throws Exception
 	{
 		System.out.println("ControllerMember:: signuptry");
+		Integer stid = pvo.getStid();
+		if ( stid == null ) return "redirect:login.do?ecode=blank_stid";
 		System.out.println(">> stid : " + pvo.getStid());
 		System.out.println(">>   pw : " + pvo.getPw());
 		System.out.println(">> name : " + pvo.getName());
 		System.out.println(">> mail : " + pvo.getMail());
+		
 		
 		StudentDAO dao = new StudentDAO_MariaImpl(jtpl);
 		
@@ -65,7 +68,7 @@ public class ControllerMember {
 		else {
 			dao.add(pvo);
 		}
-		return "login.do";
+		return "login";
 	}
 	
 	
@@ -89,8 +92,8 @@ public class ControllerMember {
 		
 		StudentDAO dao = new StudentDAO_MariaImpl(jtpl);
 		int result = dao.loginTry(pvo);
-		if (result == 1) { return "redirect:start.do?ecode=wrong_stid"; }
-		if (result == 2) { return "redirect:login.do?ecode=wrong_pw"; }
+		if (result == 1) { return "redirect:start?ecode=wrong_stid"; }
+		if (result == 2) { return "redirect:login?ecode=wrong_pw"; }
 		
 		return "redirect:subs.do";
 	}
