@@ -24,7 +24,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		String tableName = subject+"_T";
 		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL)";
 		
-		final Integer stid = 1234;
+		final Integer stid = pvo.getStid();
 		final Integer ch = pvo.getCh();
 		final String title = pvo.getTitle();
 		final String content = pvo.getContent();
