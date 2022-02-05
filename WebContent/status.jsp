@@ -39,7 +39,7 @@ table tbody {
 				<tr>
 					<td style="text-align: center;">
 						<span class="contents_font">${t.stid}</span>
-						[<a href="del.do?no=201510810">X</a>]
+						[<a href="delStudent.do?stid=${t.stid}">X</a>]
 					</td>
 					<td><span class="contents_font">${t.pw}</span></td>
 					<td><span class="contents_font">${t.name}</span></td>
@@ -66,7 +66,10 @@ table tbody {
 		<tbody>
 			<q:forEach items="${Basic}" var="t">
 				<tr>
-					<td><span class="contents_font">${t.no}</span></td>
+					<td>
+						<span class="contents_font">${t.no}</span>
+						[<a href="delPostFromStatus.do?subject=Basic&no=${t.no}">X</a>]
+					</td>
 					<td><span class="contents_font">${t.stid}</span></td>
 					<td><span class="contents_font">${t.ch}</span></td>
 					<td><span class="contents_font">${t.title}</span></td>
@@ -96,7 +99,10 @@ table tbody {
 		<tbody>
 			<q:forEach items="${Calc}" var="t">
 				<tr>
-					<td><span class="contents_font">${t.no}</span></td>
+					<td>
+						<span class="contents_font">${t.no}</span>
+						[<a href="delPostFromStatus.do?subject=Calc&no=${t.no}">X</a>]
+					</td>
 					<td><span class="contents_font">${t.stid}</span></td>
 					<td><span class="contents_font">${t.ch}</span></td>
 					<td><span class="contents_font">${t.title}</span></td>
@@ -126,7 +132,10 @@ table tbody {
 		<tbody>
 			<q:forEach items="${Linear}" var="t">
 				<tr>
-					<td><span class="contents_font">${t.no}</span></td>
+					<td>
+						<span class="contents_font">${t.no}</span>
+						[<a href="delPostFromStatus.do?subject=Linear&no=${t.no}">X</a>]
+					</td>
 					<td><span class="contents_font">${t.stid}</span></td>
 					<td><span class="contents_font">${t.ch}</span></td>
 					<td><span class="contents_font">${t.title}</span></td>
