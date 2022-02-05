@@ -20,7 +20,7 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 	// 학생을 테이블에 추가하는 함수
 	@Override
 	public int add(StudentVO pvo) throws Exception {
-		System.out.println("StudentDAO::add( )");
+		System.out.println("StudentDAO::add()");
 		
 		int uc = -1;
 		
@@ -93,20 +93,20 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 	
 	
 	// -------------------------------------------------------------------------------
-	// 학번으로 학생을 찾는 함수. 있으면 1, 없으면 0 반환
+	// 학번으로 학생을 찾는 함수. 해당 학번 학생이 있으면 이름을, 없으면 NULL 반환
 	@Override
-	public boolean findByStid(StudentVO pvo) throws Exception {
+	public String findNameByStid(StudentVO pvo) throws Exception {
 		System.out.println("StudentDAO::findByStid( )");
 		
-		boolean isExist = false;
+		String name = null;
 		
 		String sql = "SELECT * FROM Student_T where stid=?";
-		
+		Integer stid = pvo.getStid();
 		// final Integer stid = pvo.getStid();
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
-				stmt.setInt(1, pvo.getStid());
+				stmt.setInt(1, stid);
 			}
 		};
 		
@@ -120,17 +120,23 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		};
 		
 		List<StudentVO> ls = jtpl.query(sql, pss, rowMapper);
-		if (!ls.isEmpty()) isExist = true;
-		System.out.println("isExist = "+isExist);
-		return isExist;
+		if (!ls.isEmpty()) {
+			name = ls.get(0).getName();
+			System.out.println("name = "+name);
+		}
+		else {
+			System.out.println("There is no student have stid:"+stid);
+		}
+		
+		return name;
 	}
 	
 	
 	// -------------------------------------------------------------------------------
 	// 학생의 id/pw 로 로그인 시도를 하고
-	// 성공하면 0, 없는 아이디면 1, 비밀번호가 틀리면 2를 반환
+	// 성공하면 학생의 이름을, 없는 학번이면 NULL, 비밀번호가 틀리면 '0'을 반환
 	@Override
-	public int loginTry(StudentVO pvo) throws Exception {
+	public String loginTry(StudentVO pvo) throws Exception {
 		System.out.println("StudentDAO::loginTry( )");
 		
 		String sql = "SELECT * FROM Student_T where stid=?";
@@ -147,14 +153,15 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 				StudentVO vo = new StudentVO();
 				vo.setStid(rs.getInt("stid"));
 				vo.setPw(rs.getString("pw"));
+				vo.setName(rs.getString("name"));
 				return vo;
 			}
 		};
 		
 		StudentVO vo = jtpl.queryForObject(sql, pss, rowMapper);
-		if ( vo == null ) { return 1; }
-		if ( !pvo.getPw().equals(vo.getPw()) ) { return 2; }
-		return 0;
+		if ( vo == null ) { return null; }
+		if ( !pvo.getPw().equals(vo.getPw()) ) { return "0"; }
+		return vo.getName();
 	}
 
 }
