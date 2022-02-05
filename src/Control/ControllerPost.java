@@ -35,47 +35,16 @@ public class ControllerPost {
 	}
 	
 	
-	@RequestMapping("/status.do")
-	public ModelAndView status() throws Exception {
-		System.out.println("ControllerPost:: status");
+	@RequestMapping("/add.do")
+	public String add
+	(@RequestParam("subject") String subject, @ModelAttribute("PostVO") PostVO pvo)
+		throws Exception
+	{
+		System.out.println("ControllerPost:: add:: " + subject);
 		
-		List<StudentVO> Students = studentDAO.findAll();
+		postDAO.add(subject, null);
 		
-		List<PostVO> Basic = postDAO.findAll("Basic");
-		List<PostVO> Calc = postDAO.findAll("Calc");
-		List<PostVO> Linear = postDAO.findAll("Linear");
-		
-		ModelAndView mnv = new ModelAndView();
-		mnv.setViewName("status");
-		mnv.addObject("Students", Students);
-		mnv.addObject("Basic", Basic);
-		mnv.addObject("Calc", Calc);
-		mnv.addObject("Linear", Linear);
-		
-		return mnv;
-	}
-	
-	
-	@RequestMapping("/subs.do")
-	public String subs() throws Exception {
-		System.out.println("ControllerPost:: subs");
-		
-		return "subs";
-	}
-	
-	
-	@RequestMapping("/sub_board.do")
-	public ModelAndView sub_board(@RequestParam("subject") String subject) throws Exception {
-		System.out.println("ControllerPost:: sub_board:: " + subject );
-		
-		List<PostVO> rList = postDAO.findAll(subject);
-		
-		ModelAndView mnv = new ModelAndView();
-		mnv.setViewName("sub_board");
-		mnv.addObject("subject", subject);
-		mnv.addObject("rList", rList);
-		
-		return mnv;
+		return "redirect:sub_board.do?subject="+subject;
 	}
 	
 	
@@ -90,6 +59,22 @@ public class ControllerPost {
 		mnv.addObject("subject", subject);
 		
 		return mnv;
+	}
+	
+	
+	@RequestMapping("/delPostFromStatus.do")
+	public String delPostFromStatus
+	(@RequestParam("subject") String subject, @RequestParam("no") Integer no)
+		throws Exception
+	{
+		System.out.println("ControllerPost:: delPostFromStatus:: " + subject+", "+no);
+		
+		PostVO pvo = new PostVO();
+		pvo.setNo(no);
+		
+		postDAO.delByNo(subject, pvo);
+		
+		return "redirect:status.do";
 	}
 	
 	
@@ -153,29 +138,47 @@ public class ControllerPost {
 	}
 	
 	
-	@RequestMapping("/add.do")
-	public String add
-	(@RequestParam("subject") String subject, @ModelAttribute("PostVO") PostVO pvo)
-		throws Exception
-	{
-		System.out.println("ControllerPost:: add:: " + subject);
+	@RequestMapping("/status.do")
+	public ModelAndView status() throws Exception {
+		System.out.println("ControllerPost:: status");
 		
-		postDAO.add(subject, null);
+		List<StudentVO> Students = studentDAO.findAll();
 		
-		return "redirect:sub_board.do?subject="+subject;
+		List<PostVO> Basic = postDAO.findAll("Basic");
+		List<PostVO> Calc = postDAO.findAll("Calc");
+		List<PostVO> Linear = postDAO.findAll("Linear");
+		
+		ModelAndView mnv = new ModelAndView();
+		mnv.setViewName("status");
+		mnv.addObject("Students", Students);
+		mnv.addObject("Basic", Basic);
+		mnv.addObject("Calc", Calc);
+		mnv.addObject("Linear", Linear);
+		
+		return mnv;
 	}
 	
 	
-	@RequestMapping("/del.do")
-	public String del
-	(@RequestParam("sub") String subject, @ModelAttribute("PostVO") PostVO pvo)
-		throws Exception
-	{
-		System.out.println("ControllerPost:: del:: " + subject);
+	@RequestMapping("/subs.do")
+	public String subs() throws Exception {
+		System.out.println("ControllerPost:: subs");
 		
-		postDAO.delByPK(subject, null);
+		return "subs";
+	}
+	
+	
+	@RequestMapping("/sub_board.do")
+	public ModelAndView sub_board(@RequestParam("subject") String subject) throws Exception {
+		System.out.println("ControllerPost:: sub_board:: " + subject );
 		
-		return "redirect:sub_board.do?subject="+subject;
+		List<PostVO> rList = postDAO.findAll(subject);
+		
+		ModelAndView mnv = new ModelAndView();
+		mnv.setViewName("sub_board");
+		mnv.addObject("subject", subject);
+		mnv.addObject("rList", rList);
+		
+		return mnv;
 	}
 	
 }

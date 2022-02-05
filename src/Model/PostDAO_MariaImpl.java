@@ -15,6 +15,64 @@ public class PostDAO_MariaImpl implements PostDAO {
 		this.jtpl = jtpl;
 	}
 	
+	
+	// -------------------------------------------------------------------------------
+	// Subject_T 에 레코드를 하나 추가하는 함수
+	@Override
+	public int add(String subject, PostVO pvo) throws Exception {
+		System.out.println("PostDAO_MariaImpl:: add("+subject+")");
+		String tableName = subject+"_T";
+		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL)";
+		
+		final Integer stid = 1234;
+		final Integer ch = pvo.getCh();
+		final String title = pvo.getTitle();
+		final String content = pvo.getContent();
+		final String fsn_q = pvo.getFsn_q();
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, stid);
+				stmt.setInt(2, ch);
+				stmt.setString(3, title);
+				stmt.setString(4, content);
+				stmt.setString(5, fsn_q);
+			}
+		};
+		
+		System.out.println(stid+", "+ch+", "+title+", "+content+", "+fsn_q);
+		return jtpl.update(sql, pss);
+	}
+	
+	
+	// -------------------------------------------------------------------------------
+	// Bang_T 에서 특정 PK 를 가진 레코드를 제거하는 함수
+	@Override
+	public int delByNo(String subject, PostVO pvo) throws Exception {
+		String tableName = subject+"_T";
+		Integer no = pvo.getNo();
+		System.out.println("PostDAO_MariaImpl:: delByNo("+subject+", "+no+")");
+		
+		String sql = "DELETE FROM "+tableName+" where no=?";
+		System.out.println(sql);
+		
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, no);
+				
+				return stmt;
+			}
+		};
+		
+		int uc = jtpl.update(psc);
+		
+		return uc;
+	}
+	
+	
 	// -------------------------------------------------------------------------------
 	// Subject_T 의 모든 레코드를 PostVO 인스턴스화시켜 List에 저장한 후 List 를 반환하는 함수
 	@Override
@@ -46,59 +104,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		return jtpl.query(sql, rowMapper);
 	}
 	
-	// -------------------------------------------------------------------------------
-	// Subject_T 에 레코드를 하나 추가하는 함수
-	@Override
-	public int add(String subject, PostVO pvo) throws Exception {
-		System.out.println("PostDAO_MariaImpl:: add("+subject+")");
-		String tableName = subject+"_T";
-		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL)";
 		
-		final Integer stid = 1234;
-		final Integer ch = pvo.getCh();
-		final String title = pvo.getTitle();
-		final String content = pvo.getContent();
-		final String fsn_q = pvo.getFsn_q();
-		
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			@Override
-			public void setValues(PreparedStatement stmt) throws Exception {
-				stmt.setInt(1, stid);
-				stmt.setInt(2, ch);
-				stmt.setString(3, title);
-				stmt.setString(4, content);
-				stmt.setString(5, fsn_q);
-			}
-		};
-		
-		System.out.println(stid+", "+ch+", "+title+", "+content+", "+fsn_q);
-		return jtpl.update(sql, pss);
-	}
-	
-	// -------------------------------------------------------------------------------
-	// Bang_T 에서 특정 PK 를 가진 레코드를 제거하는 함수
-	@Override
-	public int delByPK(String subject, PostVO pvo) throws Exception {
-		System.out.println("PostDAO_MariaImpl:: delByPK("+subject+")");
-		
-		
-		/*
-		String sql = "DELETE FROM Bang_T where no=?";
-		int no = pvo.getNo();
-		
-		PreparedStatementCreator psc = new PreparedStatementCreator() {
-			@Override
-			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
-				PreparedStatement stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, no);
-				
-				return stmt;
-			}
-		};
-		
-		return jtpl.update(psc);
-		*/
-		return 0;
-	}
+
 
 }

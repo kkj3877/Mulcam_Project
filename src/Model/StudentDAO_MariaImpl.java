@@ -15,9 +15,65 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		this.jtpl = jtpl;
 	}
 	
+	
+	// -------------------------------------------------------------------------------
+	// 학생을 테이블에 추가하는 함수
+	@Override
+	public int add(StudentVO pvo) throws Exception {
+		System.out.println("StudentDAO::add( )");
+		
+		int uc = -1;
+		
+		String sql = "INSERT INTO Student_T VALUES(?,?,?,?)";
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, pvo.getStid());
+				stmt.setString(2, pvo.getPw());
+				stmt.setString(3, pvo.getName());
+				stmt.setString(4, pvo.getMail());
+			}
+		};
+		
+		uc = jtpl.update(sql, pss);
+		
+		return uc;
+	}
+	
+	// -------------------------------------------------------------------------------
+	// 학번으로 학생을 찾아 테이블에서 제거하는 함수
+	@Override
+	public int delStudentByStid(StudentVO pvo) throws Exception {
+		System.out.println("StudentDAO::delStudentByStid( )");
+		
+		Integer stid = pvo.getStid();
+		if (stid == null) return -1;
+		
+		String sql = "DELETE FROM Student_T WHERE stid=?";
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, stid);
+			}
+		};
+		
+		int uc = jtpl.update(sql, pss);
+		
+		if (uc == 1) System.out.println("Student("+stid+") is deleted from table");
+		else System.out.println("failed to delete Student("+stid+") from table");
+		
+		return uc;
+	}
+	
+	
+	// -------------------------------------------------------------------------------
 	// 모든 학생 리스트를 반환하는 함수
 	@Override
 	public List<StudentVO> findAll() throws Exception {
+		System.out.println("StudentDAO::findAll( )");
+		
 		String sql = "SELECT * FROM Student_T ORDER BY stid";
 		
 		RowMapper<StudentVO> rowMapper = new RowMapper<StudentVO>() {
@@ -36,9 +92,12 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 	}
 	
 	
-	// 학번으로 학생을 찾는 함수 있으면 1, 없으면 0 반환
+	// -------------------------------------------------------------------------------
+	// 학번으로 학생을 찾는 함수. 있으면 1, 없으면 0 반환
 	@Override
 	public boolean findByStid(StudentVO pvo) throws Exception {
+		System.out.println("StudentDAO::findByStid( )");
+		
 		boolean isExist = false;
 		
 		String sql = "SELECT * FROM Student_T where stid=?";
@@ -65,34 +124,15 @@ public class StudentDAO_MariaImpl implements StudentDAO {
 		System.out.println("isExist = "+isExist);
 		return isExist;
 	}
-
-
-	@Override
-	public int add(StudentVO pvo) throws Exception {
-		System.out.println("StudnetDAO::add( )");
-		
-		int uc = -1;
-		
-		String sql = "INSERT INTO Student_T VALUES(?,?,?,?)";
-		
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
-			@Override
-			public void setValues(PreparedStatement stmt) throws Exception {
-				stmt.setInt(1, pvo.getStid());
-				stmt.setString(2, pvo.getPw());
-				stmt.setString(3, pvo.getName());
-				stmt.setString(4, pvo.getMail());
-			}
-		};
-		
-		uc = jtpl.update(sql, pss);
-		
-		return uc;
-	}
-
-
+	
+	
+	// -------------------------------------------------------------------------------
+	// 학생의 id/pw 로 로그인 시도를 하고
+	// 성공하면 0, 없는 아이디면 1, 비밀번호가 틀리면 2를 반환
 	@Override
 	public int loginTry(StudentVO pvo) throws Exception {
+		System.out.println("StudentDAO::loginTry( )");
+		
 		String sql = "SELECT * FROM Student_T where stid=?";
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
