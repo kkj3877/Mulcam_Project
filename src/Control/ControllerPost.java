@@ -55,27 +55,6 @@ public class ControllerPost {
 	}
 	
 	
-	@RequestMapping("/ask.do")
-	public ModelAndView ask
-		(@RequestParam("subject") String subject, HttpSession session) throws Exception
-	{
-		System.out.println("ControllerPost:: ask:: " + subject );
-		ModelAndView mnv = new ModelAndView();
-		
-		Integer stid = (Integer)session.getAttribute("stid");
-		if (stid == null) {
-			System.out.println("session is NULL");
-			mnv.setViewName("redirect:login.do?ecode=invalid_session");
-			return mnv;
-		}
-		
-		mnv.setViewName("write");
-		mnv.addObject("subject", subject);
-		
-		return mnv;
-	}
-	
-	
 	@RequestMapping("/delPostFromStatus.do")
 	public String delPostFromStatus
 	(@RequestParam("subject") String subject, @RequestParam("no") Integer no)
@@ -215,6 +194,27 @@ public class ControllerPost {
 		mnv.setViewName("sub_board");
 		mnv.addObject("subject", subject);
 		mnv.addObject("rList", rList);
+		
+		return mnv;
+	}
+	
+	
+	@RequestMapping("/write.do")
+	public ModelAndView ask
+		(@RequestParam("subject") String subject, HttpSession session) throws Exception
+	{
+		System.out.println("ControllerPost:: ask:: " + subject );
+		ModelAndView mnv = new ModelAndView();
+		
+		Integer stid = (Integer)session.getAttribute("stid");
+		if (stid == null) {
+			System.out.println("session is NULL");
+			mnv.setViewName("redirect:login.do?ecode=invalid_session");
+			return mnv;
+		}
+		
+		mnv.setViewName("write");
+		mnv.addObject("subject", subject);
 		
 		return mnv;
 	}
