@@ -31,9 +31,14 @@ h1 {
 	margin: 25px 25px 25px 25px;	
 }
 .item{
-
 	justify-self:center;
 	padding-left:-10px;
+}
+.title{
+	width:500px;
+}
+.content{
+	width: 528px;
 }
 </style>
 
@@ -56,9 +61,9 @@ h1 {
 
 	<div id="main" class="item">
 		<form method="POST" action="question.do" enctype="multipart/form-data">
-		<input type="hidden"  value="${ subject }"/>
+		<input type="hidden" name="subject" value="${ subject }"/>
 			<div>
-				<input type="text" name="title" value="제목"/>
+				제목<input class="title" type="text" name="title"/>
 			</div>
 			<br/>
 			<div>
@@ -72,7 +77,7 @@ h1 {
 				</select>
 			</div>			
 			<div>
-				<textarea name="content" rows="10">질문내용일력하세요</textarea>
+				<textarea class="content" name="content" rows="10">질문내용일력하세요</textarea>
 			</div>
 			<div>
 				<input type="file" name="fsn_q"/>
