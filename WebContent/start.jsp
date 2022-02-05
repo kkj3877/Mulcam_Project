@@ -5,6 +5,26 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style type="text/css">
+img {
+	float:left;
+	padding:0px auto;
+}
+.padding-bottom {
+	padding-bottom: 20px;
+}
+.text {
+	font-size: ;
+	color: black;
+	text-decoration: none;
+}
+.width {
+	width:80px;
+	margin-left:60px;
+}
+.width-signup {
+	width:100px;
+	margin-left:52px;
+}
 .a {
 	width:200px;
 	height:150px;
@@ -15,22 +35,36 @@
 	margin-left:-100px;
 	margin-top:-75px;
 }
-#b {
-	border:1px solid;
-	width:150px;
+#image {
+	height: 130px;
+	width:200px;
+	border-radius: 30px 30px 30px 30px;
 	margin:0 auto;
+	overflow:hidden;
+}
+#image-box {
+	width:100%;
+	height:99%;
+	object-fit:cover;
 }
 </style>
 </head>
 <body>
 <div class="a">
-<div id="b">
- 상민 경준 프로젝트
+<div id="image">
+	<img id="image-box" src="image/KakaoTalk_20220204_164443247.jpg">
 </div>
  <br/>
- 	<a href="login.do">Login</a>
- 	<br/>
- 	<a href="signup.do">Sign Up</a>
+	<div class="width padding-bottom">
+ 		<a class="text" href="login.do" >
+ 			<img src="image/login-box-line.svg">Login
+ 		</a>
+	</div>
+ 	<div class="width-signup">
+ 		<a class="text" href="signup.do">
+ 			<img src="image/account-box-line.svg">Sign Up
+ 		</a>
+ 	</div>
 </div>
 
 </body>

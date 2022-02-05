@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <style type="text/css">
+@import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
+
 a {
 	color: black;
 	text-decoration: none;
@@ -35,6 +37,9 @@ h1 {
 }
 .write_button {
 	align:right;
+}
+.jm-font{
+	font-family:'Jeju Myeongjo', serif;
 }
 </style>
 <script>
@@ -82,7 +87,6 @@ function abcd(value){
 		<th>³»¿ë</th>
 	</tr>	
 	</thead>
-		
 		<q:forEach items="${ rList }" var="t">
 		<tr>
 			<td>${ t.no }</td>
@@ -92,7 +96,6 @@ function abcd(value){
 			<td>${ t.content }</td>
 		</tr>
 		</q:forEach>
-		
 	</table>
 	<div align="right">
 		<a href="write.jsp">
