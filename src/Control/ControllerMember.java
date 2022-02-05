@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import Model.JdbcTemplate;
 import Model.StudentDAO;
-import Model.StudentDAO_MariaImpl;
 import Model.StudentVO;
 
 @Control
@@ -20,6 +19,62 @@ public class ControllerMember {
 	public void setStudentDAO(StudentDAO dao) {
 		this.studentDAO = dao;
 	}
+	
+	
+	@RequestMapping("/delStudent.do")
+	public String delStudent(@RequestParam("stid") Integer stid) throws Exception
+	{
+		System.out.println("ControllerMember:: delStudent");
+		
+		String sql = "DELETE FROM Student_T where stid=?";
+		
+		StudentVO pvo = new StudentVO();
+		pvo.setStid(stid);
+		studentDAO.delStudentByStid(pvo);
+		
+		return "redirect:status.do";
+	}
+	
+	
+	@RequestMapping("/login.do")
+	public String login() throws Exception
+	{
+		System.out.println("ControllerMember:: login");
+		
+		return "login";
+	}
+	
+	
+	@RequestMapping("/logintry.do")
+	public String logintry
+		(@ModelAttribute("StudentVO") StudentVO pvo, HttpServletResponse response)
+			throws Exception
+	{
+		System.out.println("ControllerMember:: logintry");
+		
+		System.out.println("ControllerMember:: logintry");
+		System.out.println(">> stid : " + pvo.getStid());
+		System.out.println(">>   pw : " + pvo.getPw());
+		
+		int result = studentDAO.loginTry(pvo);
+		if (result == 1) { // 학번이 없는 경우
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			writer.println("<script>alert('가입되지 않은 학번입니다.'); location.href='login.do';</script>");
+			writer.close();
+			return null;
+		}
+		if (result == 2) { // 비밀번호가 틀린 경우
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			writer.println("<script>alert('비밀번호가 틀렸습니다'); location.href='login.do';</script>");
+			writer.close();
+			return null;
+		}
+		
+		return "redirect:subs.do";
+	}
+	
 	
 	@RequestMapping("/start.do")
 	public String start() throws Exception
@@ -81,37 +136,12 @@ public class ControllerMember {
 			writer.println("<script>alert('이미 가입한 학번입니다'); location.href='login.do';</script>");
 			// writer.println("<script>alert('이미 가입한 학번입니다');</script>");
 			writer.close();
+			return null;
 		}
 		else {
 			studentDAO.add(pvo);
 		}
-		return null;
-		// return "login.do";
+		return "redirect:login.do";
 	}
 	
-	
-	@RequestMapping("/login.do")
-	public String login() throws Exception
-	{
-		System.out.println("ControllerMember:: login");
-		
-		return "login";
-	}
-	
-	
-	@RequestMapping("/logintry.do")
-	public String logintry
-		(@ModelAttribute("StudentVO") StudentVO pvo)
-			throws Exception
-	{
-		System.out.println("ControllerMember:: logintry");
-		System.out.println(">> stid : " + pvo.getStid());
-		System.out.println(">>   pw : " + pvo.getPw());
-		
-		int result = studentDAO.loginTry(pvo);
-		if (result == 1) { return "redirect:start.do?ecode=wrong_stid"; }
-		if (result == 2) { return "redirect:login.do?ecode=wrong_pw"; }
-		
-		return "redirect:subs.do";
-	}
 }
