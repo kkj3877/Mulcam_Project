@@ -45,7 +45,7 @@ h1 {
 <script>
 function abcd(value, subject){
 	location.href="sub_board.do?subject="+subject+"ch="+value;	
-	document.ch.submi();
+	document.ch.submit();
 }
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

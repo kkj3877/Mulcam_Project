@@ -3,6 +3,7 @@ package Control;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Model.JdbcTemplate;
 import Model.StudentDAO;
@@ -37,42 +38,56 @@ public class ControllerMember {
 	
 	
 	@RequestMapping("/login.do")
-	public String login() throws Exception
+	public String login(HttpSession session) throws Exception
 	{
 		System.out.println("ControllerMember:: login");
+		
+		if (session.getAttribute("stid") != null) {
+			System.out.println("removeAttribute 'stid'");
+			session.removeAttribute("stid");
+		}
 		
 		return "login";
 	}
 	
 	
 	@RequestMapping("/logintry.do")
-	public String logintry
-		(@ModelAttribute("StudentVO") StudentVO pvo, HttpServletResponse response)
-			throws Exception
+	public String loginTry
+		(@ModelAttribute("StudentVO") StudentVO pvo,
+			HttpSession session, HttpServletResponse response ) throws Exception
 	{
 		System.out.println("ControllerMember:: logintry");
 		
-		System.out.println("ControllerMember:: logintry");
-		System.out.println(">> stid : " + pvo.getStid());
-		System.out.println(">>   pw : " + pvo.getPw());
+		Integer stid = pvo.getStid();
+		if (stid == null) return "redirect:login.do?ecode=blank_stid";
 		
-		int result = studentDAO.loginTry(pvo);
-		if (result == 1) { // 학번이 없는 경우
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter writer = response.getWriter();
+		String pw = pvo.getPw();
+		if (pw == null) return "redirect:login.do?ecode=blank_pw";
+		
+		System.out.println(">> stid : " + stid);
+		System.out.println(">>   pw : " + pw);
+		
+		String name = studentDAO.loginTry(pvo);
+		
+		response.setContentType("text/html; charset=utf-8");
+		PrintWriter writer = response.getWriter();
+		
+		if (name == null) { // 학번이 없는 경우
 			writer.println("<script>alert('가입되지 않은 학번입니다.'); location.href='login.do';</script>");
 			writer.close();
 			return null;
 		}
-		if (result == 2) { // 비밀번호가 틀린 경우
-			response.setContentType("text/html; charset=utf-8");
-			PrintWriter writer = response.getWriter();
+		if (name.equals("0")) { // 비밀번호가 틀린 경우
 			writer.println("<script>alert('비밀번호가 틀렸습니다'); location.href='login.do';</script>");
 			writer.close();
 			return null;
 		}
 		
-		return "redirect:subs.do";
+		session.setAttribute("stid", stid);
+		
+		writer.println("<script>alert('환영합니다 "+name+" 님'); location.href='subs.do';</script>");
+		writer.close();
+		return null;
 	}
 	
 	
@@ -129,7 +144,7 @@ public class ControllerMember {
 		}
 		*/
 		
-		if (studentDAO.findByStid(pvo)) {
+		if (studentDAO.findNameByStid(pvo) != null) {
 			System.out.println("here");
 			response.setContentType("text/html; charset=utf-8");
 			PrintWriter writer = response.getWriter();

@@ -197,11 +197,11 @@ public class MainController extends HttpServlet {
 							out.close();
 						}
 						else { // 매핑( redirect or distpatch ) 처리
-							// 만약 responseText가 'redirect:' 로 시작하면 해당 uri 로 redirect 응답을 보낸다. 
+							// 만약 responseText 가 'redirect:' 로 시작하면 해당 uri 로 redirect 응답을 보낸다. 
 							if ( responseText.startsWith("redirect:")) {
 								response.sendRedirect( responseText.substring("redirect:".length()) );
 							}
-							// viewName 이 'redirect:' 로 시작하지 않는다면 jsp 파일을 찾아 dispatch 시켜준다.
+							// responseText 가 'redirect:' 로 시작하지 않는다면 jsp 파일을 찾아 dispatch 시켜준다.
 							else {
 								String view = prefix + responseText + suffix;
 								RequestDispatcher rd = request.getRequestDispatcher( view );
@@ -211,9 +211,14 @@ public class MainController extends HttpServlet {
 					}
 					else if (obj instanceof ModelAndView) {
 						ModelAndView mnv = (ModelAndView)obj;
-						
-						// redirect 의 경우는 String 반환형으로 모두 처리했으니, dispatch 만 처리하면 된다.
 						String viewName = mnv.getViewName();
+						
+						// 만약 viewName 이 'redirect:' 로 시작하면 해당 uri 로 redirect 응답을 보낸다.
+						if ( viewName.startsWith("redirect:")) {
+							response.sendRedirect( viewName.substring("redirect:".length()) );
+						}
+						
+						// viewName 이 'redirect:' 로 시작하지 않는다면 jsp 파일을 찾아 dispatch 시켜준다.
 						mnv.plant(request);
 						System.out.println("ModelAndView dispatch");
 						String view = prefix + viewName + suffix;
