@@ -1,4 +1,4 @@
-package Control;
+	package Control;
 
 import Model.PostDAO;
 import Model.PostDAO_MariaImpl;
@@ -174,6 +174,38 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/sub_board.do")
+	   public ModelAndView sub_board(@RequestParam("subject") String subject, @RequestParam("ch") Integer ch, HttpSession session)
+	         throws Exception
+	   {
+	      System.out.println("ControllerPost:: sub_board:: " + subject );
+	      if ( subject != null && ch != null ) {
+	         System.out.println("subject: " + subject + ", ch: " + ch);
+	      }
+	      else { 
+	    	  System.out.println("Somthing is wrong");
+	      }
+	      
+	      ModelAndView mnv = new ModelAndView();
+	      
+	      Integer stid = (Integer)session.getAttribute("stid");
+	      System.out.println("stid:: " + stid);
+	      if (stid == null) {
+	         System.out.println("session is NULL");
+	         mnv.setViewName("redirect:login.do?ecode=invalid_session");
+	         return mnv;
+	      }
+	      
+	      
+	      List<PostVO> rList = postDAO.findAll(subject);
+	      
+	      
+	      mnv.setViewName("sub_board");
+	      mnv.addObject("subject", subject);
+	      mnv.addObject("rList", rList);
+	      
+	      return mnv;
+	   }
+
 	public ModelAndView sub_board(@RequestParam("subject") String subject, HttpSession session)
 			throws Exception
 	{
@@ -196,8 +228,7 @@ public class ControllerPost {
 		mnv.addObject("rList", rList);
 		
 		return mnv;
-	}
-	
+	}	
 	
 	@RequestMapping("/write.do")
 	public ModelAndView ask
