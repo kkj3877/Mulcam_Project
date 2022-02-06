@@ -1,4 +1,4 @@
-	package Control;
+package Control;
 
 import Model.PostDAO;
 import Model.PostDAO_MariaImpl;
@@ -86,22 +86,22 @@ public class ControllerPost {
 		postDAO.getClass();
 		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
 		
-		// °ú¸ñ¸í
+		// ê³¼ëª©ëª…
 		String subject = mpr.getParameter("subject");
 		if ( subject == null ) return "redirect:subs.do?ecode=invalid_subject";
 		System.out.println("subject : " + subject);
 		
 		String errorString = null;
-		// Áú¹® Á¦¸ñ
+		// ì§ˆë¬¸ ì œëª©
 		String title = mpr.getParameter("title");
 		if ( title.equals("") ) errorString = "invalid_title";
 		
-		// Áú¹® Ã©ÅÍ
+		// ì§ˆë¬¸ ì±•í„°
 		String ch = mpr.getParameter("ch");
 		if ( ch == null ) errorString = "invalid_ch";
 		System.out.println("ch : " + ch);
 		
-		// Áú¹® ³»¿ë
+		// ì§ˆë¬¸ ë‚´ìš©
 		String content = mpr.getParameter("content");
 		System.out.println("content : " + content);
 		
@@ -116,10 +116,10 @@ public class ControllerPost {
 		pvo.setCh(Integer.parseInt(ch));
 		pvo.setContent(content);
 		
-		// Áú¹® »çÁøÀÌ ÀÖ´Ù¸é »çÁø ÀúÀå ¹× UUID ÀúÀå
+		// ì§ˆë¬¸ ì‚¬ì§„ì´ ìˆë‹¤ë©´ ì‚¬ì§„ ì €ì¥ ë° UUID ì €ì¥
 		String ofn = mpr.getOriginalFileName("fsn_q");
 		if ( ofn != null ) {
-			// »çÁø ÆÄÀÏÀÇ È®ÀåÀÚ µû·Î ºĞ¸®ÇÏ¿© ÀúÀå
+			// ì‚¬ì§„ íŒŒì¼ì˜ í™•ì¥ì ë”°ë¡œ ë¶„ë¦¬í•˜ì—¬ ì €ì¥
 			int dotIdx = ofn.lastIndexOf('.');
 			String extension = ofn.substring(dotIdx);
 			System.out.println("extension["+extension+"]");
@@ -174,38 +174,6 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/sub_board.do")
-	   public ModelAndView sub_board(@RequestParam("subject") String subject, @RequestParam("ch") Integer ch, HttpSession session)
-	         throws Exception
-	   {
-	      System.out.println("ControllerPost:: sub_board:: " + subject );
-	      if ( subject != null && ch != null ) {
-	         System.out.println("subject: " + subject + ", ch: " + ch);
-	      }
-	      else { 
-	    	  System.out.println("Somthing is wrong");
-	      }
-	      
-	      ModelAndView mnv = new ModelAndView();
-	      
-	      Integer stid = (Integer)session.getAttribute("stid");
-	      System.out.println("stid:: " + stid);
-	      if (stid == null) {
-	         System.out.println("session is NULL");
-	         mnv.setViewName("redirect:login.do?ecode=invalid_session");
-	         return mnv;
-	      }
-	      
-	      
-	      List<PostVO> rList = postDAO.findAll(subject);
-	      
-	      
-	      mnv.setViewName("sub_board");
-	      mnv.addObject("subject", subject);
-	      mnv.addObject("rList", rList);
-	      
-	      return mnv;
-	   }
-
 	public ModelAndView sub_board(@RequestParam("subject") String subject, HttpSession session)
 			throws Exception
 	{
@@ -228,7 +196,8 @@ public class ControllerPost {
 		mnv.addObject("rList", rList);
 		
 		return mnv;
-	}	
+	}
+	
 	
 	@RequestMapping("/write.do")
 	public ModelAndView ask
