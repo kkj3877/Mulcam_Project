@@ -5,7 +5,18 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+function abcd(value){
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	const subject = urlParam.get('subject');
+	alert(subject);
+	
+	window.location.href="sub_board.do?subject="+subject+"&ch="+value;
+}
+</script>
 <style type="text/css">
 @import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
 
@@ -42,12 +53,7 @@ h1 {
 	font-family:'Jeju Myeongjo', serif;
 }
 </style>
-<script>
-function abcd(value, subject){
-	location.href="sub_board.do?subject="+subject+"ch="+value;	
-	document.ch.submit();
-}
-</script>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
@@ -67,7 +73,7 @@ function abcd(value, subject){
 	</ol>
 	<div id="main">
 	<form name="banana">
-		<select name="ch" onchange="abcd(this.value, ${ subject })">
+		<select name="ch" onchange="abcd(this.value)">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
