@@ -86,28 +86,28 @@ public class ControllerPost {
 		postDAO.getClass();
 		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
 		
-		// ê³¼ëª©ëª…
+		// °ú¸ñ¸í
 		String subject = mpr.getParameter("subject");
 		if ( subject == null ) return "redirect:subs.do?ecode=invalid_subject";
 		System.out.println("subject : " + subject);
 		
 		String errorString = null;
-		// ì§ˆë¬¸ ì œëª©
+		// Áú¹® Á¦¸ñ
 		String title = mpr.getParameter("title");
 		if ( title.equals("") ) errorString = "invalid_title";
 		
-		// ì§ˆë¬¸ ì±•í„°
+		// Áú¹® Ã©ÅÍ
 		String ch = mpr.getParameter("ch");
 		if ( ch == null ) errorString = "invalid_ch";
 		System.out.println("ch : " + ch);
 		
-		// ì§ˆë¬¸ ë‚´ìš©
+		// Áú¹® ³»¿ë
 		String content = mpr.getParameter("content");
 		System.out.println("content : " + content);
 		
 		System.out.println("errorString=["+errorString+"]");
 		if ( errorString != null ) {
-			return "redirect:ask.do?subject="+subject+"&ecode="+errorString;
+			return "redirect:write.do?subject="+subject+"&ecode="+errorString;
 		}
 		
 		PostVO pvo = new PostVO();
@@ -116,10 +116,10 @@ public class ControllerPost {
 		pvo.setCh(Integer.parseInt(ch));
 		pvo.setContent(content);
 		
-		// ì§ˆë¬¸ ì‚¬ì§„ì´ ìˆë‹¤ë©´ ì‚¬ì§„ ì €ì¥ ë° UUID ì €ì¥
+		// Áú¹® »çÁøÀÌ ÀÖ´Ù¸é »çÁø ÀúÀå ¹× UUID ÀúÀå
 		String ofn = mpr.getOriginalFileName("fsn_q");
 		if ( ofn != null ) {
-			// ì‚¬ì§„ íŒŒì¼ì˜ í™•ì¥ì ë”°ë¡œ ë¶„ë¦¬í•˜ì—¬ ì €ì¥
+			// »çÁø ÆÄÀÏÀÇ È®ÀåÀÚ µû·Î ºĞ¸®ÇÏ¿© ÀúÀå
 			int dotIdx = ofn.lastIndexOf('.');
 			String extension = ofn.substring(dotIdx);
 			System.out.println("extension["+extension+"]");
@@ -174,10 +174,16 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/sub_board.do")
-	public ModelAndView sub_board(@RequestParam("subject") String subject, HttpSession session)
+	public ModelAndView sub_board(@RequestParam("subject") String subject, @RequestParam("ch") Integer ch, HttpSession session)
 			throws Exception
 	{
 		System.out.println("ControllerPost:: sub_board:: " + subject );
+		
+		if ( subject != null && ch != null ) {
+			System.out.println("subject: " + subject + ", ch: "+ ch);
+		}
+		else { System.out.println("Something is wrong"); }
+		
 		ModelAndView mnv = new ModelAndView();
 		
 		Integer stid = (Integer)session.getAttribute("stid");
@@ -188,7 +194,10 @@ public class ControllerPost {
 			return mnv;
 		}
 		
-		List<PostVO> rList = postDAO.findAll(subject);
+		List<PostVO> rList = null;
+		
+		if ( ch == null ) rList = postDAO.findAll(subject);
+		else rList = postDAO.findPostByCh(subject, ch);
 		
 		
 		mnv.setViewName("sub_board");
