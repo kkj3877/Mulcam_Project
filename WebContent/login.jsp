@@ -75,7 +75,7 @@ function abcd() {
 <nav class="container">
 	<div class="item-title">·Î±×ÀÎ</div>
 	<div class="item-button">
-		<a href="start.jsp">
+		<a href="start.do">
 			<img src="image/arrow-left-line.svg"/>
 		</a>
 	</div>

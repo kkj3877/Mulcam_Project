@@ -20,6 +20,9 @@ function abcd() {
 	else if( document.signup.pw.value=='' ){
 		alert('비밀번호를 입력하셔야죠^-^');
 	}
+	else {
+		document.signup.submit();
+	}
 }
 </script>
 <style type="text/css">
@@ -108,7 +111,7 @@ function abcd() {
 	</div>
 	
 	<div>
-		<input class="button" type="button" value="Signup" onclick="abcd();"/>
+		<input class="button" type="button" value="Click" onclick="abcd();"/>
 	</div>
 
 	</form>

@@ -43,8 +43,9 @@ h1 {
 }
 </style>
 <script>
-function abcd(value){
-	location.href="sub_board.jsp?ch="+value;
+function abcd(value, subject){
+	location.href="sub_board.do?subject="+subject+"ch="+value;	
+	document.ch.submi();
 }
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -66,7 +67,7 @@ function abcd(value){
 	</ol>
 	<div id="main">
 	<form name="banana">
-		<select name="ch" onchange="abcd(this.value)">
+		<select name="ch" onchange="abcd(this.value, ${ subject })">
 			<option value="1">1</option>
 			<option value="2">2</option>
 			<option value="3">3</option>
@@ -98,7 +99,7 @@ function abcd(value){
 		</q:forEach>
 	</table>
 	<div align="right">
-		<a href="write.jsp">
+		<a href="write.do?subject=${ subject }">
 			<img src="image/pencil-line.svg"/>
 		</a>
 	</div>

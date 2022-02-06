@@ -1,4 +1,4 @@
-package Control;
+	package Control;
 
 import Model.PostDAO;
 import Model.PostDAO_MariaImpl;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.oreilly.servlet.MultipartRequest;
 
@@ -168,17 +169,36 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/sub_board.do")
-	public ModelAndView sub_board(@RequestParam("subject") String subject) throws Exception {
-		System.out.println("ControllerPost:: sub_board:: " + subject );
-		
-		List<PostVO> rList = postDAO.findAll(subject);
-		
-		ModelAndView mnv = new ModelAndView();
-		mnv.setViewName("sub_board");
-		mnv.addObject("subject", subject);
-		mnv.addObject("rList", rList);
-		
-		return mnv;
-	}
+	   public ModelAndView sub_board(@RequestParam("subject") String subject, @RequestParam("ch") Integer ch, HttpSession session)
+	         throws Exception
+	   {
+	      System.out.println("ControllerPost:: sub_board:: " + subject );
+	      if ( subject != null && ch != null ) {
+	         System.out.println("subject: " + subject + ", ch: " + ch);
+	      }
+	      else { 
+	    	  System.out.println("Somthing is wrong");
+	      }
+	      
+	      ModelAndView mnv = new ModelAndView();
+	      
+	      Integer stid = (Integer)session.getAttribute("stid");
+	      System.out.println("stid:: " + stid);
+	      if (stid == null) {
+	         System.out.println("session is NULL");
+	         mnv.setViewName("redirect:login.do?ecode=invalid_session");
+	         return mnv;
+	      }
+	      
+	      
+	      List<PostVO> rList = postDAO.findAll(subject);
+	      
+	      
+	      mnv.setViewName("sub_board");
+	      mnv.addObject("subject", subject);
+	      mnv.addObject("rList", rList);
+	      
+	      return mnv;
+	   }
 	
 }
