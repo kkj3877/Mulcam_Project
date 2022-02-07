@@ -246,6 +246,7 @@ public class ControllerPost {
 		mnv.setViewName("view_article");
 		// 게시글의 레코드를 article 이라는 이름의 속성으로 넣는다.
 		mnv.addObject("article", vo);
+		mnv.addObject("subject", subject);
 		
 		// 게시글에 사진이 등록돼있다면 사진의 경로를 보내준다.
 		if ( vo.getFsn_q() != null ) mnv.addObject("fsn_q", Util.uploadDir() + vo.getFsn_q());
