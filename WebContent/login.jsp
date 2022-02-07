@@ -20,6 +20,11 @@ function abcd() {
 }
 </script>
 <style type="text/css">
+@media (max-width: 375px){
+	.item-button {
+		padding-left: 10px;
+	}
+}
 .container {
 	position: relative;
 	height: 50px;
@@ -34,7 +39,7 @@ function abcd() {
 }
 .item-title {
 	margin-left:0px;
-	padding-right: 200px;
+	width:100px;
 }
 .item-button {
 	margin-right:0px;
