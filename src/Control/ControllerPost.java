@@ -62,10 +62,21 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: delPostFromStatus:: " + subject+", "+no);
 		
-		PostVO pvo = new PostVO();
-		pvo.setNo(no);
+		PostVO pvo = postDAO.findPostByNo(subject, no);
 		
-		postDAO.delByNo(subject, pvo);
+		int uc = postDAO.delByNo(subject, pvo);
+		
+		String fsn_q = pvo.getFsn_q();
+		if ( uc == 1 && fsn_q != null ) {
+			File file = new File( Util.uploadDir() + fsn_q );
+			if ( file.exists() ) file.delete();
+		}
+		
+		String fsn_a = pvo.getFsn_a();
+		if ( uc == 1 && fsn_a != null ) {
+			File file = new File( Util.uploadDir() + fsn_a );
+			if ( file.exists() ) file.delete();
+		}
 		
 		return "redirect:status.do";
 	}
@@ -86,28 +97,28 @@ public class ControllerPost {
 		postDAO.getClass();
 		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
 		
-		// ê³¼ëª©ëª…
+		// °ú¸ñ¸í
 		String subject = mpr.getParameter("subject");
 		if ( subject == null ) return "redirect:subs.do?ecode=invalid_subject";
 		System.out.println("subject : " + subject);
 		
 		String errorString = null;
-		// ì§ˆë¬¸ ì œëª©
+		// Áú¹® Á¦¸ñ
 		String title = mpr.getParameter("title");
 		if ( title.equals("") ) errorString = "invalid_title";
 		
-		// ì§ˆë¬¸ ì±•í„°
+		// Áú¹® Ã©ÅÍ
 		String ch = mpr.getParameter("ch");
 		if ( ch == null ) errorString = "invalid_ch";
 		System.out.println("ch : " + ch);
 		
-		// ì§ˆë¬¸ ë‚´ìš©
+		// Áú¹® ³»¿ë
 		String content = mpr.getParameter("content");
 		System.out.println("content : " + content);
 		
 		System.out.println("errorString=["+errorString+"]");
 		if ( errorString != null ) {
-			return "redirect:ask.do?subject="+subject+"&ecode="+errorString;
+			return "redirect:write.do?subject="+subject+"&ecode="+errorString;
 		}
 		
 		PostVO pvo = new PostVO();
@@ -116,10 +127,10 @@ public class ControllerPost {
 		pvo.setCh(Integer.parseInt(ch));
 		pvo.setContent(content);
 		
-		// ì§ˆë¬¸ ì‚¬ì§„ì´ ìˆë‹¤ë©´ ì‚¬ì§„ ì €ì¥ ë° UUID ì €ì¥
+		// Áú¹® »çÁøÀÌ ÀÖ´Ù¸é »çÁø ÀúÀå ¹× UUID ÀúÀå
 		String ofn = mpr.getOriginalFileName("fsn_q");
 		if ( ofn != null ) {
-			// ì‚¬ì§„ íŒŒì¼ì˜ í™•ì¥ì ë”°ë¡œ ë¶„ë¦¬í•˜ì—¬ ì €ì¥
+			// »çÁø ÆÄÀÏÀÇ È®ÀåÀÚ µû·Î ºĞ¸®ÇÏ¿© ÀúÀå
 			int dotIdx = ofn.lastIndexOf('.');
 			String extension = ofn.substring(dotIdx);
 			System.out.println("extension["+extension+"]");
@@ -174,10 +185,16 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/sub_board.do")
-	public ModelAndView sub_board(@RequestParam("subject") String subject, HttpSession session)
+	public ModelAndView sub_board(@RequestParam("subject") String subject, @RequestParam("ch") Integer ch, HttpSession session)
 			throws Exception
 	{
 		System.out.println("ControllerPost:: sub_board:: " + subject );
+		
+		if ( subject != null && ch != null ) {
+			System.out.println("subject: " + subject + ", ch: "+ ch);
+		}
+		else { System.out.println("Something is wrong"); }
+		
 		ModelAndView mnv = new ModelAndView();
 		
 		Integer stid = (Integer)session.getAttribute("stid");
@@ -188,12 +205,51 @@ public class ControllerPost {
 			return mnv;
 		}
 		
-		List<PostVO> rList = postDAO.findAll(subject);
+		List<PostVO> rList = null;
+		
+		if ( ch == null ) rList = postDAO.findAll(subject);
+		else rList = postDAO.findPostByCh(subject, ch);
 		
 		
 		mnv.setViewName("sub_board");
 		mnv.addObject("subject", subject);
 		mnv.addObject("rList", rList);
+		
+		return mnv;
+	}
+	
+	
+	@RequestMapping("/view_article.do")
+	public ModelAndView viewArticle
+		(@RequestParam("subject") String subject, @RequestParam("no") Integer no,
+			HttpSession session) throws Exception
+	{
+		System.out.println("ControllerPost:: viewArticle:: " + subject + ", " + no);
+		ModelAndView mnv = new ModelAndView();
+		
+		Integer stid = (Integer)session.getAttribute("stid");
+		System.out.println("stid:: " + stid);
+		if (stid == null) {
+			System.out.println("session is NULL");
+			mnv.setViewName("redirect:login.do?ecode=invalid_session");
+			return mnv;
+		}
+		
+		PostVO vo = postDAO.findPostByNo(subject, no);
+		
+		if ( vo == null ) {
+			System.out.println("post(no="+no+")is not in DB");
+			mnv.setViewName("redirect:sub_board.do?subject="+subject+"&ecode=articleDB_error");
+			return mnv;
+		}
+		
+		mnv.setViewName("view_article");
+		// °Ô½Ã±ÛÀÇ ·¹ÄÚµå¸¦ article ÀÌ¶ó´Â ÀÌ¸§ÀÇ ¼Ó¼ºÀ¸·Î ³Ö´Â´Ù.
+		mnv.addObject("article", vo);
+		
+		// °Ô½Ã±Û¿¡ »çÁøÀÌ µî·ÏµÅÀÖ´Ù¸é »çÁøÀÇ °æ·Î¸¦ º¸³»ÁØ´Ù.
+		if ( vo.getFsn_q() != null ) mnv.addObject("fsn_q", Util.uploadDir() + vo.getFsn_q());
+		if ( vo.getFsn_a() != null ) mnv.addObject("fsn_a", Util.uploadDir() + vo.getFsn_a());
 		
 		return mnv;
 	}
