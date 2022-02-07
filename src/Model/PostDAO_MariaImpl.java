@@ -109,9 +109,16 @@ public class PostDAO_MariaImpl implements PostDAO {
 	// 테이블의 특정 챕터 레코드를 리스트에 저장해 반환하는 함수
 	@Override
 	public List<PostVO> findPostByCh(String subject, Integer ch) throws Exception {
-		System.out.println("PostDAO_MariaImpl:: findAll("+subject+")");
+		System.out.println("PostDAO_MariaImpl:: findPostByCh("+subject+", "+ch+")");
 		String tableName = subject+"_T";
-		String sql = "SELECT * FROM "+tableName+" WHERE ch="+ch+" ORDER BY no DESC";
+		String sql = "SELECT * FROM "+tableName+" WHERE ch=? ORDER BY no DESC";
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, ch);
+			}
+		};
 		
 		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
 			@Override
@@ -133,10 +140,43 @@ public class PostDAO_MariaImpl implements PostDAO {
 		
 		// SQL 문을 실행하고, rowMapper의 mapRow에 명시된 규칙대로 레코드들을
 		// List 화 시켜 반환한다.
-		return jtpl.query(sql, rowMapper);
+		return jtpl.query(sql, pss, rowMapper);
 	}
-	
-		
 
+	// -------------------------------------------------------------------------------
+	// 테이블의 특정 번호 레코드를 리스트에 저장해 반환하는 함수
+	@Override
+	public PostVO findPostByNo(String subject, Integer no) throws Exception {
+		System.out.println("PostDAO_MariaImpl:: findPostByNo("+subject+", "+no+")");
+		String tableName = subject+"_T";
+		String sql = "SELECT * FROM "+tableName+" WHERE no=?";
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, no);
+			}
+		};
+		
+		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
+			@Override
+			public PostVO mapRow(ResultSet rs) throws SQLException {
+				PostVO vo = new PostVO();
+				
+				vo.setNo(rs.getInt("no"));
+				vo.setStid(rs.getInt("stid"));
+				vo.setCh(rs.getInt("ch"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setAns(rs.getString("ans"));
+				vo.setFsn_a(rs.getString("fsn_q"));
+				vo.setFsn_q(rs.getString("fsn_a"));
+				
+				return vo;
+			}
+		};
+		
+		return jtpl.queryForObject(sql, pss, rowMapper);
+	}
 
 }

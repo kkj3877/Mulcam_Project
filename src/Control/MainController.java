@@ -2,7 +2,6 @@ package Control;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Hashtable;
@@ -38,29 +37,61 @@ public class MainController extends HttpServlet {
 	
 	private Map<String, MethodAndTarget> methodMap = null;
 	
+	private ServletConfig config = null;
+	
+	private static Exception err = null;
+	
 	public MainController() { methodMap = new Hashtable<String, MethodAndTarget>(); }
+	
+	static BasicDataSource dataSourceInit(ServletConfig config) throws ServletException {
+		BasicDataSource dataSource = null;
+		
+		// config 로 부터 dataSourceSetting 정보를 불러온다.
+		String l = config.getInitParameter("dataSourceSettings");
+		
+		// 0:driverClassName, 1:url, 2:username, 3:password
+		String[] dataSourceSettings = l.split(",");
+		ServletException e = null;
+		if (dataSourceSettings.length != 4) {
+			e = new ServletException("dataSourceSetting is invalid");
+		}
+		
+		if ( e != null ) { throw e;	}
+		else {
+			dataSource = new BasicDataSource();
+			
+			String driverClassName = dataSourceSettings[0];
+			String url = dataSourceSettings[1];
+			String username = dataSourceSettings[2];
+			String password = dataSourceSettings[3];
+			
+			dataSource.setDriverClassName(driverClassName.trim());
+			dataSource.setUrl(url.trim());
+			dataSource.setUsername(username.trim());
+			dataSource.setPassword(password.trim());
+		}
+		
+		return dataSource;
+	}
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		System.out.println("init()");
-		// DataSource 를 구성해준다.
-		String l = config.getInitParameter("dataSourceSettings");
-		// 0:driverClassName, 1:url, 2:username, 3:password
-		String[] dataSourceSettings = l.split(",");
-		String driverClassName = dataSourceSettings[0];
-		String url = dataSourceSettings[1];
-		String username = dataSourceSettings[2];
-		String password = dataSourceSettings[3];
-		BasicDataSource dataSource = new BasicDataSource(driverClassName.trim(), url.trim(), username.trim(), password.trim());
+		
+		this.config = config;
+		
+		// ServletConfig 로 부터 넘어오는 정보로 DataSource 를 구성해준다. 
+		BasicDataSource dataSource = dataSourceInit(config);
 		
 		// DataSource 를 멤버변수로 가지는 JTPL 을 만든다.
 		JdbcTemplate jtpl = new JdbcTemplate(dataSource);
 		
+		// Controller 들이 사용할 DAO 인스턴스 생성
 		PostDAO postDAO = new PostDAO_MariaImpl(jtpl);
 		StudentDAO studentDAO = new StudentDAO_MariaImpl(jtpl);
 		
 		// ServletConfig 로부터 controller 들의 이름을 받아와 ',' 를 기준으로 분리한다.
-		l = config.getInitParameter("controllerNames");
+		String l = config.getInitParameter("controllerNames");
 		String[] controllerNames = l.split(",");
 		for ( String controllerName : controllerNames ) {
 			try {
@@ -127,55 +158,56 @@ public class MainController extends HttpServlet {
 			Method mtd = MAT.method;
 			Object target = MAT.target;
 			
-			// 함수에 맞는 parameter 배열 생성
-			Class<?>[] paramTypes = mtd.getParameterTypes();
-			Object[] params = new Object[paramTypes.length];
-			for (int i = 0; i < params.length; i++) {
-				// 함수의 매개변수에 맞도록 매개변수로 들어갈 값들을 param 배열에 넣어준다.
-				if (paramTypes[i] == HttpServletRequest.class) params[i] = request;
-				else if (paramTypes[i] == HttpServletResponse.class) params[i] = response;
-				else if (paramTypes[i] == ServletContext.class) params[i] = request.getServletContext();
-				else if (paramTypes[i] == HttpSession.class) params[i] = request.getSession(true);
-				else if (paramTypes[i] == ServletConfig.class) params[i] = this.getServletConfig();
-				else {
-					// i 번째 매개변수에 @RequestParam 어노테이션이 명시되어 있다면
-					// request 로 부터 해당 변수를 찾아 대입해준다.
-					RequestParam annotRP = (RequestParam)getAnnotationInParam(mtd, i, RequestParam.class );
-					if ( annotRP != null ) { // RequestParam 어노테이션이 명시되어 있는 경우
-						String paramName = annotRP.value();
-						if (paramTypes[i] == String.class) params[i] = request.getParameter(paramName);
-						else if (paramTypes[i] == Integer.class) {
-							try {
-								params[i] = Integer.parseInt(request.getParameter(paramName));
+			try {
+				// 함수에 맞는 parameter 배열 생성
+				Class<?>[] paramTypes = mtd.getParameterTypes();
+				Object[] params = new Object[paramTypes.length];
+				for (int i = 0; i < params.length; i++) {
+					// 함수의 매개변수에 맞도록 매개변수로 들어갈 값들을 param 배열에 넣어준다.
+					if (paramTypes[i] == HttpServletRequest.class) params[i] = request;
+					else if (paramTypes[i] == HttpServletResponse.class) params[i] = response;
+					else if (paramTypes[i] == ServletContext.class) params[i] = request.getServletContext();
+					else if (paramTypes[i] == HttpSession.class) params[i] = request.getSession(true);
+					else if (paramTypes[i] == ServletConfig.class) params[i] = this.config;
+					else {
+						// i 번째 매개변수에 @RequestParam 어노테이션이 명시되어 있다면
+						// request 로 부터 해당 변수를 찾아 대입해준다.
+						RequestParam annotRP = (RequestParam)getAnnotationInParam(mtd, i, RequestParam.class );
+						if ( annotRP != null ) { // RequestParam 어노테이션이 명시되어 있는 경우
+							String paramName = annotRP.value();
+							if (paramTypes[i] == String.class) params[i] = request.getParameter(paramName);
+							else if (paramTypes[i] == Integer.class) {
+								try {
+									params[i] = Integer.parseInt(request.getParameter(paramName));
+								}
+								catch ( NumberFormatException e ) {
+									params[i] = null;
+									continue;
+								}
 							}
-							catch ( NumberFormatException e ) {
-								params[i] = null;
-								continue;
-							}
 						}
-					}
-					
-					// i 번째 매개변수에 @ModelAttribute 어노테이션이 명시되어 있다면
-					// request 의 parameter 들로 인스턴스를 생성하여 매개변수로 전달
-					ModelAttribute annotMA = (ModelAttribute)getAnnotationInParam(mtd, i, ModelAttribute.class);
-					if ( annotMA != null ) {
-						// 자료형에 맞는 instance 를 생성하여 request로 전달된 값들로 setter를 호출
-						Object p = null;
-						try {
-							p = paramTypes[i].newInstance();
-							// populate : 인스턴스의 setter 함수들을 호출하여 매개변수들을 setting
-							BeanUtil.populate(request, p);
-						}
-						catch (InstantiationException | IllegalAccessException e) {
-							e.printStackTrace();
-						}
-						finally { params[i] = p; }
 						
+						// i 번째 매개변수에 @ModelAttribute 어노테이션이 명시되어 있다면
+						// request 의 parameter 들로 인스턴스를 생성하여 매개변수로 전달
+						ModelAttribute annotMA = (ModelAttribute)getAnnotationInParam(mtd, i, ModelAttribute.class);
+						if ( annotMA != null ) {
+							// 자료형에 맞는 instance 를 생성하여 request로 전달된 값들로 setter를 호출
+							Object p = null;
+							try {
+								p = paramTypes[i].newInstance();
+								// populate : 인스턴스의 setter 함수들을 호출하여 매개변수들을 setting
+								BeanUtil.populate(request, p);
+							}
+							catch (InstantiationException | IllegalAccessException e) {
+								e.printStackTrace();
+							}
+							finally { params[i] = p; }
+							
+						}
 					}
 				}
-			}
-			
-			try {
+				
+				
 				// uri 에 해당하는 컨트롤러와 함수를 실행하고 결과를 반환받는다.
 				Object obj = mtd.invoke(target, params);
 				String prefix = "";
@@ -213,17 +245,21 @@ public class MainController extends HttpServlet {
 						ModelAndView mnv = (ModelAndView)obj;
 						String viewName = mnv.getViewName();
 						
+						if ( viewName == null ) {
+							
+						}
 						// 만약 viewName 이 'redirect:' 로 시작하면 해당 uri 로 redirect 응답을 보낸다.
-						if ( viewName.startsWith("redirect:")) {
+						else if ( viewName.startsWith("redirect:")) {
 							response.sendRedirect( viewName.substring("redirect:".length()) );
 						}
-						
 						// viewName 이 'redirect:' 로 시작하지 않는다면 jsp 파일을 찾아 dispatch 시켜준다.
-						mnv.plant(request);
-						System.out.println("ModelAndView dispatch");
-						String view = prefix + viewName + suffix;
-						RequestDispatcher rd = request.getRequestDispatcher( view );
-						rd.forward(request, response);
+						else {
+							System.out.println("ModelAndView dispatch");
+							String view = prefix + viewName + suffix;
+							mnv.plant(request);
+							RequestDispatcher rd = request.getRequestDispatcher( view );
+							rd.forward(request, response);							
+						}
 					}
 				}
 			}
