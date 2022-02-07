@@ -8,15 +8,31 @@
 
 <script language="javascript">
 function abcd() {
-	if( document.login.stid.value=='' ){
+	var stid = document.login.stid.value;
+	var pw = document.login.pw.value;
+	
+	if( stid=='' ){
 		alert('아이디를 입력하셔야죠^-^');
 	}
-	else if( document.login.pw.value=='' ){
+	else if( pw =='' ){
 		alert('비밀번호를 입력하셔야죠^-^');
 	}
 	else {
-		document.login.submit();
+		var rsaid = stid + 'rsa';
+		var rsapw = pw + 'rsa';
+		
+		window.location.href = "logintry.do?stid="+rsaid+"&pw="+rsapw;
 	}
+}
+window.onload=function(){
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	const ecode = urlParam.get('ecode');
+	
+	if( ecode != null ){
+		alert('로그인 하셔야죠^_^');
+	}	
 }
 </script>
 <style type="text/css">
@@ -87,14 +103,14 @@ function abcd() {
 </nav>
 <div class="a">
 <div class="e">Login</div>
-	<form method="POST" name="login" action="logintry.do">
+	<form method="POST" name="login" id="login" action="logintry.do">
 		<div class="c">
 			<div>
-				<input class="b" type="text" name="stid" placeholder="학번"/>
+				<input class="b" type="text" id="stid" name="stid" placeholder="학번"/>
 			</div>
 			<br/>
 			<div>
-				<input class="b" type="password" name="pw" placeholder="비밀번호"/>
+				<input class="b" type="password" id="pw" name="pw" placeholder="비밀번호"/>
 			</div>
 		</div>
 		
