@@ -53,19 +53,28 @@ public class ControllerMember {
 	
 	@RequestMapping("/logintry.do")
 	public String loginTry
-		(@ModelAttribute("StudentVO") StudentVO pvo,
+		(@RequestParam("stid") String rsaStid, @RequestParam("pw") String rsaPw,
 			HttpSession session, HttpServletResponse response ) throws Exception
 	{
 		System.out.println("ControllerMember:: logintry");
 		
-		Integer stid = pvo.getStid();
-		if (stid == null) return "redirect:login.do?ecode=blank_stid";
+		// stid 와 pw 중 하나라도 제대로 건너오지 않았다면 
+		if (rsaStid == null) return "redirect:login.do?ecode=blank_stid";
+		if (rsaPw == null) return "redirect:login.do?ecode=blank_pw";
 		
-		String pw = pvo.getPw();
-		if (pw == null) return "redirect:login.do?ecode=blank_pw";
+		System.out.println(">> rsastid : " + rsaStid);
+		System.out.println(">>   rsapw : " + rsaPw);
+		
+		// 암호화된 데이터를 복호화
+		Integer stid = Integer.parseInt(rsaStid.substring(0, rsaStid.length() - 3));
+		String pw = rsaPw.substring(0, rsaPw.length() - 3);
 		
 		System.out.println(">> stid : " + stid);
 		System.out.println(">>   pw : " + pw);
+		
+		StudentVO pvo = new StudentVO();
+		pvo.setStid(stid);
+		pvo.setPw(pw);
 		
 		String name = studentDAO.loginTry(pvo);
 		
