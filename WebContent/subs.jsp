@@ -73,10 +73,10 @@ a {
 	</div>
 
 	<div id="sub">
-	<a href="sub_board.jsp?subject=Basic">기초수학 및 연습</a>
+	<a href="sub_board.do?subject=Basic">기초수학 및 연습</a>
 	</div>
 	<div id="sub">
-	<a href="sub_board.jsp?subject=Calc">미적분학</a>
+	<a href="sub_board.do?subject=Calc">미적분학</a>
 	</div>
 	<div id="sub">
 	<a href="sub_board.do?subject=Linear">선형대수</a>
