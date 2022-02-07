@@ -62,10 +62,21 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: delPostFromStatus:: " + subject+", "+no);
 		
-		PostVO pvo = new PostVO();
-		pvo.setNo(no);
+		PostVO pvo = postDAO.findPostByNo(subject, no);
 		
-		postDAO.delByNo(subject, pvo);
+		int uc = postDAO.delByNo(subject, pvo);
+		
+		String fsn_q = pvo.getFsn_q();
+		if ( uc == 1 && fsn_q != null ) {
+			File file = new File( Util.uploadDir() + fsn_q );
+			if ( file.exists() ) file.delete();
+		}
+		
+		String fsn_a = pvo.getFsn_a();
+		if ( uc == 1 && fsn_a != null ) {
+			File file = new File( Util.uploadDir() + fsn_a );
+			if ( file.exists() ) file.delete();
+		}
 		
 		return "redirect:status.do";
 	}
@@ -203,6 +214,42 @@ public class ControllerPost {
 		mnv.setViewName("sub_board");
 		mnv.addObject("subject", subject);
 		mnv.addObject("rList", rList);
+		
+		return mnv;
+	}
+	
+	
+	@RequestMapping("/view_article.do")
+	public ModelAndView viewArticle
+		(@RequestParam("subject") String subject, @RequestParam("no") Integer no,
+			HttpSession session) throws Exception
+	{
+		System.out.println("ControllerPost:: viewArticle:: " + subject + ", " + no);
+		ModelAndView mnv = new ModelAndView();
+		
+		Integer stid = (Integer)session.getAttribute("stid");
+		System.out.println("stid:: " + stid);
+		if (stid == null) {
+			System.out.println("session is NULL");
+			mnv.setViewName("redirect:login.do?ecode=invalid_session");
+			return mnv;
+		}
+		
+		PostVO vo = postDAO.findPostByNo(subject, no);
+		
+		if ( vo == null ) {
+			System.out.println("post(no="+no+")is not in DB");
+			mnv.setViewName("redirect:sub_board.do?subject="+subject+"&ecode=articleDB_error");
+			return mnv;
+		}
+		
+		mnv.setViewName("view_article");
+		// 게시글의 레코드를 article 이라는 이름의 속성으로 넣는다.
+		mnv.addObject("article", vo);
+		
+		// 게시글에 사진이 등록돼있다면 사진의 경로를 보내준다.
+		if ( vo.getFsn_q() != null ) mnv.addObject("fsn_q", Util.uploadDir() + vo.getFsn_q());
+		if ( vo.getFsn_a() != null ) mnv.addObject("fsn_a", Util.uploadDir() + vo.getFsn_a());
 		
 		return mnv;
 	}

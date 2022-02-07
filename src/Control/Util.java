@@ -8,9 +8,9 @@ public class Util {
 	public static String uploadDir() {
 		String t = System.getProperty("os.name");
 		
-		String upload = "/pukyung08/upload/";
+		String upload = "/pukyung08/mathcafe_upload/";
 		if ( t.indexOf("indows") != -1 ) {
-			upload = "C:\\upload\\";
+			upload = "C:\\mathcafe_upload\\";
 		}
 		return upload;
 	}

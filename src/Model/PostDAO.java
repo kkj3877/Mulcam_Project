@@ -18,4 +18,7 @@ public interface PostDAO {
 	// 테이블의 특정 챕터 레코드를 리스트에 저장해 반환하는 함수
 	public List<PostVO> findPostByCh( String subject, Integer ch ) throws Exception;
 	
+	// 테이블의 특정 번호 레코드를 인스턴스화하여 반환하는 함수
+	public PostVO findPostByNo( String subject, Integer no ) throws Exception;
+	
 }

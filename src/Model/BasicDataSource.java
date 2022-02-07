@@ -21,15 +21,10 @@ public class BasicDataSource {
 	
 	private String password = null;
 	public String getPassword() { return password; }
-	public void setPassword(String password) { this.password = password; }
+	public void setPassword(String password) { this.password = password; }	
 	
 	
-	public BasicDataSource(String driverClassName, String url, String username, String password) {
-		this.driverClassName = driverClassName;
-		this.url = url;
-		this.username = username;
-		this.password = password;
-	}
+	public BasicDataSource() { System.out.println(">> BasicDataSource()"); }
 	
 	
 	public Connection getConnection() throws ClassNotFoundException, SQLException {
