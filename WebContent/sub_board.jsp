@@ -37,10 +37,34 @@ h1 {
 }
 #grid {
 	display:grid;
-	grid-template-columns: 200px 1fr;
+	grid-template-columns: 200px 2fr 1fr;
 }
 #grid #main{
 	margin: 25px 25px 25px 25px;	
+}
+.main{
+	padding-top: 20px;
+	padding-left: 60px;
+}
+.container {
+	position: relative;
+	height: 50px;
+	border-bottom: 1px solid black;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding-left: 0px;
+	padding-right: 0px;
+	width:100%;
+}
+.item-title {
+	margin-left:0px;
+	padding-right: 200px;
+}
+.item-button {
+	margin-right:0px;
+	padding-left: 200px;
 }
 .table {
 	border: solid #ccc;
@@ -52,13 +76,27 @@ h1 {
 .jm-font{
 	font-family:'Jeju Myeongjo', serif;
 }
+.item_1 {
+	position: relative;
+	display: inline-block;
+}
+.button {
+	float: right;
+}
 </style>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </head>
 <body>
-<h1>제목</h1>
+<nav class="container">
+	<div class="item-title">로그인</div>
+	<div class="item-button">
+		<a href="subs.do">
+			<img src="image/arrow-left-line.svg"/>
+		</a>
+	</div>
+</nav>
 <div id="grid">
 	<ol>
 		<li>
@@ -71,44 +109,52 @@ h1 {
 		<a href="sub_board.do?subject=Linear">선형대수</a>
 		</li>
 	</ol>
-	<div id="main">
-	<form name="banana">
-		<select name="ch" onchange="abcd(this.value)">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-		</select>
-	</form>
-	${ rList }
+	<div class="main">
+		<div class="category">
+			<div class="item_1">
+				<form name="banana">
+					<select name="ch" onchange="abcd(this.value)">
+						<option>Chapter</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+					</select>
+				</form>
+			</div>
+			<div class="item_1 button">	
+				<a href="write.do?subject=${ subject }">
+					<img src="image/pencil-line.svg"/>
+				</a>
+			</div>
+		</div>
+		
+		${ rList }
+		
+		
+		<table border="1" class="table">
+			<thead>
+			<tr>
+				<th>순번</th>
+				<th>학번</th>
+				<th>Chapter</th>
+				<th>제목</th>
+				<th>내용</th>
+			</tr>	
+			</thead>
+			<q:forEach items="${ rList }" var="t">
+			<tr>
+				<td>${ t.no }</td>
+				<td>${ t.stid }</td>
+				<td>${ t.ch }</td>
+				<td>${ t.title }</td>
+				<td>${ t.content }</td>
+			</tr>
+			</q:forEach>
+		</table>
 	
-	<table border="1" class="table">
-	<thead>
-	<tr>
-		<th>순번</th>
-		<th>학번</th>
-		<th>Chapter</th>
-		<th>제목</th>
-		<th>내용</th>
-	</tr>	
-	</thead>
-		<q:forEach items="${ rList }" var="t">
-		<tr>
-			<td>${ t.no }</td>
-			<td>${ t.stid }</td>
-			<td>${ t.ch }</td>
-			<td>${ t.title }</td>
-			<td>${ t.content }</td>
-		</tr>
-		</q:forEach>
-	</table>
-	<div align="right">
-		<a href="write.do?subject=${ subject }">
-			<img src="image/pencil-line.svg"/>
-		</a>
-	</div>
 	</div>
 </div>
 </body>
