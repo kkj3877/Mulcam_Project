@@ -16,6 +16,9 @@ function abcd(value){
 	
 	window.location.href="sub_board.do?subject="+subject+"&ch="+value;
 }
+function func(){
+	
+}
 </script>
 <style type="text/css">
 @import url(//fonts.googleapis.com/earlyaccess/jejuhallasan.css);
@@ -114,7 +117,7 @@ h1 {
 			<div class="item_1">
 				<form name="banana">
 					<select name="ch" onchange="abcd(this.value)">
-						<option>Chapter</option>
+						<option>Ã©ÅÍ</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
 						<option value="3">3</option>
@@ -144,12 +147,12 @@ h1 {
 				<th>³»¿ë</th>
 			</tr>	
 			</thead>
-			<q:forEach items="${ rList }" var="t">
-			<tr>
-				<td>${ t.no }</td>
-				<td>${ t.stid }</td>
-				<td>${ t.ch }</td>
-				<td>${ t.title }</td>
+			<q:forEach items="${ rList }" var="t" >
+			<tr >
+				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
+				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
+				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
+				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a></td>
 				<td>${ t.content }</td>
 			</tr>
 			</q:forEach>
