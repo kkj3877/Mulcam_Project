@@ -6,26 +6,74 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+function abcd(value){
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	const subject = urlParam.get('subject');
+	
+	window.location.href="sub_board.do?subject="+subject;
+}
+</script>
 <style type="text/css">
-@media (max-width: 375px){
-	.item-button {
-		padding-left: 10px;
+@media (max-width: 800px) {
+	.ol {
+		display:none !important;
+	}
+	.wrap-title {
+		width: 523 !important; 
+		height: 100px;
+		margin-left: 50px !important;	
+		margin-top: 50px;
+		justify-self: center;
+		border: 1px solid;
+		border-radius: 0.7em;
+	}
+	.wrap-content {
+		width: 500px !important;
+		height:400px;
+		margin-top: 50px;
+		justify-self: center;
+		border: 1px solid;
+		border-radius: 0.7em;
+	}
+}
+@media (max-width: 566px) {
+	.ol {
+		display:none !important;
+	}
+	.wrap-title {
+		width: auto !important; 
+		height: 100px;
+		margin-right: 50px !important;	
+		margin-left: 50px !important;	
+		margin-top: 50px;
+		justify-self: center;
+		border: 1px solid;
+		border-radius: 0.7em;
+	}
+	.wrap-content {
+		width: auto !important;
+		height:400px;
+		margin-right: -15px !important;
+		margin-top: 50px;
+		justify-self: center;
+		border: 1px solid;
+		border-radius: 0.7em;
 	}
 }
 a {
 	color: black;
 	text-decoration: none;
 }
-ol {
+.ol {
 	border-right: 1px solid gray;
 	height: 500px;
 	width:200px;
 	padding-top: 20px;
 	padding-left: 20px;
-}
-#grid {
-	display:grid;
-	grid-template-columns: 200px 2fr 1fr;
 }
 .container {
 	position: relative;
@@ -41,6 +89,7 @@ ol {
 }
 .item-title {
 	margin-left:0px;
+	padding-right: 200px;
 }
 .item-button {
 	margin-right:0px;
@@ -49,7 +98,7 @@ ol {
 .wrap-title {
 	width: 500px;
 	height: 100px;
-	margin-left: 220px;
+	margin-left: 180px;
 	margin-top: 50px;
 	justify-self: center;
 	border: 1px solid;
@@ -57,8 +106,9 @@ ol {
 }
 .wrap-content {
 	width:500px;
-	height:400px;
+	height:200px;
 	margin-top: 50px;
+	margin-left: -15px;
 	justify-self: center;
 	border: 1px solid;
 	border-radius: 0.7em;
@@ -69,7 +119,7 @@ ol {
 }
 .article-margin {
 	margin-left: 10px;
-	margin-top: 8px;
+	margin-top: 7px;
 	margin-bottom: 8px;
 }
 .wrap-image {
@@ -89,35 +139,40 @@ ol {
 <nav class="container">
 	<div class="item-title">로그인</div>
 	<div class="item-button">
-		<a href="start.do">
+		<a onclick="abcd();">
 			<img src="image/arrow-left-line.svg"/>
+		</a>
+		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
+			<img src="image/logout-box-line.svg"/>
 		</a>
 	</div>
 </nav>
-<div id="grid">
-	<ol>
-		<li>
-			<a href="sub_board.do?subject=Basic">기초수학 및 연습</a>
-		</li>
-		<li>
-			<a href="sub_board.do?subject=Calc">미적분학</a>
-		</li>
-		<li>
-			<a href="sub_board.do?subject=Linear">선형대수</a>
-		</li>
-	</ol>
-	<div class="wrap-title">
+<div class="grid">
+	<div class="wrap-ol col-xs-0.1 col-sm-1 col-md-3">
+		<div class="ol">
+			<li>
+				<a href="sub_board.do?subject=Basic">기초수학 및 연습</a>
+			</li>
+			<li>
+				<a href="sub_board.do?subject=Calc">미적분학</a>
+			</li>
+			<li>
+				<a href="sub_board.do?subject=Linear">선형대수</a>
+			</li>
+		</div>
+	</div>
+	<div class="wrap-title col-xs-11.9 col-sm-11 col-md-9">
 		<div class="article-margin">${ subject } > ${ article.ch }</div>
 		<div class="article article-margin">제목</div>
 		<div class="article-margin">${ article.title }</div>
 		
 		<div class="wrap-content">
-			<div class="article article-margin">내용</div>
+			<div class="content content-margin">내용</div>
 			<div>${ article.content }</div>
 		</div>
 		
 		<div class="wrap-image">
-			<img class="image-box" src="image/KakaoTalk_20220204_164443247.jpg"/>
+			<img class="image-box" src="${fsn_q}"/>
 		</div>
 	</div>
 	
