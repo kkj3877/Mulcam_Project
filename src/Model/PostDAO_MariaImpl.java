@@ -92,8 +92,8 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
 				vo.setAns(rs.getString("ans"));
-				vo.setFsn_a(rs.getString("fsn_q"));
-				vo.setFsn_q(rs.getString("fsn_a"));
+				vo.setFsn_q(rs.getString("fsn_q"));
+				vo.setFsn_a(rs.getString("fsn_a"));
 				
 				return vo;
 			}
@@ -131,8 +131,8 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
 				vo.setAns(rs.getString("ans"));
-				vo.setFsn_a(rs.getString("fsn_q"));
-				vo.setFsn_q(rs.getString("fsn_a"));
+				vo.setFsn_q(rs.getString("fsn_q"));
+				vo.setFsn_a(rs.getString("fsn_a"));
 				
 				return vo;
 			}
@@ -169,8 +169,8 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setTitle(rs.getString("title"));
 				vo.setContent(rs.getString("content"));
 				vo.setAns(rs.getString("ans"));
-				vo.setFsn_a(rs.getString("fsn_q"));
-				vo.setFsn_q(rs.getString("fsn_a"));
+				vo.setFsn_q(rs.getString("fsn_q"));
+				vo.setFsn_a(rs.getString("fsn_a"));
 				
 				return vo;
 			}

@@ -29,17 +29,16 @@ public class MainController extends HttpServlet {
 		Method method = null;
 		Object target = null;
 		
+		
 		MethodAndTarget( Method method, Object target ) {
 			this.method = method;
 			this.target = target;
 		}
 	}
-
+	
 	private Map<String, MethodAndTarget> methodMap = null;
 	
 	private ServletConfig config = null;
-	
-	private static Exception err = null;
 	
 	public MainController() { methodMap = new Hashtable<String, MethodAndTarget>(); }
 	
