@@ -8,9 +8,7 @@ import Model.StudentDAO_MariaImpl;
 import Model.StudentVO;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +57,54 @@ public class ControllerPost {
 	}
 	
 	
+	@RequestMapping("/del_post.do")
+	public String delPost
+	(@RequestParam("subject") String subject, @RequestParam("no") Integer no,
+		HttpSession session, HttpServletResponse response)
+			throws Exception
+	{
+		System.out.println("ControllerPost:: delPost:: " + subject+", "+no);
+		
+		Integer stid = (Integer)session.getAttribute("stid");
+		if (stid == null) {
+			System.out.println("session is NULL");
+			return "redirect:login.do?ecode=invalid_session";
+		}
+		
+		PostVO pvo = postDAO.findPostByNo(subject, no);
+		System.out.println("LI_stid: " + stid);
+		System.out.println("DB_stid: " + pvo.getStid());
+		
+		if (stid.compareTo(pvo.getStid()) != 0) {
+			System.out.println("other student");
+			
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			String href = "view_article.do?subject="+subject+"&no="+no;
+			writer.println("<script>alert('작성자만 삭제할 수 있습니다.'); location.href='"+href+"';</script>");
+			writer.close();
+			
+			return null;
+		}
+		
+		int uc = postDAO.delByNo(subject, pvo);
+		
+		String fsn_q = pvo.getFsn_q();
+		if ( uc == 1 && fsn_q != null ) {
+			File file = new File( Util.uploadDir() + fsn_q );
+			if ( file.exists() ) file.delete();
+		}
+		
+		String fsn_a = pvo.getFsn_a();
+		if ( uc == 1 && fsn_a != null ) {
+			File file = new File( Util.uploadDir() + fsn_a );
+			if ( file.exists() ) file.delete();
+		}
+		
+		return "redirect:sub_board.do?subject="+subject;
+	}
+	
+	
 	@RequestMapping("/delPostFromStatus.do")
 	public String delPostFromStatus
 	(@RequestParam("subject") String subject, @RequestParam("no") Integer no)
@@ -87,7 +133,8 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/question.do")
-	public String question(HttpServletRequest request, HttpSession session) throws Exception
+	public String question
+		(HttpServletRequest request, HttpSession session) throws Exception
 	{
 		System.out.println("ControllerPost:: question:: ");
 		
@@ -153,6 +200,45 @@ public class ControllerPost {
 	}
 	
 	
+	@RequestMapping("/rewrite.do")
+	public ModelAndView rewrite
+		(@RequestParam("subject") String subject, @RequestParam("no") Integer no,
+			HttpSession session, HttpServletResponse response) throws Exception
+	{
+		System.out.println("ControllerPost:: rewrite:: " + subject );
+		ModelAndView mnv = new ModelAndView();
+		
+		Integer stid = (Integer)session.getAttribute("stid");
+		if (stid == null) {
+			System.out.println("session is NULL");
+			mnv.setViewName("redirect:login.do?ecode=invalid_session");
+			return mnv;
+		}
+		
+		PostVO pvo = postDAO.findPostByNo(subject, no);
+		System.out.println("LI_stid: " + stid);
+		System.out.println("DB_stid: " + pvo.getStid());
+		
+		if (stid.compareTo(pvo.getStid()) != 0) {
+			System.out.println("other student");
+			
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			String href = "view_article.do?subject="+subject+"&no="+no;
+			writer.println("<script>alert('작성자만 수정할 수 있습니다.'); location.href='"+href+"';</script>");
+			writer.close();
+			
+			return null;
+		}
+		
+		mnv.setViewName("rewrite");
+		mnv.addObject("subject", subject);
+		mnv.addObject("article", pvo);
+		
+		return mnv;
+	}
+	
+	
 	@RequestMapping("/status.do")
 	public ModelAndView status() throws Exception {
 		System.out.println("ControllerPost:: status");
@@ -189,17 +275,22 @@ public class ControllerPost {
 	
 	
 	@RequestMapping("/sub_board.do")
-	public ModelAndView sub_board(@RequestParam("subject") String subject, @RequestParam("ch") Integer ch, HttpSession session)
+	public ModelAndView sub_board
+		(@RequestParam("subject") String subject, @RequestParam("ch") Integer ch, HttpSession session)
 			throws Exception
 	{
 		System.out.println("ControllerPost:: sub_board:: " + subject );
 		
-		if ( subject != null && ch != null ) {
-			System.out.println("subject: " + subject + ", ch: "+ ch);
-		}
-		else { System.out.println("Something is wrong"); }
-		
 		ModelAndView mnv = new ModelAndView();
+		
+		if ( subject == null ) {
+			System.out.println("select subject");
+			mnv.setViewName("redirect:subs.do");
+			return mnv;
+		}
+		
+		if ( ch == null ) {	System.out.println("subject: " + subject); }
+		else { System.out.println("subject: " + subject + ", ch: "+ ch); }
 		
 		Integer stid = (Integer)session.getAttribute("stid");
 		System.out.println("stid:: " + stid);
@@ -252,52 +343,22 @@ public class ControllerPost {
 		mnv.addObject("article", vo);
 		mnv.addObject("subject", subject);
 		
-		// 게시글에 사진이 등록돼있다면 사진의 경로를 보내준다.
+		// 게시글에 사진이 등록돼있다면 사진의 이름를 보내준다.
 		if ( vo.getFsn_q() != null ) {
-			mnv.addObject("fsn_q", Util.fileDir() + vo.getFsn_q());
-			System.out.println("fsn_q: " + Util.fileDir() + vo.getFsn_q());
+			mnv.addObject("fsn_q", vo.getFsn_q());
+			System.out.println("fsn_q: " + vo.getFsn_q());
 		}
 		if ( vo.getFsn_a() != null ) {
-			mnv.addObject("fsn_a", Util.fileDir() + vo.getFsn_a());
-			System.out.println("fsn_a: " + Util.fileDir() + vo.getFsn_a());
+			mnv.addObject("fsn_a", vo.getFsn_a());
+			System.out.println("fsn_a: " + vo.getFsn_a());
 		}
 		
 		return mnv;
 	}
 	
 	
-	@RequestMapping("/view_pic.do")
-	public void viewPic
-		(@RequestParam("pic_name") String picName, HttpServletResponse response) throws Exception
-	{
-		if (picName == null) { picName = "Tree.jpg"; }
-		
-		String extension = picName.substring(picName.lastIndexOf(".") + 1);
-		System.out.println("picName: " + picName);
-		System.out.println("extension: " + extension);
-		
-		File file = new File( Util.uploadDir() + picName );
-		if ( file.exists() ) {
-			InputStream in = new FileInputStream(file);
-			String contentType = "image/"+extension;
-			response.setContentType(contentType);
-			
-			OutputStream out = response.getOutputStream();
-			int len = 0;
-			byte[] buf = new byte[1024];
-			
-			while ( (len = in.read( buf )) != -1 ) {
-				out.write( buf, 0, len );
-				out.flush();
-			}
-			out.close();
-			in.close();
-		}
-	}
-	
-	
 	@RequestMapping("/write.do")
-	public ModelAndView ask
+	public ModelAndView write
 		(@RequestParam("subject") String subject, HttpSession session) throws Exception
 	{
 		System.out.println("ControllerPost:: ask:: " + subject );
