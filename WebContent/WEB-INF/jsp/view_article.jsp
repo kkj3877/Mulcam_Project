@@ -172,7 +172,7 @@ a {
 		</div>
 		
 		<div class="wrap-image">
-			<img class="image-box" src="${fsn_q}"/>
+			<img class="image-box" src="image.jsp?fname=${fsn_q}"/>
 		</div>
 	</div>
 	
