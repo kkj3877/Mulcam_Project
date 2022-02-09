@@ -8,13 +8,41 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script>
-function abcd(value){
+function fun(){
 	const urlStr = window.location.href;
 	const url = new URL(urlStr);
 	const urlParam = url.searchParams;
-	const subject = urlParam.get('subject');
+	var subject = urlParam.get('subject');
+	var title = document.getElementById('x').value;
+	var content = document.getElementById('y').value;
+	var chapter = document.getElementById('chapter').value;
+	var form = document.form;
 	
-	window.location.href="sub_board.do?subject="+subject+"&ch="+value;
+	if( title == "" ){
+		alert("제목 입력하세요!");
+		form.action="write.do?subject="+subject;
+	}
+	else if( content == "" ) {
+		alert("내용을 입력하세요!");
+		form.action="write.do?subject="+subject;
+	}
+	else if( chapter == '챕터' ) {
+		alert("챕터를 고르세요!");
+		form.action="write.do?subject="+subject;
+	}
+}
+window.onload=function(){
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	var ecode = urlParam.get('ecode');
+	
+	if( ecode == "invalid_session" ){
+		alert('로그인 하셔야죠?');
+	}	
+	else if( ecode =="logout" ){
+		alert('로그아웃');
+	}
 }
 window.onload = function() {
 	const urlStr = window.location.href;
@@ -40,17 +68,20 @@ window.onload = function() {
 }
 </script>
 <style type="text/css">
-@media (max-width: 800px) {
+@media (max-width: 990px) {
 	.ol {
 		display:none !important;
 	}
-	#grid {
-		display:grid;
-		grid-template-columns: auto !important;
+}
+@media (max-width: 575px) {
+	.ol {
+		display:none !important;
 	}
-	.main{
-		padding-top: 20px;
-		padding-left:0px !important;
+	.title{
+		width:70% !important;
+	}
+	.content-width {
+		width: 77% !important;
 	}	
 }
 a {
@@ -61,13 +92,6 @@ h1 {
 	text-align: center;
 	padding: 20px;
 	border-bottom: 1px solid gray;
-}
-p {
-	margin-top: 10px;
-}
-#grid {
-	display:grid;
-	grid-template-columns: 200px 2fr 0.5fr;
 }
 #grid #main{
 	margin: 25px 25px 25px 25px;	
@@ -86,10 +110,6 @@ p {
 	width: auto !important;
 	margin-bottom: 20px;
 	margin-right: 80px;
-}
-.main{
-	padding-top: 20px;
-	padding-left: 150px;
 }
 .container {
 	position: relative;
@@ -111,39 +131,45 @@ p {
 	margin-right:0px;
 	padding-left: 200px;
 }
-.table {
-	border: 1px solid #ccc;
-	border-collapse: separate;
+.wrap-title {
+	width: 500px;
+	height: 100px;
+	margin-left: 220px;
+	margin-top: 50px;
+	justify-self: center;
 }
-.write_button {
-	align:right;
-}
-.jm-font{
-	font-family:'Jeju Myeongjo', serif;
-}
-.item_1 {
-	position: relative;
-	display: inline-block;
-}
-.button {
-	float: right;
+.wrap-content {
+	width:500px;
+	height:400px;
+	margin-top: 50px;
+	margin-left: -15px;
+	justify-self: center;
+	border: 1px solid;
+	border-radius: 0.7em;
 }
 .ol {
 	border-right: 1px solid gray;
 	width:200px;
+	height: 500px;
 	padding-top: 20px;
 	padding-left: 20px;
-	display: flex;
-	flex-direction: column;
+}
+.item{
+	justify-self:center;
+	padding-left:-10px;
+}
+.title{
+	margin-left: 40px;
+	width:528px;
+}
+.content{
+	margin-left: 40px;
+}
+.content-width {
+	width:528px;
 }
 .li-font {
 	font-size: 18px;
-}
-.clicked {
-	color: yellow;
-}
-.color {
-	background-color: red;
 }
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -152,7 +178,7 @@ p {
 <nav class="container">
 	<div class="item-title">로그인</div>
 	<div class="item-button">
-		<a href="subs.do">
+		<a href="start.do">
 			<img src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
@@ -161,22 +187,29 @@ p {
 	</div>
 </nav>
 <div id="grid">
-	<div class="ol">
-		<div id="basic">
-		<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
-		</div>
-		<div id="calc">
-		<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
-		</div>
-		<div id="linear">
-		<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+	<div class="wrap-ol col-xs-0.1 col-sm-1 col-md-3">
+		<div class="ol">
+			<div id="basic">
+				<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
+			</div>
+			<div id="calc">
+				<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
+			</div>
+			<div id="linear">
+				<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+			</div>
 		</div>
 	</div>
-	<div class="main">
-		<div class="category">
-			<div class="item_1">
-				<form name="banana">
-					<select name="ch" onchange="abcd(this.value)">
+	<div id="main" class="item wrap-title col-xs-11.9 col-sm-11 col-md-9">
+		<form name="form" method="POST" action="question.do" id="write" enctype="multipart/form-data">
+			<input type="hidden" name="subject" value="${ subject }"/>
+			<div>
+				<input class="title" type="text" name="title" id="x" value="${ article.title }"/>
+			</div>
+			<br/>
+			<div class="content" >
+				<div>
+					<select name="ch" id="chapter">
 						<option>챕터</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -185,49 +218,17 @@ p {
 						<option value="5">5</option>
 						<option value="6">6</option>
 					</select>
-				</form>
+				</div>			
+				<textarea class="content-width" rows="10" name="content" id="y">${ article.content }</textarea>
+				<div>
+					<input type="file" name="fsn_q"/>
+				</div>
+				<div>
+					<input type="submit" onclick="fun();"/>
+				</div>		
 			</div>
-			<div class="item_1 button">	
-				<a href="write.do?subject=${ subject }">
-					<img src="image/pencil-line.svg"/>
-				</a>
-			</div>
-		</div>
-		
-		${ rList }
-		
-		<div style="overflow-x: auto;">
-			<table border="1" class="table">
-				<thead>
-				<tr>
-					<th>순번</th>
-					<th>학번</th>
-					<th>Chapter</th>
-					<th class="table-title">제목</th>
-				</tr>	
-				</thead>
-				<q:forEach items="${ rList }" var="t" >
-				<tr >
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
-					<td ><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a></td>
-				</tr>
-				</q:forEach>
-			</table>
-		</div>
+		</form>
 	</div>
 </div>
 </body>
 </html>
-<!-- 
-function fun(){
-	var basic = document.getElementById('basic');
-	basic.style.background="yellow";
-	var calc = document.getElementById('calc');
-	calc.style.background="white";
-	var calc = document.getElementById('linear');
-	linear.style.background="white";
-	
-}
- -->

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +14,28 @@ function abcd(value){
 	const subject = urlParam.get('subject');
 	
 	window.location.href="sub_board.do?subject="+subject;
+}
+window.onload = function() {
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	const subject = urlParam.get('subject');
+	 
+	if( subject == 'Basic' ){
+		$(function(){
+			$('#basic').css('background-color', 'yellow');
+		});
+	}
+	else if( subject == 'Calc' ){
+		$(function(){
+			$('#calc').css('background-color', 'yellow');
+		});
+	}
+	else if( subject == 'Linear' ){
+		$(function(){
+			$('#linear').css('background-color', 'yellow');
+		});
+	}
 }
 </script>
 <style type="text/css">
@@ -68,12 +89,29 @@ a {
 	color: black;
 	text-decoration: none;
 }
+#basic {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 25px;
+}
+#calc {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 100px;
+}
+#linear {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 80px;
+}
 .ol {
 	border-right: 1px solid gray;
-	height: 500px;
 	width:200px;
 	padding-top: 20px;
 	padding-left: 20px;
+	display: flex;
+	flex-direction: column;
+	height: 500px;
 }
 .container {
 	position: relative;
@@ -107,7 +145,7 @@ a {
 .wrap-content {
 	width:500px;
 	height:200px;
-	margin-top: 50px;
+	margin-top: 25px;
 	margin-left: -15px;
 	justify-self: center;
 	border: 1px solid;
@@ -122,8 +160,18 @@ a {
 	margin-top: 7px;
 	margin-bottom: 8px;
 }
+.content {
+	width: 30px;
+	border-bottom: 1px solid black;
+}
+.content-margin {
+	margin-left: 19px;
+	margin-top: 7px;
+	margin-bottom: 8px;
+}
 .wrap-image {
 	margin-top: 10px;
+	margin-left: -15px;
 	width: 500px;
 	height: 300px;
 	border: 1px solid; 
@@ -132,6 +180,25 @@ a {
 	width:100%;
 	height:99%;
 	object-fit:cover;
+}
+.buttons {
+	display: flex;
+	flex-direction: row-reverse;
+}
+.list-button {
+	float: left !important;
+}
+.delete-button {
+	float: left !important;
+}
+.revise-button {
+	float: left !important;
+}
+.button-size {
+	height: 40px;
+}
+.li-font {
+	font-size: 18px;
 }
 </style>
 </head>
@@ -148,17 +215,18 @@ a {
 	</div>
 </nav>
 <div class="grid">
+
 	<div class="wrap-ol col-xs-0.1 col-sm-1 col-md-3">
 		<div class="ol">
-			<li>
-				<a href="sub_board.do?subject=Basic">기초수학 및 연습</a>
-			</li>
-			<li>
-				<a href="sub_board.do?subject=Calc">미적분학</a>
-			</li>
-			<li>
-				<a href="sub_board.do?subject=Linear">선형대수</a>
-			</li>
+			<div id="basic">
+				<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
+			</div>
+			<div id="calc">
+				<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
+			</div>
+			<div id="linear">
+				<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+			</div>
 		</div>
 	</div>
 	<div class="wrap-title col-xs-11.9 col-sm-11 col-md-9">
@@ -168,14 +236,30 @@ a {
 		
 		<div class="wrap-content">
 			<div class="content content-margin">내용</div>
-			<div>${ article.content }</div>
+			<div class="content-margin">${ article.content }</div>
 		</div>
 		
 		<div class="wrap-image">
 			<img class="image-box" src="image.jsp?fname=${fsn_q}"/>
 		</div>
+		<div class="buttons">
+			<div>
+				<a class="revise-button" href="rewrite.do?subject=${ subject }&no=${article.no}">
+					<img class="button-size" src="image/eraser-line.svg"/>
+				</a>
+			</div>
+			<div>
+				<a class="list-button" href="sub_board.do?subject=${ subject }">
+					<img class="button-size" src="image/file-list-line.svg"/>
+				</a>
+			</div>
+			<div>
+				<a class="delete-button" href="del_post.do?subject=${ subject }&no=${article.no}">
+					<img class="button-size" src="image/chat-delete-line.svg"/>
+				</a>
+			</div>
+		</div>
 	</div>
-	
 </div>
 
 </body>
