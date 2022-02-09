@@ -3,7 +3,8 @@ package Control;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import Model.JdbcTemplate;
@@ -75,17 +76,65 @@ public class ControllerAdmin {
 	@RequestMapping("/toCsv.do")
 	public String toCsv() throws Exception {
 		System.out.println("ControllerAdmin:: toCsv");
-		String fileDir = Util.csvDir() + LocalDate.now() + ".csv";
+		System.out.println("csvDir: " + Util.csvDir());
+		File file = new File(Util.csvDir());
+		if (!file.exists()) {
+			file.mkdir();
+			System.out.println("Directory Created");
+		}
 		
+		LocalDateTime LDT = LocalDateTime.now();		
+		String formatedTime = "mathcafe_"+LDT.format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"));
 		
-		
+		String fileDir = Util.csvDir() + formatedTime + ".csv";
+		System.out.println("fildDir: " + fileDir);
 		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(fileDir));
 		
+		StringBuffer sb = new StringBuffer();
+		sb.append("학생\n");
+		sb.append("학번,pw,이름,메일").append("\n");
+		List<StudentVO> sList = studentDAO.findAll();
 		
+		for ( StudentVO vo : sList ) {
+			sb.append(vo.getStid()).append(",");
+			sb.append(vo.getPw()).append(",");
+			sb.append(vo.getName()).append(",");
+			sb.append(vo.getMail()).append("\n");
+		}
+		
+		String[] subjects = {"Basic", "Calc", "Linear"};
+		String[] subjects_kor = {"기초수학", "미적분학", "선형대수학"};
+		List<PostVO> pList = null;
+		
+		int idx = -1;
+		for ( String subject : subjects ) {
+			idx++;
+			sb.append("\n\n").append(subjects_kor[idx]).append("\n");
+			sb.append("번호,학번,챕터,제목,내용,답변,질문사진,답변사진\n");
+			pList = postDAO.findAll(subject);
+			for (PostVO vo : pList) {
+				sb.append(vo.getNo()).append(",");
+				sb.append(vo.getStid()).append(",");
+				sb.append(vo.getCh()).append(",");
+				String title = vo.getTitle();
+				sb = (title==null) ? sb.append(",") :
+					sb.append(title.replaceAll("\r\n", "@").replace(',', '.')).append(",");
+				String content = vo.getContent();
+				sb = (content==null) ? sb.append(",") :
+					sb.append(content.replaceAll("\r\n", "@").replace(',', '.')).append(",");
+				String ans = vo.getAns();
+				sb = (ans==null) ? sb.append(",") :
+					sb.append(ans.replaceAll("\r\n", "@").replace(',', '.')).append(",");
+				sb = (vo.getFsn_q() == null) ? sb.append("X,") : sb.append("O,");
+				sb = (vo.getFsn_a() == null) ? sb.append("X\n") : sb.append("O\n");
+			}
+		}
+		
+		out.write(sb.toString());
 		
 		out.flush();
 		out.close();
-		return "redirect:status.do";
+		return null;
 	}
 	
 	
