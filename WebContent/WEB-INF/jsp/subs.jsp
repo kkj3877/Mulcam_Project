@@ -8,6 +8,20 @@
 <script>
 </script>
 <style type="text/css">
+@media (max-width: 540px) {
+	.item-title {
+		margin-left:0px;
+		padding-right: 100px !important;
+	}
+	.item-button {
+		margin-right:0px;
+		padding-left: 100px !important;
+	}
+}
+a {
+	color:black;
+	text-decoration:none;
+}
 .container {
 	position: relative;
 	height: 50px;
@@ -40,10 +54,6 @@
 	border: 1px solid;
 	border-radius: 0.7em;
 }
-.subs {
-	margin-top: 15px;
-	margin-bottom: 19px;
-}
 #sub {
 	border:1px solid;
 	height: 30px;
@@ -54,15 +64,20 @@
 	border-radius: 1.0em;
 	padding-top: 4.3px;
 }
-a {
-	color:black;
-	text-decoration:none;
+.subs {
+	margin-top: 15px;
+	margin-bottom: 19px;
+}
+.toggle-size {
+	font-size: 15px;
+	margin-top: 5px !important;
+	margin-left: 7px;
 }
 </style>
 </head>
 <body>
 <nav class="container">
-	<div class="item-title">로그인</div>
+	<div class="item-title">수학카페</div>
 	<div class="item-button">
 		<a href="login.do">
 			<img src="image/arrow-left-line.svg"/>
@@ -70,6 +85,7 @@ a {
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
 			<img src="image/logout-box-line.svg"/>
 		</a>
+		<a class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
 <div class="a">

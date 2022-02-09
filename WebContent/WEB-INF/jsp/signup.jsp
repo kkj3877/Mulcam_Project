@@ -85,7 +85,7 @@ function abcd() {
 </head>
 <body>
 <nav class="container">
-	<div class="item-title">회원가입</div>
+	<div class="item-title">수학카페</div>
 	<div class="item-button">
 		<a href="start.do">
 			<img src="image/arrow-left-line.svg"/>

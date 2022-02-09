@@ -20,15 +20,15 @@ function fun(){
 	
 	if( title == "" ){
 		alert("제목 입력하세요!");
-		form.action="write.do?subject="+subject;
 	}
 	else if( content == "" ) {
 		alert("내용을 입력하세요!");
-		form.action="write.do?subject="+subject;
 	}
 	else if( chapter == '챕터' ) {
 		alert("챕터를 고르세요!");
-		form.action="write.do?subject="+subject;
+	}
+	else{
+		document.form.submit();
 	}
 }
 window.onload=function(){
@@ -65,6 +65,7 @@ window.onload = function() {
 			$('#linear').css('background-color', 'yellow');
 		});
 	}
+	
 }
 </script>
 <style type="text/css">
@@ -83,6 +84,16 @@ window.onload = function() {
 	.content-width {
 		width: 77% !important;
 	}	
+}
+@media (max-width: 540px) {
+	.item-title {
+		margin-left:0px;
+		padding-right: 100px !important;
+	}
+	.item-button {
+		margin-right:0px;
+		padding-left: 100px !important;
+	}
 }
 a {
 	color: black;
@@ -171,19 +182,25 @@ h1 {
 .li-font {
 	font-size: 18px;
 }
+.toggle-size {
+	font-size: 15px;
+	margin-top: 5px !important;
+	margin-left: 7px;
+}
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <nav class="container">
-	<div class="item-title">로그인</div>
+	<div class="item-title">수학카페</div>
 	<div class="item-button">
-		<a href="start.do">
+		<a href="sub_board.do?subject=${ subject }">
 			<img src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
 			<img src="image/logout-box-line.svg"/>
 		</a>
+		<a class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
 <div id="grid">
@@ -224,7 +241,7 @@ h1 {
 					<input type="file" name="fsn_q"/>
 				</div>
 				<div>
-					<input type="submit" onclick="fun();"/>
+					<input type="button" onclick="fun();" value="작성완료"/>
 				</div>		
 			</div>
 		</form>

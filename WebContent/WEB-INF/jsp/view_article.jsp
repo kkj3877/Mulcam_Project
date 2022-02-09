@@ -85,6 +85,16 @@ window.onload = function() {
 		border-radius: 0.7em;
 	}
 }
+@media (max-width: 540px) {
+	.item-title {
+		margin-left:0px;
+		padding-right: 100px !important;
+	}
+	.item-button {
+		margin-right:0px;
+		padding-left: 100px !important;
+	}
+}
 a {
 	color: black;
 	text-decoration: none;
@@ -200,11 +210,16 @@ a {
 .li-font {
 	font-size: 18px;
 }
+.toggle-size {
+	font-size: 15px;
+	margin-top: 5px !important;
+	margin-left: 7px;
+}
 </style>
 </head>
 <body>
 <nav class="container">
-	<div class="item-title">로그인</div>
+	<div class="item-title">수학카페</div>
 	<div class="item-button">
 		<a onclick="abcd();">
 			<img src="image/arrow-left-line.svg"/>
@@ -212,6 +227,7 @@ a {
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
 			<img src="image/logout-box-line.svg"/>
 		</a>
+		<a class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
 <div class="grid">
@@ -264,8 +280,3 @@ a {
 
 </body>
 </html>
-<!-- 
-<div class="article article-margin">내용</div>
-		<div class="inner-margin">종속형 시트 또는 캐스케이딩 스타일 시트(Cascading Style Sheets, CSS)는 마크업 언어가 실제 표시되는 방법을 기술하는 스타일 언어(style sheet language)로[1], HTML과 XHTML에 주로 쓰이며, XML에서도 사용할 수 있다. W3C의 표준이며, 레이아웃과 스타일을 정의할 때의 자유도가 높다.</div>
-	
- -->
