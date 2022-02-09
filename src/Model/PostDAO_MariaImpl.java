@@ -142,7 +142,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		// List 화 시켜 반환한다.
 		return jtpl.query(sql, pss, rowMapper);
 	}
-
+	
 	// -------------------------------------------------------------------------------
 	// 테이블의 특정 번호 레코드를 리스트에 저장해 반환하는 함수
 	@Override
@@ -178,5 +178,43 @@ public class PostDAO_MariaImpl implements PostDAO {
 		
 		return jtpl.queryForObject(sql, pss, rowMapper);
 	}
-
+	
+	// -------------------------------------------------------------------------------
+	// 테이블의 특정 학번의 레코드를 리스트에 저장해 반환하는 함수
+	@Override
+	public List<PostVO> findPostByStid(String subject, Integer stid) throws Exception {
+		System.out.println("PostDAO_MariaImpl:: findPostByStid("+subject+", "+stid+")");
+		String tableName = subject+"_T";
+		String sql = "SELECT * FROM "+tableName+" WHERE stid=? ORDER BY no DESC";
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, stid);
+			}
+		};
+		
+		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
+			@Override
+			public PostVO mapRow(ResultSet rs) throws SQLException {
+				PostVO vo = new PostVO();
+				
+				vo.setNo(rs.getInt("no"));
+				vo.setStid(rs.getInt("stid"));
+				vo.setCh(rs.getInt("ch"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setAns(rs.getString("ans"));
+				vo.setFsn_q(rs.getString("fsn_q"));
+				vo.setFsn_a(rs.getString("fsn_a"));
+				
+				return vo;
+			}
+		};
+		
+		// SQL 문을 실행하고, rowMapper의 mapRow에 명시된 규칙대로 레코드들을
+		// List 화 시켜 반환한다.
+		return jtpl.query(sql, pss, rowMapper);
+	}
+	
 }
