@@ -55,7 +55,6 @@ public class PostDAO_MariaImpl implements PostDAO {
 		System.out.println("PostDAO_MariaImpl:: delByNo("+subject+", "+no+")");
 		
 		String sql = "DELETE FROM "+tableName+" where no=?";
-		System.out.println(sql);
 		
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
