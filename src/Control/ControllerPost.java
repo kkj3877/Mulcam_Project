@@ -99,7 +99,7 @@ public class ControllerPost {
 		return "redirect:sub_board.do?subject="+subject;
 	}
 	
-	@RequestMapping("/mypost")
+	@RequestMapping("/mypost.do")
 	public ModelAndView myPost(HttpSession session) throws Exception
 	{
 		System.out.println("ControllerPost:: myPost:: ");

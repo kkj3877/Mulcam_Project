@@ -16,12 +16,12 @@ public class Util {
 	}
 	
 	// 접근 환경에 따른 파일 디렉토리를 지정해주는 함수
-		public static String fileDir() {
+		public static String csvDir() {
 			String t = System.getProperty("os.name");
 			
-			String upload = "/pukyung08/mathcafe_upload/";
+			String upload = "/pukyung08/mathcafe_upload/csv/";
 			if ( t.indexOf("indows") != -1 ) {
-				upload = "mathcafe_upload/";
+				upload = "C:\\mathcafe_upload\\csv\\";
 			}
 			return upload;
 		}

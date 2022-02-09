@@ -1,6 +1,9 @@
 package Control;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.time.LocalDate;
 import java.util.List;
 
 import Model.JdbcTemplate;
@@ -33,7 +36,7 @@ public class ControllerAdmin {
 	(@RequestParam("subject") String subject, @RequestParam("no") Integer no)
 		throws Exception
 	{
-		System.out.println("ControllerPost:: delPostFromStatus:: " + subject+", "+no);
+		System.out.println("ControllerAdmin:: delPostFromStatus:: " + subject+", "+no);
 		
 		PostVO pvo = postDAO.findPostByNo(subject, no);
 		
@@ -58,7 +61,7 @@ public class ControllerAdmin {
 	@RequestMapping("/delStudent.do")
 	public String delStudent(@RequestParam("stid") Integer stid) throws Exception
 	{
-		System.out.println("ControllerMember:: delStudent");
+		System.out.println("ControllerAdmin:: delStudent");
 		
 		String sql = "DELETE FROM Student_T where stid=?";
 		
@@ -69,10 +72,26 @@ public class ControllerAdmin {
 		return "redirect:status.do";
 	}
 	
+	@RequestMapping("/toCsv.do")
+	public String toCsv() throws Exception {
+		System.out.println("ControllerAdmin:: toCsv");
+		String fileDir = Util.csvDir() + LocalDate.now() + ".csv";
+		
+		
+		
+		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(fileDir));
+		
+		
+		
+		out.flush();
+		out.close();
+		return "redirect:status.do";
+	}
+	
 	
 	@RequestMapping("/status.do")
 	public ModelAndView status() throws Exception {
-		System.out.println("ControllerPost:: status");
+		System.out.println("ControllerAdmin:: status");
 		ModelAndView mnv = new ModelAndView();
 		
 		List<StudentVO> Students = studentDAO.findAll();
