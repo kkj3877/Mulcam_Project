@@ -7,6 +7,44 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script>
+function fun(){
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	var subject = urlParam.get('subject');
+	var title = document.getElementById('x').value;
+	var content = document.getElementById('y').value;
+	var chapter = document.getElementById('chapter').value;
+	var form = document.form;
+	
+	if( title == "" ){
+		alert("제목 입력하세요!");
+		form.action="write.do?subject="+subject;
+	}
+	else if( content == "" ) {
+		alert("내용을 입력하세요!");
+		form.action="write.do?subject="+subject;
+	}
+	else if( chapter == '챕터' ) {
+		alert("챕터를 고르세요!");
+		form.action="write.do?subject="+subject;
+	}
+}
+window.onload=function(){
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	var ecode = urlParam.get('ecode');
+	
+	if( ecode == "invalid_session" ){
+		alert('로그인 하셔야죠?');
+	}	
+	else if( ecode =="logout" ){
+		alert('로그아웃');
+	}
+}
+</script>
 <style type="text/css">
 @media (max-width: 990px) {
 	.ol {
@@ -123,15 +161,15 @@ h1 {
 		</div>
 	</div>
 	<div id="main" class="item wrap-title col-xs-11.9 col-sm-11 col-md-9">
-		<form method="POST" action="question.do" enctype="multipart/form-data">
-		<input type="hidden" name="subject" value="${ subject }"/>
+		<form name="form" method="POST" action="question.do" id="write" enctype="multipart/form-data">
+			<input type="hidden" name="subject" value="${ subject }"/>
 			<div>
-				<input class="title" type="text" name="title" placeholder="제목"/>
+				<input class="title" type="text" name="title" id="x" placeholder="제목"/>
 			</div>
 			<br/>
 			<div class="content" >
 				<div>
-					<select name="ch">
+					<select name="ch" id="chapter">
 						<option>챕터</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -141,12 +179,12 @@ h1 {
 						<option value="6">6</option>
 					</select>
 				</div>			
-				<textarea class="content-width" rows="10" name="content" placeholder="질문내용일력하세요"></textarea>
+				<textarea class="content-width" rows="10" name="content" id="y" placeholder="질문내용입력하세요"></textarea>
 				<div>
 					<input type="file" name="fsn_q"/>
 				</div>
 				<div>
-					<input type="submit"/>
+					<input type="submit" onclick="fun();"/>
 				</div>		
 			</div>
 		</form>

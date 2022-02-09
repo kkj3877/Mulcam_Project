@@ -16,12 +16,42 @@ function abcd(value){
 	
 	window.location.href="sub_board.do?subject="+subject+"&ch="+value;
 }
+window.onload = function() {
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	const subject = urlParam.get('subject');
+	 
+	if( subject == 'Basic' ){
+		$(function(){
+			$('#basic').css('background-color', 'yellow');
+		});
+	}
+	else if( subject == 'Calc' ){
+		$(function(){
+			$('#calc').css('background-color', 'yellow');
+		});
+	}
+	else if( subject == 'Linear' ){
+		$(function(){
+			$('#linear').css('background-color', 'yellow');
+		});
+	}
+}
 </script>
 <style type="text/css">
-@media (max-width: 500px) {
+@media (max-width: 800px) {
 	.ol {
 		display:none !important;
 	}
+	#grid {
+		display:grid;
+		grid-template-columns: auto !important;
+	}
+	.main{
+		padding-top: 20px;
+		padding-left:0px !important;
+	}	
 }
 a {
 	color: black;
@@ -32,16 +62,34 @@ h1 {
 	padding: 20px;
 	border-bottom: 1px solid gray;
 }
+p {
+	margin-top: 10px;
+}
 #grid {
 	display:grid;
-	grid-template-columns: 200px 2fr 1fr;
+	grid-template-columns: 200px 2fr 0.5fr;
 }
 #grid #main{
 	margin: 25px 25px 25px 25px;	
 }
+#basic {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 25px;
+}
+#calc {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 100px;
+}
+#linear {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 80px;
+}
 .main{
 	padding-top: 20px;
-	padding-left: 60px;
+	padding-left: 150px;
 }
 .container {
 	position: relative;
@@ -64,7 +112,7 @@ h1 {
 	padding-left: 200px;
 }
 .table {
-	border: solid #ccc;
+	border: 1px solid #ccc;
 	border-collapse: separate;
 }
 .write_button {
@@ -85,6 +133,17 @@ h1 {
 	width:200px;
 	padding-top: 20px;
 	padding-left: 20px;
+	display: flex;
+	flex-direction: column;
+}
+.li-font {
+	font-size: 18px;
+}
+.clicked {
+	color: yellow;
+}
+.color {
+	background-color: red;
 }
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -103,15 +162,15 @@ h1 {
 </nav>
 <div id="grid">
 	<div class="ol">
-		<li>
-		<a href="sub_board.do?subject=Basic">기초수학 및 연습</a>
-		</li>
-		<li>
-		<a href="sub_board.do?subject=Calc">미적분학</a>
-		</li>
-		<li>
-		<a href="sub_board.do?subject=Linear">선형대수</a>
-		</li>
+		<div id="basic">
+		<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
+		</div>
+		<div id="calc">
+		<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
+		</div>
+		<div id="linear">
+		<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+		</div>
 	</div>
 	<div class="main">
 		<div class="category">
@@ -137,29 +196,38 @@ h1 {
 		
 		${ rList }
 		
-		
-		<table border="1" class="table">
-			<thead>
-			<tr>
-				<th>순번</th>
-				<th>학번</th>
-				<th>Chapter</th>
-				<th>제목</th>
-				<th>내용</th>
-			</tr>	
-			</thead>
-			<q:forEach items="${ rList }" var="t" >
-			<tr >
-				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
-				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
-				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
-				<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a></td>
-				<td>${ t.content }</td>
-			</tr>
-			</q:forEach>
-		</table>
-	
+		<div style="overflow-x: auto;">
+			<table border="1" class="table">
+				<thead>
+				<tr>
+					<th>순번</th>
+					<th>학번</th>
+					<th>Chapter</th>
+					<th class="table-title">제목</th>
+				</tr>	
+				</thead>
+				<q:forEach items="${ rList }" var="t" >
+				<tr >
+					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
+					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
+					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
+					<td ><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a></td>
+				</tr>
+				</q:forEach>
+			</table>
+		</div>
 	</div>
 </div>
 </body>
 </html>
+<!-- 
+function fun(){
+	var basic = document.getElementById('basic');
+	basic.style.background="yellow";
+	var calc = document.getElementById('calc');
+	calc.style.background="white";
+	var calc = document.getElementById('linear');
+	linear.style.background="white";
+	
+}
+ -->
