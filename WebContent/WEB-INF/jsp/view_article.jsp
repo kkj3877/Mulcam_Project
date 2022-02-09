@@ -181,8 +181,18 @@ a {
 	height:99%;
 	object-fit:cover;
 }
+.buttons {
+	display: flex;
+	flex-direction: row-reverse;
+}
 .list-button {
-	padding-left: 95%;
+	float: left !important;
+}
+.delete-button {
+	float: left !important;
+}
+.revise-button {
+	float: left !important;
 }
 .button-size {
 	height: 40px;
@@ -232,10 +242,22 @@ a {
 		<div class="wrap-image">
 			<img class="image-box" src="image.jsp?fname=${fsn_q}"/>
 		</div>
-		<div>
-			<a class="list-button" href="sub_board.do?subject=${ subject }">
-				<img class="button-size" src="image/file-list-line.svg"/>
-			</a>
+		<div class="buttons">
+			<div>
+				<a class="revise-button" href="rewrite.do?subject=${ subject }&no=${article.no}">
+					<img class="button-size" src="image/eraser-line.svg"/>
+				</a>
+			</div>
+			<div>
+				<a class="list-button" href="sub_board.do?subject=${ subject }">
+					<img class="button-size" src="image/file-list-line.svg"/>
+				</a>
+			</div>
+			<div>
+				<a class="delete-button" href="del_post.do?subject=${ subject }&no=${article.no}">
+					<img class="button-size" src="image/chat-delete-line.svg"/>
+				</a>
+			</div>
 		</div>
 	</div>
 </div>
