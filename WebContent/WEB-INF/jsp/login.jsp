@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +40,10 @@ window.onload=function(){
 }
 </script>
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
+.font {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
 @media (max-width: 375px){
 	.item-button {
 		padding-left: 10px;
@@ -46,7 +51,7 @@ window.onload=function(){
 }
 .container {
 	position: relative;
-	height: 50px;
+	height: 70px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-direction: row;
@@ -58,14 +63,15 @@ window.onload=function(){
 }
 .item-title {
 	margin-left:0px;
+	padding-right: 300px;
 }
 .item-button {
 	margin-right:0px;
 	padding-left: 200px;
 }
 .a {
-	width:300px;
-	height:180px;
+	width:280px;
+	height:218px;
 	text-align:center;
 	position:absolute;
 	top:40%;
@@ -73,7 +79,7 @@ window.onload=function(){
 	margin-left:-150px;
 	margin-top:-75px;
 	border:1px solid;
-	border-radius:0.4em;
+	border-radius:1.5em;
 	padding-top: 10px;
 }
 .b {
@@ -86,25 +92,50 @@ window.onload=function(){
 	padding:15px;
 }
 .button {
+	margin-top: 15px;
 	border-radius: 0.4em;
 	border: 1px black;
 }
 .e {
 	padding-top:10px;
 }
+.font-bold {
+	font-weight: bold;
+}
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+.bgcolor {
+	background-color: black;
+}
+.icon-white {
+	 filter:invert();
+}
+.login-size {
+	font-size: 20px;
+}
+.image-size {
+	height: 35px;
+}
+.submit-size {
+	font-size: 17px;
+}
 </style>
 </head>
-<body>
-<nav class="container">
-	<div class="item-title">수학카페</div>
+<body class="font">
+<nav class="container bgcolor">
+	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
 		<a href="start.do">
-			<img src="image/arrow-left-line.svg"/>
+			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 	</div>
 </nav>
 <div class="a">
-<div class="e">Login</div>
+<div class="font-bold login-size e">Login</div>
 	<form method="POST" name="login" id="login" action="logintry.do">
 		<div class="c">
 			<div>
@@ -117,16 +148,9 @@ window.onload=function(){
 		</div>
 		
 		<div>
-			<input class="button" type="button" value="Login" onclick="abcd();"/>
+			<input class="submit-size button" type="button" value="Login" onclick="abcd();"/>
 		</div>
 	</form>
 </div>
 </body>
 </html>
-<!-- 
-<div id="icon">
-	<a href="start.jsp">
-		<img src="image/arrow-left-line.svg"/>
-	</a>
-</div>
- -->

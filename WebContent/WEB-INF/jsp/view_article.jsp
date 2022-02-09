@@ -23,22 +23,26 @@ window.onload = function() {
 	 
 	if( subject == 'Basic' ){
 		$(function(){
-			$('#basic').css('background-color', 'yellow');
+			$('#basic').css('background-color', '#A9D9CB');
 		});
 	}
 	else if( subject == 'Calc' ){
 		$(function(){
-			$('#calc').css('background-color', 'yellow');
+			$('#calc').css('background-color', '#A9D9CB');
 		});
 	}
 	else if( subject == 'Linear' ){
 		$(function(){
-			$('#linear').css('background-color', 'yellow');
+			$('#linear').css('background-color', '#A9D9CB');
 		});
 	}
 }
 </script>
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
+.font {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
 @media (max-width: 800px) {
 	.ol {
 		display:none !important;
@@ -100,19 +104,20 @@ a {
 	text-decoration: none;
 }
 #basic {
+	margin-top: 20px;
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 25px;
+	margin-bottom: 30px;
+	margin-right: 51.7px;
 }
 #calc {
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 100px;
+	margin-bottom: 30px;
+	margin-right: 113px;
 }
 #linear {
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 80px;
+	margin-bottom: 30px;
+	margin-right: 95px;
 }
 .ol {
 	border-right: 1px solid gray;
@@ -121,11 +126,11 @@ a {
 	padding-left: 20px;
 	display: flex;
 	flex-direction: column;
-	height: 500px;
+	height: 800px;
 }
 .container {
 	position: relative;
-	height: 50px;
+	height: 70px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-direction: row;
@@ -145,7 +150,7 @@ a {
 }
 .wrap-title {
 	width: 500px;
-	height: 100px;
+	height: 115px;
 	margin-left: 180px;
 	margin-top: 50px;
 	justify-self: center;
@@ -162,8 +167,8 @@ a {
 	border-radius: 0.7em;
 }
 .article {
-	width: 30px;
-	border-bottom: 1px solid black;
+	width: 25px;
+	border-bottom: 2px solid #A6A6A6;
 }
 .article-margin {
 	margin-left: 10px;
@@ -171,8 +176,8 @@ a {
 	margin-bottom: 8px;
 }
 .content {
-	width: 30px;
-	border-bottom: 1px solid black;
+	width: 25px;
+	border-bottom: 2px solid #A6A6A6;
 }
 .content-margin {
 	margin-left: 19px;
@@ -184,7 +189,6 @@ a {
 	margin-left: -15px;
 	width: 500px;
 	height: 300px;
-	border: 1px solid; 
 }
 .image-box {
 	width:100%;
@@ -205,7 +209,7 @@ a {
 	float: left !important;
 }
 .button-size {
-	height: 40px;
+	height: 38px;
 }
 .li-font {
 	font-size: 18px;
@@ -215,19 +219,57 @@ a {
 	margin-top: 5px !important;
 	margin-left: 7px;
 }
+.bgcolor {
+	background-color: black;
+}
+.font-bold {
+	font-weight: bold;
+}
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+.image-size {
+	height: 35px;
+}
+.icon-white {
+	 filter:invert();
+}
+.toggle-margin {
+	margin-left: 10px;
+}
+.toggle-text-size {
+	font-size: 18px;
+}
+.border-gray-radius {
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	border-left: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	border-radius: 0.9em;
+	background-color: #FFFAF0;
+}
+.subject-size {
+	font-size: 18px;
+}
+.button-margin {
+	margin-left: 10px;
+}
 </style>
 </head>
-<body>
-<nav class="container">
-	<div class="item-title">수학카페</div>
+<body class="font">
+<nav class="container bgcolor">
+	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
-		<a onclick="abcd();">
-			<img src="image/arrow-left-line.svg"/>
+		<a href="subs.do">
+			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
-			<img src="image/logout-box-line.svg"/>
+			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
-		<a class="toggle-size" href="mypost.do">나의 질문</a>
+		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
 <div class="grid">
@@ -235,23 +277,24 @@ a {
 	<div class="wrap-ol col-xs-0.1 col-sm-1 col-md-3">
 		<div class="ol">
 			<div id="basic">
-				<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
+				<a class="li-font font-bold" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
 			</div>
 			<div id="calc">
-				<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
+				<a class="li-font font-bold" href="sub_board.do?subject=Calc">미적분학</a>
 			</div>
 			<div id="linear">
-				<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+				<a class="li-font font-bold" href="sub_board.do?subject=Linear">선형대수학</a>
 			</div>
 		</div>
 	</div>
-	<div class="wrap-title col-xs-11.9 col-sm-11 col-md-9">
-		<div class="article-margin">${ subject } > ${ article.ch }</div>
-		<div class="article article-margin">제목</div>
+	
+	<div class="border-gray-radius wrap-title col-xs-11.9 col-sm-11 col-md-9">
+		<div class="font-bold subject-size article-margin">${ subject } > ${ article.ch }</div>
+		<div class="font-bold article article-margin">제목</div>
 		<div class="article-margin">${ article.title }</div>
 		
-		<div class="wrap-content">
-			<div class="content content-margin">내용</div>
+		<div class="border-gray-radius wrap-content">
+			<div class="font-bold content content-margin">내용</div>
 			<div class="content-margin">${ article.content }</div>
 		</div>
 		
@@ -259,17 +302,17 @@ a {
 			<img class="image-box" src="image.jsp?fname=${fsn_q}"/>
 		</div>
 		<div class="buttons">
-			<div>
+			<div class="button-margin">
 				<a class="revise-button" href="rewrite.do?subject=${ subject }&no=${article.no}">
 					<img class="button-size" src="image/eraser-line.svg"/>
 				</a>
 			</div>
-			<div>
+			<div class="button-margin">
 				<a class="list-button" href="sub_board.do?subject=${ subject }">
 					<img class="button-size" src="image/file-list-line.svg"/>
 				</a>
 			</div>
-			<div>
+			<div class="button-margin">
 				<a class="delete-button" href="del_post.do?subject=${ subject }&no=${article.no}">
 					<img class="button-size" src="image/chat-delete-line.svg"/>
 				</a>
