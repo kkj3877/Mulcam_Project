@@ -40,6 +40,18 @@ window.onload = function() {
 }
 </script>
 <style type="text/css">
+@media (max-width: 890px) {
+	.table-container {
+		margin-left: 10% !important;
+		width: 100%;
+	}
+	.th{
+		width: auto !important;
+	}
+	td{
+		width: 10% !important;
+	}
+}
 @media (max-width: 800px) {
 	.ol {
 		display:none !important;
@@ -52,6 +64,11 @@ window.onload = function() {
 		padding-top: 20px;
 		padding-left:0px !important;
 	}	
+	.table-container {
+		width: 50% !important;
+		margin-left: 10% !important;
+	}
+	
 }
 @media (max-width: 540px) {
 	.item-title {
@@ -61,6 +78,9 @@ window.onload = function() {
 	.item-button {
 		margin-right:0px;
 		padding-left: 100px !important;
+	}
+	.table {
+		overflow-x: auto !important;
 	}
 }
 a {
@@ -72,8 +92,14 @@ h1 {
 	padding: 20px;
 	border-bottom: 1px solid gray;
 }
+h2 {
+	font-size: 25px;
+}
 p {
 	margin-top: 10px;
+}
+th td {
+	width: auto;
 }
 #grid {
 	display:grid;
@@ -121,10 +147,7 @@ p {
 	margin-right:0px;
 	padding-left: 200px;
 }
-.table {
-	border: 1px solid #ccc;
-	border-collapse: separate;
-}
+
 .write_button {
 	align:right;
 }
@@ -140,6 +163,7 @@ p {
 }
 .ol {
 	border-right: 1px solid gray;
+	height: 500px;
 	width:200px;
 	padding-top: 20px;
 	padding-left: 20px;
@@ -159,6 +183,41 @@ p {
 	font-size: 15px;
 	margin-top: 5px !important;
 	margin-left: 7px;
+}
+.table-container {
+
+	margin-left: 30%;
+	width: auto;
+}
+th {
+	text-align: center;
+}
+.table_1 {
+	text-align: center;
+	width: 500px;
+	background-color: white;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+.table_2 {
+	text-align: center;
+	width: 500px;
+	background-color: white;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+.table_3 {
+	text-align: center;
+	width: 500px;
+	background-color: white;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+.table {
+	border-bottom: 1px solid #ccc;
+	border-collapse: collapse;
+	background-color: white;
+	padding: 5px 5px 5px 5px;
 }
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -188,47 +247,70 @@ p {
 		<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
 		</div>
 	</div>
-	<div class="main">
-		<div class="category">
-			<div class="item_1">
-				<form name="banana">
-					<select name="ch" onchange="abcd(this.value)">
-						<option>챕터</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-					</select>
-				</form>
-			</div>
-			<div class="item_1 button">	
-				<a href="write.do?subject=${ subject }">
-					<img src="image/pencil-line.svg"/>
-				</a>
-			</div>
+	<div class="table-container">
+		<div class="table_1">
+			<h2>기초수학 및 연습</h2>
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th class="th">
+							챕터
+						</th>
+						<th>
+							제목
+						</th>
+					</tr>
+				</thead>
+				<q:forEach items="${ rList_Basic }" var="t">
+					<tr>
+						<td>${ t.ch }</td>
+						<td>${ t.title }</td>
+					</tr>
+				</q:forEach>
+			</table>
+		</div>
+	
+		<div class="table_2">
+			<h2>미적분학</h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							챕터
+						</th>
+						<th>
+							제목
+						</th>
+					</tr>
+				</thead>
+				<q:forEach items="${ rList_Calc }" var="t">
+					<tr>
+						<td>${ t.ch }</td>
+						<td>${ t.title }</td>
+					</tr>
+				</q:forEach>
+			</table>
 		</div>
 		
-		${ rList }
-		
-		<div style="overflow-x: auto;">
-			<table border="1" class="table">
+		<div class="table_3">
+			<h2>선형대수학</h2>
+			<table class="table">
 				<thead>
-				<tr>
-					<th>순번</th>
-					<th>학번</th>
-					<th>Chapter</th>
-					<th class="table-title">제목</th>
-				</tr>	
+					<tr>
+						<th class="th">
+							챕터
+						</th>
+						<th>
+							제목
+						</th>
+					</tr>
 				</thead>
-				<q:forEach items="${ rList }" var="t" >
-				<tr >
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
-					<td ><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a></td>
-				</tr>
+				<q:forEach items="${ rList_Calc }" var="t">
+					<tr>
+						<td>${ t.ch }</td>
+						<td>${ t.title }</td>
+					</tr>
 				</q:forEach>
 			</table>
 		</div>
@@ -236,14 +318,3 @@ p {
 </div>
 </body>
 </html>
-<!-- 
-function fun(){
-	var basic = document.getElementById('basic');
-	basic.style.background="yellow";
-	var calc = document.getElementById('calc');
-	calc.style.background="white";
-	var calc = document.getElementById('linear');
-	linear.style.background="white";
-	
-}
- -->

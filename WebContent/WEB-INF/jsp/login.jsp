@@ -96,7 +96,7 @@ window.onload=function(){
 </head>
 <body>
 <nav class="container">
-	<div class="item-title">로그인</div>
+	<div class="item-title">수학카페</div>
 	<div class="item-button">
 		<a href="start.do">
 			<img src="image/arrow-left-line.svg"/>
