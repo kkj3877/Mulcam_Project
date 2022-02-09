@@ -26,9 +26,18 @@ function abcd() {
 }
 </script>
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
+.font {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
+@media (max-width: 375px){
+	.item-button {
+		padding-left: 10px;
+	}
+}
 .container {
 	position: relative;
-	height: 50px;
+	height: 70px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-direction: row;
@@ -40,15 +49,15 @@ function abcd() {
 }
 .item-title {
 	margin-left:0px;
-	padding-right: 200px;
+	padding-right: 300px;
 }
 .item-button {
 	margin-right:0px;
 	padding-left: 200px;
 }
 .a {
-	width:300px;
-	height:240px;
+	width:280px;
+	height:290px;
 	text-align:center;
 	position:absolute;
 	top:40%;
@@ -56,7 +65,7 @@ function abcd() {
 	margin-left:-150px;
 	margin-top:-75px;
 	border:1px solid;
-	border-radius:0.4em;
+	border-radius:1.5em;
 	padding-top: 10px;
 }
 .b {
@@ -74,6 +83,9 @@ function abcd() {
 .c {
 	padding:15px;
 }
+.e {
+	padding-top:10px;
+}
 .padding_bottom{
 	padding-bottom: 16px;
 }
@@ -81,19 +93,48 @@ function abcd() {
 	border-radius: 0.4em;
 	border: 1px black;
 }
+.bgcolor {
+	background-color: black;
+}
+.font-bold {
+	font-weight: bold;
+}
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+.image-size {
+	height: 35px;
+}
+.icon-white {
+	 filter:invert();
+}
+.wrapper-title-size {
+	font-size: 20px;
+}
+.button {
+	margin-top: 15px;
+	border-radius: 0.4em;
+	border: 1px black;
+}
+.submit-size {
+	font-size: 17px;
+}
 </style>
 </head>
-<body>
-<nav class="container">
-	<div class="item-title">수학카페</div>
+<body class="font">
+<nav class="container bgcolor">
+	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
 		<a href="start.do">
-			<img src="image/arrow-left-line.svg"/>
+			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 	</div>
 </nav>
 <div class="a">
-	Sign up	
+	<div class="font-bold wrapper-title-size e">Sign up</div>	
 	<form method="POST" name="signup" action="signuptry.do">
 	<div class="c">
 		<div class="padding_bottom">
@@ -111,7 +152,7 @@ function abcd() {
 	</div>
 	
 	<div>
-		<input class="button" type="button" value="Click" onclick="abcd();"/>
+		<input class="submit-size button" type="button" value="Click" onclick="abcd();"/>
 	</div>
 
 	</form>

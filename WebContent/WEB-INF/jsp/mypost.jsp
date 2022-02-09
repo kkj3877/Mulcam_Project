@@ -40,6 +40,10 @@ window.onload = function() {
 }
 </script>
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
+.font {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
 @media (max-width: 890px) {
 	.table-container {
 		margin-left: 10% !important;
@@ -109,19 +113,20 @@ th td {
 	margin: 25px 25px 25px 25px;	
 }
 #basic {
+	margin-top: 20px;
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 25px;
+	margin-bottom: 30px;
+	margin-right: 51.7px;
 }
 #calc {
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 100px;
+	margin-bottom: 30px;
+	margin-right: 113px;
 }
 #linear {
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 80px;
+	margin-bottom: 30px;
+	margin-right: 95px;
 }
 .main{
 	padding-top: 20px;
@@ -129,7 +134,7 @@ th td {
 }
 .container {
 	position: relative;
-	height: 50px;
+	height: 70px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-direction: row;
@@ -162,6 +167,7 @@ th td {
 	float: right;
 }
 .ol {
+	margin-left: 15px;
 	border-right: 1px solid gray;
 	height: 500px;
 	width:200px;
@@ -219,32 +225,59 @@ th {
 	background-color: white;
 	padding: 5px 5px 5px 5px;
 }
+.bgcolor {
+	background-color: black;
+}
+.font-bold {
+	font-weight: bold;
+}
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+.image-size {
+	height: 35px;
+}
+.icon-white {
+	 filter:invert();
+}
+.toggle-margin {
+	margin-left: 10px;
+}
+.toggle-text-size {
+	font-size: 18px;
+}
+.li-font {
+	font-size: 18px;
+}
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body>
-<nav class="container">
-	<div class="item-title">수학카페</div>
+<body class="font">
+<nav class="container bgcolor">
+	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
 		<a href="subs.do">
-			<img src="image/arrow-left-line.svg"/>
+			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
-			<img src="image/logout-box-line.svg"/>
+			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
-		<a class="toggle-size" href="mypost.do">나의 질문</a>
+		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
 <div id="grid">
 	<div class="ol">
 		<div id="basic">
-		<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
+		<a class="li-font font-bold" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
 		</div>
 		<div id="calc">
-		<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
+		<a class="li-font font-bold" href="sub_board.do?subject=Calc">미적분학</a>
 		</div>
 		<div id="linear">
-		<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+		<a class="li-font font-bold" href="sub_board.do?subject=Linear">선형대수학</a>
 		</div>
 	</div>
 	<div class="table-container">

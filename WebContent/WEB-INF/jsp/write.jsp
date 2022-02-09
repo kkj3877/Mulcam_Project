@@ -52,23 +52,27 @@ window.onload = function() {
 	 
 	if( subject == 'Basic' ){
 		$(function(){
-			$('#basic').css('background-color', 'yellow');
+			$('#basic').css('background-color', '#A9D9CB');
 		});
 	}
 	else if( subject == 'Calc' ){
 		$(function(){
-			$('#calc').css('background-color', 'yellow');
+			$('#calc').css('background-color', '#A9D9CB');
 		});
 	}
 	else if( subject == 'Linear' ){
 		$(function(){
-			$('#linear').css('background-color', 'yellow');
+			$('#linear').css('background-color', '#A9D9CB');
 		});
 	}
 	
 }
 </script>
 <style type="text/css">
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
+.font {
+	font-family: 'IBM Plex Sans KR', sans-serif;
+}
 @media (max-width: 990px) {
 	.ol {
 		display:none !important;
@@ -94,6 +98,13 @@ window.onload = function() {
 		margin-right:0px;
 		padding-left: 100px !important;
 	}
+	#grid #main{
+		margin: 100px 70px 70px 30px !important;	
+	}
+	.write-button {
+		margin-right: 100px !important;
+		float: right;
+	}
 }
 a {
 	color: black;
@@ -105,26 +116,27 @@ h1 {
 	border-bottom: 1px solid gray;
 }
 #grid #main{
-	margin: 25px 25px 25px 25px;	
+	margin: 100px 70px 70px 100px;	
 }
 #basic {
+	margin-top: 20px;
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 25px;
+	margin-bottom: 30px;
+	margin-right: 51.7px;
 }
 #calc {
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 100px;
+	margin-bottom: 30px;
+	margin-right: 113px;
 }
 #linear {
 	width: auto !important;
-	margin-bottom: 20px;
-	margin-right: 80px;
+	margin-bottom: 30px;
+	margin-right: 95px;
 }
 .container {
 	position: relative;
-	height: 50px;
+	height: 70px;
 	border-bottom: 1px solid black;
 	display: flex;
 	flex-direction: row;
@@ -187,33 +199,75 @@ h1 {
 	margin-top: 5px !important;
 	margin-left: 7px;
 }
+.bgcolor {
+	background-color: black;
+}
+.font-bold {
+	font-weight: bold;
+}
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+.image-size {
+	height: 35px;
+}
+.icon-white {
+	 filter:invert();
+}
+.toggle-text-size {
+	font-size: 18px;
+}
+.toggle-margin {
+	margin-left: 10px;
+}
+.file-margin {
+	margin-top: 5px;
+	margin-bottom: 20px;
+}
+.write-button {
+	margin-right: -100px;
+	float: right;
+}
+.ch-margin {
+	margin-bottom: 5px;
+}
+.border-gray-radius {
+	border-top: 1px solid #A6A6A6;
+	border-right: 1px solid #A6A6A6;
+	border-left: 1px solid #A6A6A6;
+	border-bottom: 1px solid #A6A6A6;
+	border-radius: 0.2em;
+}
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body>
-<nav class="container">
-	<div class="item-title">수학카페</div>
+<body class="font">
+<nav class="container bgcolor">
+	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
 		<a href="sub_board.do?subject=${ subject }">
-			<img src="image/arrow-left-line.svg"/>
+			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
-			<img src="image/logout-box-line.svg"/>
+			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
-		<a class="toggle-size" href="mypost.do">나의 질문</a>
+		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
 <div id="grid">
-	<div class="wrap-ol col-xs-0.1 col-sm-1 col-md-3">
+	<div class="col-xs-0.1 col-sm-1 col-md-3">
 		<div class="ol">
 			<div id="basic">
-				<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
+				<a class="li-font font-bold" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
 			</div>
 			<div id="calc">
-				<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
+				<a class="li-font font-bold" href="sub_board.do?subject=Calc">미적분학</a>
 			</div>
 			<div id="linear">
-				<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+				<a class="li-font font-bold" href="sub_board.do?subject=Linear">선형대수학</a>
 			</div>
 		</div>
 	</div>
@@ -221,12 +275,12 @@ h1 {
 		<form name="form" method="POST" action="question.do" id="write" enctype="multipart/form-data">
 			<input type="hidden" name="subject" value="${ subject }"/>
 			<div>
-				<input class="title" type="text" name="title" id="x" placeholder="제목"/>
+				<input class="title border-gray-radius" type="text" name="title" id="x" placeholder="제목"/>
 			</div>
 			<br/>
 			<div class="content" >
 				<div>
-					<select name="ch" id="chapter">
+					<select class="ch-margin border-gray-radius" name="ch" id="chapter">
 						<option>챕터</option>
 						<option value="1">1</option>
 						<option value="2">2</option>
@@ -236,12 +290,12 @@ h1 {
 						<option value="6">6</option>
 					</select>
 				</div>			
-				<textarea class="content-width" rows="10" name="content" id="y" placeholder="질문내용입력하세요"></textarea>
+				<textarea class="content-width border-gray-radius" rows="10" name="content" id="y" placeholder="질문내용입력하세요"></textarea>
 				<div>
-					<input type="file" name="fsn_q"/>
+					<input class="file-margin border-gray-radius" type="file" name="fsn_q"/>
 				</div>
 				<div>
-					<input type="button" onclick="fun();" value="작성완료"/>
+					<input class="write-button border-gray-radius" type="button" onclick="fun();" value="작성완료"/>
 				</div>		
 			</div>
 		</form>
