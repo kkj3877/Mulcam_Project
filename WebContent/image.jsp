@@ -8,8 +8,9 @@
 		String contentType = "image/" + extension;
 		
 		response.setContentType(contentType);
-		
-		InputStream in2 = new FileInputStream( Util.uploadDir() + fname);
+
+		InputStream in2 = new FileInputStream( Util.uploadDir() + fname );
+
 		OutputStream out2 = response.getOutputStream();
 		
 		byte[] buf = new byte[1024*8];

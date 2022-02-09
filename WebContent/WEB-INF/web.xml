@@ -6,7 +6,7 @@
 		<servlet-class>Control.MainController</servlet-class>
 		<init-param>
 			<param-name>controllerNames</param-name>
-			<param-value>Control.ControllerMember,Control.ControllerPost</param-value>
+			<param-value>Control.ControllerAdmin,Control.ControllerMember,Control.ControllerPost</param-value>
 		</init-param>
 		<init-param>
 			<param-name>dataSourceSettings</param-name>

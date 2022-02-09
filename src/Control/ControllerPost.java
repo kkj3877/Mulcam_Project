@@ -3,9 +3,6 @@ package Control;
 import Model.PostDAO;
 import Model.PostDAO_MariaImpl;
 import Model.PostVO;
-import Model.StudentDAO;
-import Model.StudentDAO_MariaImpl;
-import Model.StudentVO;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -32,11 +29,6 @@ public class ControllerPost {
 		this.postDAO = dao;
 	}
 	
-	private StudentDAO studentDAO = null;
-	public void setStudentDAO(StudentDAO_MariaImpl dao) {
-		this.studentDAO = dao;
-	}
-	
 	
 	@RequestMapping("/add.do")
 	public String add
@@ -45,6 +37,8 @@ public class ControllerPost {
 			throws Exception
 	{
 		System.out.println("ControllerPost:: add:: " + subject);
+		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		if (stid == null) {
 			System.out.println("session is NULL");
@@ -65,6 +59,7 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: delPost:: " + subject+", "+no);
 		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		if (stid == null) {
 			System.out.println("session is NULL");
@@ -104,31 +99,33 @@ public class ControllerPost {
 		return "redirect:sub_board.do?subject="+subject;
 	}
 	
-	
-	@RequestMapping("/delPostFromStatus.do")
-	public String delPostFromStatus
-	(@RequestParam("subject") String subject, @RequestParam("no") Integer no)
-		throws Exception
+	@RequestMapping("/mypost")
+	public ModelAndView myPost(HttpSession session) throws Exception
 	{
-		System.out.println("ControllerPost:: delPostFromStatus:: " + subject+", "+no);
+		System.out.println("ControllerPost:: myPost:: ");
+		ModelAndView mnv = new ModelAndView();
 		
-		PostVO pvo = postDAO.findPostByNo(subject, no);
-		
-		int uc = postDAO.delByNo(subject, pvo);
-		
-		String fsn_q = pvo.getFsn_q();
-		if ( uc == 1 && fsn_q != null ) {
-			File file = new File( Util.uploadDir() + fsn_q );
-			if ( file.exists() ) file.delete();
+		// 로그인되어있지 않다면 login.do 로 redirect
+		Integer stid = (Integer)session.getAttribute("stid");
+		System.out.println("stid:: " + stid);
+		if (stid == null) {
+			System.out.println("session is NULL");
+			mnv.setViewName("redirect:login.do?ecode=invalid_session");
+			return mnv;
 		}
 		
-		String fsn_a = pvo.getFsn_a();
-		if ( uc == 1 && fsn_a != null ) {
-			File file = new File( Util.uploadDir() + fsn_a );
-			if ( file.exists() ) file.delete();
-		}
+		// 세 과목 모두를 보며 해당 학번이 작성한 글 있는지 찾기
+		List<PostVO> List_Basic = postDAO.findPostByStid("Basic", stid);
+		List<PostVO> List_Calc = postDAO.findPostByStid("Calc", stid);
+		List<PostVO> List_Linear = postDAO.findPostByStid("Linear", stid);
 		
-		return "redirect:status.do";
+		// 각 과목들의 질문을 List 에 담아서 보내기
+		mnv.addObject("rList_Basic", List_Basic);
+		mnv.addObject("rList_Calc", List_Calc);
+		mnv.addObject("rList_Linear", List_Linear);
+		mnv.setViewName("mypost");
+		
+		return mnv;
 	}
 	
 	
@@ -138,6 +135,7 @@ public class ControllerPost {
 	{
 		System.out.println("ControllerPost:: question:: ");
 		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		System.out.println("stid:: " + stid);
 		if (stid == null) {
@@ -208,6 +206,7 @@ public class ControllerPost {
 		System.out.println("ControllerPost:: rewrite:: " + subject );
 		ModelAndView mnv = new ModelAndView();
 		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		if (stid == null) {
 			System.out.println("session is NULL");
@@ -215,11 +214,9 @@ public class ControllerPost {
 			return mnv;
 		}
 		
+		// 해당 번호의 글을 찾아 게시자와 현재 사람이 동일인물인지 확인한다.
 		PostVO pvo = postDAO.findPostByNo(subject, no);
-		System.out.println("LI_stid: " + stid);
-		System.out.println("DB_stid: " + pvo.getStid());
-		
-		if (stid.compareTo(pvo.getStid()) != 0) {
+		if (stid.compareTo(pvo.getStid()) != 0) { // 다르다면 안내문 출력 후 게시글로 redirect
 			System.out.println("other student");
 			
 			response.setContentType("text/html; charset=utf-8");
@@ -239,30 +236,11 @@ public class ControllerPost {
 	}
 	
 	
-	@RequestMapping("/status.do")
-	public ModelAndView status() throws Exception {
-		System.out.println("ControllerPost:: status");
-		ModelAndView mnv = new ModelAndView();
-		
-		List<StudentVO> Students = studentDAO.findAll();
-		List<PostVO> Basic = postDAO.findAll("Basic");
-		List<PostVO> Calc = postDAO.findAll("Calc");
-		List<PostVO> Linear = postDAO.findAll("Linear");
-		
-		
-		mnv.setViewName("status");
-		mnv.addObject("Students", Students);
-		mnv.addObject("Basic", Basic);
-		mnv.addObject("Calc", Calc);
-		mnv.addObject("Linear", Linear);
-		
-		return mnv;
-	}
-	
-	
 	@RequestMapping("/subs.do")
 	public String subs(HttpSession session) throws Exception {
 		System.out.println("ControllerPost:: subs");
+		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		System.out.println("stid:: " + stid);
 		if (stid == null) {
@@ -283,15 +261,7 @@ public class ControllerPost {
 		
 		ModelAndView mnv = new ModelAndView();
 		
-		if ( subject == null ) {
-			System.out.println("select subject");
-			mnv.setViewName("redirect:subs.do");
-			return mnv;
-		}
-		
-		if ( ch == null ) {	System.out.println("subject: " + subject); }
-		else { System.out.println("subject: " + subject + ", ch: "+ ch); }
-		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		System.out.println("stid:: " + stid);
 		if (stid == null) {
@@ -300,11 +270,24 @@ public class ControllerPost {
 			return mnv;
 		}
 		
+		// 과목이 골라져있지 않다면 subs.do 로 redirect
+		if ( subject == null ) {
+			System.out.println("select subject");
+			mnv.setViewName("redirect:subs.do");
+			return mnv;
+		}
+		
+		// 파라메터 값에 따른 요청 분석 후 rList 채워넣기
 		List<PostVO> rList = null;
 		
-		if ( ch == null ) rList = postDAO.findAll(subject);
-		else rList = postDAO.findPostByCh(subject, ch);
-		
+		if ( ch == null ) { // 기본 표시
+			System.out.println("subject: " + subject);
+			rList = postDAO.findAll(subject);
+		}
+		else { // 특정 챕터만 보기
+			System.out.println("subject: " + subject + ", ch: "+ ch);
+			rList = postDAO.findPostByCh(subject, ch);
+		}
 		
 		mnv.setViewName("sub_board");
 		mnv.addObject("subject", subject);
@@ -322,6 +305,7 @@ public class ControllerPost {
 		System.out.println("ControllerPost:: viewArticle:: " + subject + ", " + no);
 		ModelAndView mnv = new ModelAndView();
 		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		System.out.println("stid:: " + stid);
 		if (stid == null) {
@@ -364,6 +348,7 @@ public class ControllerPost {
 		System.out.println("ControllerPost:: ask:: " + subject );
 		ModelAndView mnv = new ModelAndView();
 		
+		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
 		if (stid == null) {
 			System.out.println("session is NULL");
