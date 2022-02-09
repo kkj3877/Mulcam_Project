@@ -44,6 +44,28 @@ window.onload=function(){
 		alert('로그아웃');
 	}
 }
+window.onload = function() {
+	const urlStr = window.location.href;
+	const url = new URL(urlStr);
+	const urlParam = url.searchParams;
+	const subject = urlParam.get('subject');
+	 
+	if( subject == 'Basic' ){
+		$(function(){
+			$('#basic').css('background-color', 'yellow');
+		});
+	}
+	else if( subject == 'Calc' ){
+		$(function(){
+			$('#calc').css('background-color', 'yellow');
+		});
+	}
+	else if( subject == 'Linear' ){
+		$(function(){
+			$('#linear').css('background-color', 'yellow');
+		});
+	}
+}
 </script>
 <style type="text/css">
 @media (max-width: 990px) {
@@ -73,6 +95,21 @@ h1 {
 }
 #grid #main{
 	margin: 25px 25px 25px 25px;	
+}
+#basic {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 25px;
+}
+#calc {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 100px;
+}
+#linear {
+	width: auto !important;
+	margin-bottom: 20px;
+	margin-right: 80px;
 }
 .container {
 	position: relative;
@@ -131,6 +168,9 @@ h1 {
 .content-width {
 	width:528px;
 }
+.li-font {
+	font-size: 18px;
+}
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -149,15 +189,15 @@ h1 {
 <div id="grid">
 	<div class="wrap-ol col-xs-0.1 col-sm-1 col-md-3">
 		<div class="ol">
-			<li>
-			<a href="sub_board.do?subject=Basic">기초수학 및 연습</a>
-			</li>
-			<li>
-			<a href="sub_board.do?subject=Calc">미적분학</a>
-			</li>
-			<li>
-			<a href="sub_board.do?subject=Linear">선형대수</a>
-			</li>
+			<div id="basic">
+				<a class="li-font" href="sub_board.do?subject=Basic">기초 수학 및 연습</a>
+			</div>
+			<div id="calc">
+				<a class="li-font" href="sub_board.do?subject=Calc">미적분학</a>
+			</div>
+			<div id="linear">
+				<a class="li-font" href="sub_board.do?subject=Linear">선형대수학</a>
+			</div>
 		</div>
 	</div>
 	<div id="main" class="item wrap-title col-xs-11.9 col-sm-11 col-md-9">
