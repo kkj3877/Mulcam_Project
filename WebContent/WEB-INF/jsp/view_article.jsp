@@ -37,6 +37,10 @@ window.onload = function() {
 		});
 	}
 }
+function del() {
+	
+	
+}
 </script>
 <style type="text/css">
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
@@ -263,7 +267,7 @@ a {
 <nav class="container bgcolor">
 	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
-		<a href="subs.do">
+		<a href="sub_board.do?subject=${ subject }">
 			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
@@ -303,18 +307,18 @@ a {
 		</div>
 		<div class="buttons">
 			<div class="button-margin">
-				<a class="revise-button" href="rewrite.do?subject=${ subject }&no=${article.no}">
-					<img class="button-size" src="image/eraser-line.svg"/>
-				</a>
-			</div>
-			<div class="button-margin">
 				<a class="list-button" href="sub_board.do?subject=${ subject }">
 					<img class="button-size" src="image/file-list-line.svg"/>
 				</a>
 			</div>
 			<div class="button-margin">
-				<a class="delete-button" href="del_post.do?subject=${ subject }&no=${article.no}">
+				<a class="delete-button" href="del_post.do?subject=${ subject }&no=${article.no}" onclick="del();">
 					<img class="button-size" src="image/chat-delete-line.svg"/>
+				</a>
+			</div>
+			<div class="button-margin">
+				<a class="revise-button" href="rewrite.do?subject=${ subject }&no=${article.no}&fname=${ fsn_q }">
+					<img class="button-size" src="image/eraser-line.svg"/>
 				</a>
 			</div>
 		</div>
