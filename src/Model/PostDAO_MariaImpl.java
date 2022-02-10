@@ -45,9 +45,68 @@ public class PostDAO_MariaImpl implements PostDAO {
 		return jtpl.update(sql, pss);
 	}
 	
+	// -------------------------------------------------------------------------------
+	// Subject_T 의 특정 PK 를 가진 레코드에 답변 정보를 저장하는 함수 
+	@Override
+	public int ansToPost(String subject, PostVO pvo) throws Exception {
+		String tableName = subject+"_T";
+		Integer no = pvo.getNo();
+		System.out.println("PostDAO_MariaImpl:: ansToPost("+subject+", "+no+")");
+		
+		String sql = "UPDATE "+tableName+" SET ans=?, fsn_a=? WHERE no=?";
+		
+		String ans = pvo.getAns();
+		String fsn_a = pvo.getFsn_a();
+				
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
+				PreparedStatement stmt = conn.prepareStatement(sql);
+				stmt.setString(1, ans);
+				stmt.setString(2, fsn_a);
+				stmt.setInt(3, no);
+				
+				return stmt;
+			}
+		};
+		
+		int uc = jtpl.update(psc);
+		
+		return uc;
+	}
 	
 	// -------------------------------------------------------------------------------
-	// Bang_T 에서 특정 PK 를 가진 레코드를 제거하는 함수
+	// Subject_T 의 특정 PK 를 가진 레코드의 데이터를 변경하는 함수
+	@Override
+	public int changePost(String subject, PostVO pvo) throws Exception {
+		String tableName = subject+"_T";
+		Integer no = pvo.getNo();
+		System.out.println("PostDAO_MariaImpl:: changePost("+subject+", "+no+")");
+		
+		String sql = "UPDATE "+tableName+" SET ch=?, title=?, content=?, fsn_q=? WHERE no = ?;";
+		Integer ch = pvo.getCh();
+		String title = pvo.getTitle();
+		String content = pvo.getContent();
+		String fsn_q = pvo.getFsn_q();
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, ch);
+				stmt.setString(2, title);
+				stmt.setString(3, content);
+				stmt.setString(4, fsn_q);
+				stmt.setInt(5, no);
+			}
+		};
+		
+		int uc = jtpl.update(sql, pss);
+		
+		return uc;
+	}
+	
+	// -------------------------------------------------------------------------------
+	// Subject_T 에서 특정 PK 를 가진 레코드를 제거하는 함수
 	@Override
 	public int delByNo(String subject, PostVO pvo) throws Exception {
 		String tableName = subject+"_T";
@@ -106,7 +165,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 	
 	
 	// -------------------------------------------------------------------------------
-	// 테이블의 특정 챕터 레코드를 리스트에 저장해 반환하는 함수
+	// Subject_T 의 특정 챕터 레코드를 리스트에 저장해 반환하는 함수
 	@Override
 	public List<PostVO> findPostByCh(String subject, Integer ch) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: findPostByCh("+subject+", "+ch+")");
@@ -145,7 +204,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 	}
 	
 	// -------------------------------------------------------------------------------
-	// 테이블의 특정 번호 레코드를 리스트에 저장해 반환하는 함수
+	// Subject_T 의 특정 번호 레코드를 리스트에 저장해 반환하는 함수
 	@Override
 	public PostVO findPostByNo(String subject, Integer no) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: findPostByNo("+subject+", "+no+")");
@@ -188,7 +247,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 	}
 	
 	// -------------------------------------------------------------------------------
-	// 테이블의 특정 학번의 레코드를 리스트에 저장해 반환하는 함수
+	// Subject_T 의 특정 학번의 레코드를 리스트에 저장해 반환하는 함수
 	@Override
 	public List<PostVO> findPostByStid(String subject, Integer stid) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: findPostByStid("+subject+", "+stid+")");

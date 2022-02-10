@@ -51,11 +51,10 @@ public class ControllerPost {
 	}
 	
 	
-	@RequestMapping("/change.do")
-	public String change
-		(HttpServletRequest request, HttpSession session) throws Exception
+	@RequestMapping("/answer.do")
+	public String answer(HttpServletRequest request, HttpSession session) throws Exception
 	{
-		System.out.println("ControllerPost:: question:: ");
+		System.out.println("ControllerPost:: answer:: ");
 		
 		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
@@ -65,13 +64,75 @@ public class ControllerPost {
 			return "redirect:login.do?ecode=invalid_session";
 		}
 		
-		postDAO.getClass();
 		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
 		
 		// 과목명
 		String subject = mpr.getParameter("subject");
 		if ( subject == null ) return "redirect:subs.do?ecode=invalid_subject";
 		System.out.println("subject : " + subject);
+		
+		// 질문(게시글) 번호
+		String noString = mpr.getParameter("no");
+		if ( noString == null ) return "redirect:sub_board.do?subject="+subject+"&ecode=invalid_no";
+		Integer no = Integer.parseInt(noString);
+		System.out.println("no :" + no);
+		
+		// 답변 내용
+		String ans = mpr.getParameter("content");
+		System.out.println("ans : " + ans);
+		
+		PostVO pvo = new PostVO();
+		pvo.setNo(no);
+		pvo.setAns(ans);
+		
+		// 답변 사진이 있다면 사진 저장 및 UUID 저장
+		String ofn = mpr.getOriginalFileName("fsn_a");
+		if ( ofn != null ) {
+			// 사진 파일의 확장자 따로 분리하여 저장
+			int dotIdx = ofn.lastIndexOf('.');
+			String extension = ofn.substring(dotIdx);
+			System.out.println("extension["+extension+"]");
+			
+			File file = mpr.getFile("fsn_a");
+			
+			String fsn_a = UUID.randomUUID().toString().substring(0, 31) + extension;
+			file.renameTo( new File( Util.uploadDir() + fsn_a) );
+			System.out.println("fsn_q : " + fsn_a);
+			pvo.setFsn_q(fsn_a);
+		}
+		
+		postDAO.ansToPost(subject, pvo);
+		
+		return "redirect:view_article?subject="+subject+"&no="+no;
+	}
+	
+	
+	@RequestMapping("/change.do")
+	public String change
+		(HttpServletRequest request, HttpSession session) throws Exception
+	{
+		System.out.println("ControllerPost:: change:: ");
+		
+		// 로그인되어있지 않다면 login.do 로 redirect
+		Integer stid = (Integer)session.getAttribute("stid");
+		System.out.println("stid:: " + stid);
+		if (stid == null) {
+			System.out.println("session is NULL");
+			return "redirect:login.do?ecode=invalid_session";
+		}
+		
+		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
+		
+		// 과목명
+		String subject = mpr.getParameter("subject");
+		if ( subject == null ) return "redirect:subs.do?ecode=invalid_subject";
+		System.out.println("subject : " + subject);
+		
+		// 게시글 번호
+		String noString = mpr.getParameter("no");
+		if ( noString == null ) return "redirect:sub_board.do?subject="+subject+"&ecode=invalid_no";
+		Integer no = Integer.parseInt(noString);
+		System.out.println("no : " + no);
 		
 		String errorString = null;
 		// 질문 제목
@@ -87,19 +148,26 @@ public class ControllerPost {
 		String content = mpr.getParameter("content");
 		System.out.println("content : " + content);
 		
-		System.out.println("errorString=["+errorString+"]");
+		// 원래 파일 이름
+		String fsn_q_original = mpr.getParameter("fsn_q_original");
+		if ( fsn_q_original != null ) System.out.println("fsn_q_original : " + fsn_q_original);
+		
 		if ( errorString != null ) {
-			return "redirect:write.do?subject="+subject+"&ecode="+errorString;
+			System.out.println("errorString=["+errorString+"]");
+			return "redirect:view_article.do?subject="+subject+"&no="+no+"&ecode="+errorString;
 		}
 		
 		PostVO pvo = new PostVO();
+		pvo.setNo(no);
 		pvo.setStid(stid);
 		pvo.setTitle(title);
 		pvo.setCh(Integer.parseInt(ch));
 		pvo.setContent(content);
+		pvo.setFsn_q(fsn_q_original);
 		
 		// 질문 사진이 있다면 사진 저장 및 UUID 저장
 		String ofn = mpr.getOriginalFileName("fsn_q");
+		
 		if ( ofn != null ) {
 			// 사진 파일의 확장자 따로 분리하여 저장
 			int dotIdx = ofn.lastIndexOf('.');
@@ -114,9 +182,14 @@ public class ControllerPost {
 			pvo.setFsn_q(fsn_q);
 		}
 		
-		postDAO.add(subject, pvo);
+		int uc = postDAO.changePost(subject, pvo);
 		
-		return "redirect:sub_board.do?subject="+subject;
+		if (uc > 0 && fsn_q_original != null) {
+			File file = new File( Util.uploadDir() + fsn_q_original );
+			if ( file.exists() ) file.delete();
+		}
+		
+		return "redirect:view_article.do?subject="+subject+"&no="+no;
 	}
 	
 	
@@ -212,7 +285,6 @@ public class ControllerPost {
 			return "redirect:login.do?ecode=invalid_session";
 		}
 		
-		postDAO.getClass();
 		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
 		
 		// 과목명
