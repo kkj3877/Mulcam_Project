@@ -8,10 +8,21 @@
 <script>
 </script>
 <style type="text/css">
+<%-- 폰트 --%>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
 .font {
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+.font-bold {
+	font-weight: bold;
+}
+<%-- 반응형 웹 --%>
 @media (max-width: 540px) {
 	.item-title {
 		margin-left:0px;
@@ -22,6 +33,7 @@
 		padding-left: 100px !important;
 	}
 }
+<%-- 과목 버튼 css --%>
 #sub {
 	border:1px solid;
 	height: 30px;
@@ -32,10 +44,11 @@
 	border-radius: 1.0em;
 	padding-top: 4.3px;
 }
-a {
+.text-color {
 	color:black;
-	text-decoration:none;
+	text-decoration: none;
 }
+<%-- 토글바 css --%>
 .container {
 	position: relative;
 	height: 70px;
@@ -48,15 +61,33 @@ a {
 	padding-right: 0px;
 	width:100%;
 }
-.item-title {
+.toggle-title {
 	margin-left:0px;
 	padding-right: 200px;
 }
-.item-button {
+.toggle-button {
 	margin-right:0px;
 	padding-left: 200px;
 }
-.a {
+.toggle-text-size {
+	font-size: 18px;
+	margin-top: 5px !important;
+	margin-left: 7px;
+}
+.icon-size {
+	height: 35px;
+}
+.icon-white {
+	 filter:invert();
+}
+.toggle-margin {
+	margin-left: 10px;
+}
+.bgcolor {
+	background-color: black;
+}
+<%-- 과목 선택 칸 css --%>
+.subjects-wrap {
 	width:280px;
 	height:220px;
 	text-align:center;
@@ -68,73 +99,43 @@ a {
 	border-radius:1.5em;
 	border:1px solid;
 }
-.subs {
+.subject-title-margin {
 	margin-top: 15px;
 	margin-bottom: 19px;
 }
-.toggle-size {
-	font-size: 15px;
-	margin-top: 5px !important;
-	margin-left: 7px;
-}
-.bgcolor {
-	background-color: black;
-}
-.font-bold {
-	font-weight: bold;
-}
-.font-size {
-	font-size: 30px;
-}
-.font-color {
-	color: #FFFFFF;
-}
-.image-size {
-	height: 35px;
-}
-.icon-white {
-	 filter:invert();
-}
-.toggle-text-size {
-	font-size: 18px;
-}
-.toggle-margin {
-	margin-left: 10px;
-}
-.font-bold {
-	font-weight: bold;
-}
-.wrapper-title-size {
+.subject-title-size {
 	font-size: 20px;
 }
 </style>
 </head>
 <body class="font">
+<!-- 토글바 -->
 <nav class="container bgcolor">
-	<div class="font-bold font-size font-color item-title">수학카페</div>
-	<div class="item-button">
+	<div class="font-bold font-size font-color toggle-title">수학카페</div>
+	<div class="toggle-button">
 		<a href="login.do">
-			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
+			<img class="icon-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
-			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
+			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
-		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>
+		<a class="toggle-margin icon-white font-bold toggle-text-size text-color" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
-<div class="a">
-	<div class="font-bold wrapper-title-size subs">
+<!-- 과목 칸 -->
+<div class="subjects-wrap">
+	<div class="font-bold subject-title-size subject-title-margin">
 	SUBJECTS
 	</div>
 
 	<div id="sub">
-	<a href="sub_board.do?subject=Basic">기초수학 및 연습</a>
+	<a class="text-color" href="sub_board.do?subject=Basic">기초수학 및 연습</a>
 	</div>
 	<div id="sub">
-	<a href="sub_board.do?subject=Calc">미적분학</a>
+	<a class="text-color" href="sub_board.do?subject=Calc">미적분학</a>
 	</div>
 	<div id="sub">
-	<a href="sub_board.do?subject=Linear">선형대수</a>
+	<a class="text-color" href="sub_board.do?subject=Linear">선형대수</a>
 	</div>
 </div>
 </body>
