@@ -51,6 +51,75 @@ public class ControllerPost {
 	}
 	
 	
+	@RequestMapping("/change.do")
+	public String change
+		(HttpServletRequest request, HttpSession session) throws Exception
+	{
+		System.out.println("ControllerPost:: question:: ");
+		
+		// 로그인되어있지 않다면 login.do 로 redirect
+		Integer stid = (Integer)session.getAttribute("stid");
+		System.out.println("stid:: " + stid);
+		if (stid == null) {
+			System.out.println("session is NULL");
+			return "redirect:login.do?ecode=invalid_session";
+		}
+		
+		postDAO.getClass();
+		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
+		
+		// 과목명
+		String subject = mpr.getParameter("subject");
+		if ( subject == null ) return "redirect:subs.do?ecode=invalid_subject";
+		System.out.println("subject : " + subject);
+		
+		String errorString = null;
+		// 질문 제목
+		String title = mpr.getParameter("title");
+		if ( title.equals("") ) errorString = "invalid_title";
+		
+		// 질문 챕터
+		String ch = mpr.getParameter("ch");
+		if ( ch == null ) errorString = "invalid_ch";
+		System.out.println("ch : " + ch);
+		
+		// 질문 내용
+		String content = mpr.getParameter("content");
+		System.out.println("content : " + content);
+		
+		System.out.println("errorString=["+errorString+"]");
+		if ( errorString != null ) {
+			return "redirect:write.do?subject="+subject+"&ecode="+errorString;
+		}
+		
+		PostVO pvo = new PostVO();
+		pvo.setStid(stid);
+		pvo.setTitle(title);
+		pvo.setCh(Integer.parseInt(ch));
+		pvo.setContent(content);
+		
+		// 질문 사진이 있다면 사진 저장 및 UUID 저장
+		String ofn = mpr.getOriginalFileName("fsn_q");
+		if ( ofn != null ) {
+			// 사진 파일의 확장자 따로 분리하여 저장
+			int dotIdx = ofn.lastIndexOf('.');
+			String extension = ofn.substring(dotIdx);
+			System.out.println("extension["+extension+"]");
+			
+			File file = mpr.getFile("fsn_q");
+			
+			String fsn_q = UUID.randomUUID().toString().substring(0, 31) + extension;
+			file.renameTo( new File( Util.uploadDir() + fsn_q) );
+			System.out.println("fsn_q : " + fsn_q);
+			pvo.setFsn_q(fsn_q);
+		}
+		
+		postDAO.add(subject, pvo);
+		
+		return "redirect:sub_board.do?subject="+subject;
+	}
+	
+	
 	@RequestMapping("/del_post.do")
 	public String delPost
 	(@RequestParam("subject") String subject, @RequestParam("no") Integer no,

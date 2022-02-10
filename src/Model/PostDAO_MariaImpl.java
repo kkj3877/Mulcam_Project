@@ -22,7 +22,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 	public int add(String subject, PostVO pvo) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: add("+subject+")");
 		String tableName = subject+"_T";
-		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL)";
+		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL,0)";
 		
 		final Integer stid = pvo.getStid();
 		final Integer ch = pvo.getCh();
