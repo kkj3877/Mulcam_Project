@@ -65,7 +65,15 @@ window.onload = function() {
 			$('#linear').css('background-color', '#A9D9CB');
 		});
 	}
-	
+}
+window.onload=function() {
+	document.getElementById('submitFile').addEventListener('change', function(){
+		var filename = document.getElementById('fileName');
+		if( this.files[0] == undefined ) {
+			filename.innerText = '선택된 파일없음';
+		}
+		filename.innerText = this.files[0].name;
+	});
 }
 </script>
 <style type="text/css">
@@ -291,9 +299,12 @@ h1 {
 					</select>
 				</div>			
 				<textarea class="content-width border-gray-radius" rows="10" name="content" id="y" placeholder="질문내용입력하세요"></textarea>
-				<div>
-					<input class="file-margin border-gray-radius" type="file" name="fsn_q"/>
-				</div>
+				
+				<label class="btn btn-default btn-file" for="submitFile">파일업로드
+					<input class="file-margin border-gray-radius" id="submitFile" type="file" name="fsn_q" style="display:none;"/>
+				</label>
+				<span id="fileName">선택된 파일없음</span>
+				
 				<div>
 					<input class="write-button border-gray-radius" type="button" onclick="fun();" value="작성완료"/>
 				</div>		
