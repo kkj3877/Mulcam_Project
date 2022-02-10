@@ -297,8 +297,8 @@ th {
 				</thead>
 				<q:forEach items="${ rList_Basic }" var="t">
 					<tr>
-						<td>${ t.ch }</td>
-						<td>${ t.title }</td>
+						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.ch }</a></td>
+						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.title }</a></td>
 					</tr>
 				</q:forEach>
 			</table>
@@ -319,8 +319,8 @@ th {
 				</thead>
 				<q:forEach items="${ rList_Calc }" var="t">
 					<tr>
-						<td>${ t.ch }</td>
-						<td>${ t.title }</td>
+						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.ch }</a></td>
+						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.title }</a></td>
 					</tr>
 				</q:forEach>
 			</table>
@@ -339,10 +339,10 @@ th {
 						</th>
 					</tr>
 				</thead>
-				<q:forEach items="${ rList_Calc }" var="t">
+				<q:forEach items="${ rList_Linear }" var="t">
 					<tr>
-						<td>${ t.ch }</td>
-						<td>${ t.title }</td>
+						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.ch }</a></td>
+						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.title }</a></td>
 					</tr>
 				</q:forEach>
 			</table>
