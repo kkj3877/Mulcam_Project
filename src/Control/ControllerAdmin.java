@@ -6,6 +6,12 @@ import java.io.OutputStreamWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
 
 import Model.JdbcTemplate;
 import Model.PostDAO;
@@ -29,6 +35,62 @@ public class ControllerAdmin {
 	private StudentDAO studentDAO = null;
 	public void setStudentDAO(StudentDAO dao) {
 		this.studentDAO = dao;
+	}
+	
+	
+	@RequestMapping("/answer.do")
+	public String answer(HttpServletRequest request, HttpSession session) throws Exception
+	{
+		System.out.println("ControllerPost:: answer:: ");
+		
+		// 로그인되어있지 않다면 login.do 로 redirect
+		Integer stid = (Integer)session.getAttribute("stid");
+		System.out.println("stid:: " + stid);
+		if (stid == null) {
+			System.out.println("session is NULL");
+			return "redirect:login.do?ecode=invalid_session";
+		}
+		
+		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
+		
+		// 과목명
+		String subject = mpr.getParameter("subject");
+		if ( subject == null ) return "redirect:subs.do?ecode=invalid_subject";
+		System.out.println("subject : " + subject);
+		
+		// 질문(게시글) 번호
+		String noString = mpr.getParameter("no");
+		if ( noString == null ) return "redirect:sub_board.do?subject="+subject+"&ecode=invalid_no";
+		Integer no = Integer.parseInt(noString);
+		System.out.println("no :" + no);
+		
+		// 답변 내용
+		String ans = mpr.getParameter("content");
+		System.out.println("ans : " + ans);
+		
+		PostVO pvo = new PostVO();
+		pvo.setNo(no);
+		pvo.setAns(ans);
+		
+		// 답변 사진이 있다면 사진 저장 및 UUID 저장
+		String ofn = mpr.getOriginalFileName("fsn_q");
+		if ( ofn != null ) {
+			// 사진 파일의 확장자 따로 분리하여 저장
+			int dotIdx = ofn.lastIndexOf('.');
+			String extension = ofn.substring(dotIdx);
+			System.out.println("extension["+extension+"]");
+			
+			File file = mpr.getFile("fsn_q");
+			
+			String fsn_a = UUID.randomUUID().toString().substring(0, 31) + extension;
+			file.renameTo( new File( Util.uploadDir() + fsn_a) );
+			System.out.println("fsn_a : " + fsn_a);
+			pvo.setFsn_a(fsn_a);
+		}
+		
+		postDAO.ansToPost(subject, pvo);
+		
+		return "redirect:view_article.do?subject="+subject+"&no="+no;
 	}
 	
 	
@@ -63,8 +125,6 @@ public class ControllerAdmin {
 	public String delStudent(@RequestParam("stid") Integer stid) throws Exception
 	{
 		System.out.println("ControllerAdmin:: delStudent");
-		
-		String sql = "DELETE FROM Student_T where stid=?";
 		
 		StudentVO pvo = new StudentVO();
 		pvo.setStid(stid);
@@ -110,7 +170,7 @@ public class ControllerAdmin {
 		for ( String subject : subjects ) {
 			idx++;
 			sb.append("\n\n").append(subjects_kor[idx]).append("\n");
-			sb.append("번호,학번,챕터,제목,내용,답변,질문사진,답변사진\n");
+			sb.append("번호,학번,챕터,제목,내용,답변,질문사진,답변사진,조회수,순수조회수\n");
 			pList = postDAO.findAll(subject);
 			for (PostVO vo : pList) {
 				sb.append(vo.getNo()).append(",");
@@ -126,7 +186,8 @@ public class ControllerAdmin {
 				sb = (ans==null) ? sb.append(",") :
 					sb.append(ans.replaceAll("\r\n", "@").replace(',', '.')).append(",");
 				sb = (vo.getFsn_q() == null) ? sb.append("X,") : sb.append("O,");
-				sb = (vo.getFsn_a() == null) ? sb.append("X\n") : sb.append("O\n");
+				sb = (vo.getFsn_a() == null) ? sb.append("X,") : sb.append("O,");
+				sb.append(vo.getViews()).append("\n");
 			}
 		}
 		
