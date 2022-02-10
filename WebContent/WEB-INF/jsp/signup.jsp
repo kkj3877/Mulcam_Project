@@ -1,5 +1,4 @@
-<%@ page contentType="text/html; charset=utf-8"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +6,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script language="javascript">
-function abcd() {
+<%-- 회원가입 함수 --%>
+function sign() {
 	if( document.signup.name.value=='' ){
 		alert('이름을 입력하셔야죠^-^');
 	}
@@ -26,15 +26,18 @@ function abcd() {
 }
 </script>
 <style type="text/css">
+<%-- 폰트 --%>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
 .font {
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
+<%-- 반응형 웹 --%>
 @media (max-width: 375px){
-	.item-button {
+	.toggle-button {
 		padding-left: 10px;
 	}
 }
+<%-- 토글바 css --%>
 .container {
 	position: relative;
 	height: 70px;
@@ -47,15 +50,22 @@ function abcd() {
 	padding-right: 0px;
 	width:100%;
 }
-.item-title {
+.toggle-title {
 	margin-left:0px;
 	padding-right: 300px;
 }
-.item-button {
+.toggle-button {
 	margin-right:0px;
 	padding-left: 200px;
 }
-.a {
+.icon-size {
+	height: 35px;
+}
+.icon-white {
+	 filter:invert();
+}
+<%-- 회원가입 칸 css --%>
+.sign-wrap {
 	width:280px;
 	height:290px;
 	text-align:center;
@@ -68,30 +78,22 @@ function abcd() {
 	border-radius:1.5em;
 	padding-top: 10px;
 }
-.b {
+<%-- 입력칸 테두리 --%>
+.input-border {
  	border-right: white 1px solid;
     border-left: white 1px solid;
     border-top: white 1px solid;
 	border-bottom:1px solid black;
 }
-.c {
+<%-- 입력칸 사이 간격 --%>
+.input-padding {
 	padding:15px;
 }
-.d {
-	margin-bottom:20px;
-}
-.c {
-	padding:15px;
-}
-.e {
+.padding-top {
 	padding-top:10px;
 }
 .padding_bottom{
 	padding-bottom: 16px;
-}
-.button {
-	border-radius: 0.4em;
-	border: 1px black;
 }
 .bgcolor {
 	background-color: black;
@@ -105,54 +107,56 @@ function abcd() {
 .font-color {
 	color: #FFFFFF;
 }
-.image-size {
-	height: 35px;
-}
-.icon-white {
-	 filter:invert();
-}
-.wrapper-title-size {
+
+.signup-font-size {
 	font-size: 20px;
 }
-.button {
+<%-- 로그인 버튼 테투리 --%>
+.button-border {
 	margin-top: 15px;
 	border-radius: 0.4em;
 	border: 1px black;
 }
-.submit-size {
+.button-size {
 	font-size: 17px;
 }
 </style>
 </head>
 <body class="font">
+<!-- 토글바 -->
 <nav class="container bgcolor">
-	<div class="font-bold font-size font-color item-title">수학카페</div>
-	<div class="item-button">
+	<div class="font-bold font-size font-color toggle-title">수학카페</div>
+	<div class="toggle-button">
 		<a href="start.do">
-			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
+			<img class="icon-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 	</div>
 </nav>
-<div class="a">
-	<div class="font-bold wrapper-title-size e">Sign up</div>	
+<!-- 회원가입 칸 -->
+<div class="sign-wrap">
+	<div class="font-bold signup-font-size padding-top">Sign up</div>	
 	<form method="POST" name="signup" action="signuptry.do">
-	<div class="c">
+	<div class="input-padding">
+		<!-- 이름 입력칸 -->
 		<div class="padding_bottom">
-			<input class="b" type="text" name="name" placeholder="이름"/>
+			<input class="input-border" type="text" name="name" placeholder="이름"/>
 		</div>
+		<!-- 학번 입력칸 -->
 		<div class="padding_bottom">
-			<input class="b" type="text" name="stid" placeholder="학번"/>
+			<input class="input-border" type="text" name="stid" placeholder="학번"/>
 		</div>
+		<!-- 이메일 입력칸 -->
 		<div class="padding_bottom">
-			<input class="b" type="text" name="mail" placeholder="이메일"/>
+			<input class="input-border" type="text" name="mail" placeholder="이메일"/>
 		</div>
+		<!-- 비밀번호 입력칸 -->
 		<div>
-			<input class="b" type="password" name="pw" placeholder="비밀번호"/>
+			<input class="input-border" type="password" name="pw" placeholder="비밀번호"/>
 		</div>
 	</div>
-	
+	<!-- 회원가입 버튼 -->
 	<div>
-		<input class="submit-size button" type="button" value="Click" onclick="abcd();"/>
+		<input class="button-size button-border" type="button" value="Click" onclick="sign();"/>
 	</div>
 
 	</form>
