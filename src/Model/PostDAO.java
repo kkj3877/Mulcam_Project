@@ -9,6 +9,9 @@ public interface PostDAO {
 	// 테이블에 레코드를 하나 추가하는 함수
 	public int add( String subject, PostVO pvo ) throws Exception;
 	
+	// 게시글의 답변을 저장하는 함수
+	public int ansToPost( String subject, PostVO pvo ) throws Exception;
+	
 	// Bang_T 에서 특정 PK 를 가진 레코드를 제거하는 함수
 	public int delByNo( String subject, PostVO pvo ) throws Exception;
 	
