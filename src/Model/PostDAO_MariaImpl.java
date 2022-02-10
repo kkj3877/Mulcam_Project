@@ -93,6 +93,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setAns(rs.getString("ans"));
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
+				vo.setViews(rs.getInt("views"));
 				
 				return vo;
 			}
@@ -132,6 +133,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setAns(rs.getString("ans"));
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
+				vo.setViews(rs.getInt("views"));
 				
 				return vo;
 			}
@@ -170,12 +172,19 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setAns(rs.getString("ans"));
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
+				vo.setViews(rs.getInt("views") + 1);
 				
 				return vo;
 			}
 		};
 		
-		return jtpl.queryForObject(sql, pss, rowMapper);
+		PostVO vo = jtpl.queryForObject(sql, pss, rowMapper);
+		if (vo != null) {
+			String sql2 = "UPDATE "+tableName+" SET views = views + 1 WHERE no = ?;";
+			jtpl.update(sql2, pss);
+		}
+		
+		return vo;
 	}
 	
 	// -------------------------------------------------------------------------------
@@ -206,6 +215,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setAns(rs.getString("ans"));
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
+				vo.setViews(rs.getInt("views"));
 				
 				return vo;
 			}

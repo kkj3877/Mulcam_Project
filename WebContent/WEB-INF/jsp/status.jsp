@@ -24,7 +24,12 @@ table tbody {
 </head>
 <body>
 <div class="container">
-	<br/><span class="font">Student_T</span>
+	<br/>
+	<form method="GET" action="toCsv.do">
+		<input type="submit" value="csv 파일 만들기">
+	</form>
+	<br/><br/>
+	<span class="font">Student_T</span>
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
@@ -49,7 +54,9 @@ table tbody {
 		</tbody>
 	</table>
 	
-	<br/><span class="font">Basic_T</span>
+	<br/>
+	
+	<span class="font">Basic_T</span>
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
@@ -82,7 +89,9 @@ table tbody {
 		</tbody>
 	</table>
 	
-	<br/><span class="font">Calc_T</span>
+	<br/>
+	
+	<span class="font">Calc_T</span>
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>
@@ -115,7 +124,9 @@ table tbody {
 		</tbody>
 	</table>
 	
-	<br/><span class="font">Linear_T</span>
+	<br/>
+	
+	<span class="font">Linear_T</span>
 	<table class="table table-bordered table-striped">
 		<thead>
 			<tr>

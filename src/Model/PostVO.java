@@ -42,4 +42,9 @@ public class PostVO {
 	public String getFsn_a() { return fsn_a; }
 	public void setFsn_a(String fsn_a) { this.fsn_a = fsn_a; }
 	
+	// 게시글 조회수
+	private Integer views = 0;
+	public Integer getViews() { return views; }
+	public void setViews(Integer views) { this.views = views; }
+	
 }
