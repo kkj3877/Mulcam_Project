@@ -134,7 +134,7 @@ public class ControllerAdmin {
 		
 		out.flush();
 		out.close();
-		return null;
+		return "redirect:status.do";
 	}
 	
 	

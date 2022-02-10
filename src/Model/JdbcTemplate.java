@@ -23,7 +23,7 @@ public class JdbcTemplate {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(sql);
-			pss.setValues(stmt);
+			if (pss != null) pss.setValues(stmt);
 			uc = stmt.executeUpdate();
 		}
 		catch ( SQLException e ) { throw e; }
