@@ -73,24 +73,24 @@ public class ControllerAdmin {
 		pvo.setAns(ans);
 		
 		// 답변 사진이 있다면 사진 저장 및 UUID 저장
-		String ofn = mpr.getOriginalFileName("fsn_a");
+		String ofn = mpr.getOriginalFileName("fsn_q");
 		if ( ofn != null ) {
 			// 사진 파일의 확장자 따로 분리하여 저장
 			int dotIdx = ofn.lastIndexOf('.');
 			String extension = ofn.substring(dotIdx);
 			System.out.println("extension["+extension+"]");
 			
-			File file = mpr.getFile("fsn_a");
+			File file = mpr.getFile("fsn_q");
 			
 			String fsn_a = UUID.randomUUID().toString().substring(0, 31) + extension;
 			file.renameTo( new File( Util.uploadDir() + fsn_a) );
-			System.out.println("fsn_q : " + fsn_a);
-			pvo.setFsn_q(fsn_a);
+			System.out.println("fsn_a : " + fsn_a);
+			pvo.setFsn_a(fsn_a);
 		}
 		
 		postDAO.ansToPost(subject, pvo);
 		
-		return "redirect:view_article?subject="+subject+"&no="+no;
+		return "redirect:view_article.do?subject="+subject+"&no="+no;
 	}
 	
 	
@@ -125,8 +125,6 @@ public class ControllerAdmin {
 	public String delStudent(@RequestParam("stid") Integer stid) throws Exception
 	{
 		System.out.println("ControllerAdmin:: delStudent");
-		
-		String sql = "DELETE FROM Student_T where stid=?";
 		
 		StudentVO pvo = new StudentVO();
 		pvo.setStid(stid);
@@ -172,7 +170,7 @@ public class ControllerAdmin {
 		for ( String subject : subjects ) {
 			idx++;
 			sb.append("\n\n").append(subjects_kor[idx]).append("\n");
-			sb.append("번호,학번,챕터,제목,내용,답변,질문사진,답변사진\n");
+			sb.append("번호,학번,챕터,제목,내용,답변,질문사진,답변사진,조회수,순수조회수\n");
 			pList = postDAO.findAll(subject);
 			for (PostVO vo : pList) {
 				sb.append(vo.getNo()).append(",");
@@ -188,7 +186,8 @@ public class ControllerAdmin {
 				sb = (ans==null) ? sb.append(",") :
 					sb.append(ans.replaceAll("\r\n", "@").replace(',', '.')).append(",");
 				sb = (vo.getFsn_q() == null) ? sb.append("X,") : sb.append("O,");
-				sb = (vo.getFsn_a() == null) ? sb.append("X\n") : sb.append("O\n");
+				sb = (vo.getFsn_a() == null) ? sb.append("X,") : sb.append("O,");
+				sb.append(vo.getViews()).append("\n");
 			}
 		}
 		

@@ -68,6 +68,7 @@ table tbody {
 				<th><span>ans</span></th>
 				<th><span>fsn_q</span></th>
 				<th><span>fsn_a</span></th>
+				<th><span>views</span></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -84,6 +85,7 @@ table tbody {
 					<td><span class="contents_font">${t.ans}</span></td>
 					<td><span class="contents_font">${t.fsn_q}</span></td>
 					<td><span class="contents_font">${t.fsn_a}</span></td>
+					<td><span class="contents_font">${t.views}</span></td>
 				</tr>
 			</q:forEach>
 		</tbody>
@@ -103,6 +105,7 @@ table tbody {
 				<th><span>ans</span></th>
 				<th><span>fsn_q</span></th>
 				<th><span>fsn_a</span></th>
+				<th><span>views</span></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -119,6 +122,7 @@ table tbody {
 					<td><span class="contents_font">${t.ans}</span></td>
 					<td><span class="contents_font">${t.fsn_q}</span></td>
 					<td><span class="contents_font">${t.fsn_a}</span></td>
+					<td><span class="contents_font">${t.views}</span></td>
 				</tr>
 			</q:forEach>
 		</tbody>
@@ -138,6 +142,7 @@ table tbody {
 				<th><span>ans</span></th>
 				<th><span>fsn_q</span></th>
 				<th><span>fsn_a</span></th>
+				<th><span>views</span></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -154,6 +159,7 @@ table tbody {
 					<td><span class="contents_font">${t.ans}</span></td>
 					<td><span class="contents_font">${t.fsn_q}</span></td>
 					<td><span class="contents_font">${t.fsn_a}</span></td>
+					<td><span class="contents_font">${t.views}</span></td>
 				</tr>
 			</q:forEach>
 		</tbody>
