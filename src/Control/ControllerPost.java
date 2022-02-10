@@ -167,7 +167,7 @@ public class ControllerPost {
 		
 		// 질문 사진이 있다면 사진 저장 및 UUID 저장
 		String ofn = mpr.getOriginalFileName("fsn_q");
-		
+		String fsn_q = null;
 		if ( ofn != null ) {
 			// 사진 파일의 확장자 따로 분리하여 저장
 			int dotIdx = ofn.lastIndexOf('.');
@@ -176,7 +176,7 @@ public class ControllerPost {
 			
 			File file = mpr.getFile("fsn_q");
 			
-			String fsn_q = UUID.randomUUID().toString().substring(0, 31) + extension;
+			fsn_q = UUID.randomUUID().toString().substring(0, 31) + extension;
 			file.renameTo( new File( Util.uploadDir() + fsn_q) );
 			System.out.println("fsn_q : " + fsn_q);
 			pvo.setFsn_q(fsn_q);
@@ -184,8 +184,10 @@ public class ControllerPost {
 		
 		int uc = postDAO.changePost(subject, pvo);
 		
-		if (uc > 0 && fsn_q_original != null) {
+		//if (uc > 0 && fsn_q_original != null) {
+		if (uc > 0 && fsn_q != null) {
 			File file = new File( Util.uploadDir() + fsn_q_original );
+			System.out.println("fsn_q_original : " + Util.uploadDir() + fsn_q_original );
 			if ( file.exists() ) file.delete();
 		}
 		
