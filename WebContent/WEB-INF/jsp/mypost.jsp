@@ -293,12 +293,16 @@ th {
 						<th>
 							제목
 						</th>
+						<th>
+							조회수
+						</th>
 					</tr>
 				</thead>
 				<q:forEach items="${ rList_Basic }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.ch }</a></td>
 						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.title }</a></td>
+						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
 			</table>
@@ -315,12 +319,16 @@ th {
 						<th>
 							제목
 						</th>
+						<th>
+							조회수
+						</th>
 					</tr>
 				</thead>
 				<q:forEach items="${ rList_Calc }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.ch }</a></td>
 						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.title }</a></td>
+						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
 			</table>
@@ -337,12 +345,16 @@ th {
 						<th>
 							제목
 						</th>
+						<th>
+							조회수
+						</th>
 					</tr>
 				</thead>
 				<q:forEach items="${ rList_Linear }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.ch }</a></td>
 						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.title }</a></td>
+						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
 			</table>

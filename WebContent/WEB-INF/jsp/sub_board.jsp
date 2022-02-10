@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script>
-function abcd(value){
+<%-- 로그아웃 함수 --%>
+function logout(value){
 	const urlStr = window.location.href;
 	const url = new URL(urlStr);
 	const urlParam = url.searchParams;
@@ -16,6 +17,7 @@ function abcd(value){
 	
 	window.location.href="sub_board.do?subject="+subject+"&ch="+value;
 }
+<%-- 좌측 메뉴 선택 시 색상 변경 --%>
 window.onload = function() {
 	const urlStr = window.location.href;
 	const url = new URL(urlStr);
@@ -40,10 +42,21 @@ window.onload = function() {
 }
 </script>
 <style type="text/css">
+<%-- 폰트 --%>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
 .font {
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
+.font-bold {
+	font-weight: bold;
+}
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+<%-- 반응형 웹 --%>
 @media (max-width: 800px) {
 	.ol {
 		display:none !important;
@@ -67,25 +80,17 @@ window.onload = function() {
 		padding-left: 100px !important;
 	}
 }
+<%-- a 태그 검정색 고정 --%>
 a {
 	color: black;
 	text-decoration: none;
 }
-h1 {
-	text-align: center;
-	padding: 20px;
-	border-bottom: 1px solid gray;
-}
-p {
-	margin-top: 10px;
-}
+<%-- 좌측 메뉴 바, 메인 영역 grid css --%>
 #grid {
 	display:grid;
 	grid-template-columns: 200px 2fr 0.5fr;
 }
-#grid #main{
-	margin: 25px 25px 25px 25px;	
-}
+<%-- 좌측 메뉴 과목 선택 시 색상, 크기 지정 css --%>
 #basic {
 	margin-top: 20px;
 	width: auto !important;
@@ -102,46 +107,9 @@ p {
 	margin-bottom: 30px;
 	margin-right: 95px;
 }
-.main{
+.table-padding{
 	padding-top: 20px;
 	padding-left: 150px;
-}
-.container {
-	position: relative;
-	height: 70px;
-	border-bottom: 1px solid black;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-	padding-left: 0px;
-	padding-right: 0px;
-	width:100%;
-}
-.item-title {
-	margin-left:0px;
-	padding-right: 200px;
-}
-.item-button {
-	margin-right:0px;
-	padding-left: 200px;
-}
-.table {
-	border: 1px solid #ccc;
-	border-collapse: separate;
-}
-.write_button {
-	align:right;
-}
-.jm-font{
-	font-family:'Jeju Myeongjo', serif;
-}
-.item_1 {
-	position: relative;
-	display: inline-block;
-}
-.button {
-	float: right;
 }
 .ol {
 	margin-left: 15px;
@@ -155,30 +123,33 @@ p {
 .li-font {
 	font-size: 18px;
 }
-.clicked {
-	color: yellow;
+<%-- 토글바 css --%>
+.container {
+	position: relative;
+	height: 70px;
+	border-bottom: 1px solid black;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding-left: 0px;
+	padding-right: 0px;
+	width:100%;
 }
-.color {
-	background-color: red;
+.toggle-title {
+	margin-left:0px;
+	padding-right: 200px;
 }
-.toggle-size {
-	font-size: 15px;
+.toggle-button {
+	margin-right:0px;
+	padding-left: 200px;
+}
+.toggle-text-size {
+	font-size: 18px;
 	margin-top: 5px !important;
 	margin-left: 7px;
 }
-.bgcolor {
-	background-color: black;
-}
-.font-bold {
-	font-weight: bold;
-}
-.font-size {
-	font-size: 30px;
-}
-.font-color {
-	color: #FFFFFF;
-}
-.image-size {
+.icon-size {
 	height: 35px;
 }
 .icon-white {
@@ -187,25 +158,39 @@ p {
 .toggle-margin {
 	margin-left: 10px;
 }
-.toggle-text-size {
-	font-size: 18px;
+.bgcolor {
+	background-color: black;
+}
+<%-- 테이블 표 css --%>
+.table {
+	border: 1px solid #ccc;
+	border-collapse: separate;
+}
+.write-ch-position {
+	position: relative;
+	display: inline-block;
+}
+.write-position {
+	float: right;
 }
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body class="font">
+<!-- 토글바 -->
 <nav class="container bgcolor">
-	<div class="font-bold font-size font-color item-title">수학카페</div>
-	<div class="item-button">
+	<div class="font-bold font-size font-color toggle-title">수학카페</div>
+	<div class="toggle-button">
 		<a href="subs.do">
-			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
+			<img class="icon-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
-		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
-			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
+		<a style="padding-left:17px;" href="login.do?ecode=logout" onclick="logout();">
+			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
-		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>
+		<a class="toggle-margin icon-white font-bold toggle-text-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
+<!-- 사이드 메뉴 바 -->
 <div id="grid">
 	<div class="ol">
 		<div id="basic">
@@ -218,9 +203,11 @@ p {
 		<a class="li-font font-bold" href="sub_board.do?subject=Linear">선형대수학</a>
 		</div>
 	</div>
-	<div class="main">
+	<!-- 메인 영역 -->
+	<div class="table-padding">
 		<div class="category">
-			<div class="item_1">
+			<!-- 챕터 -->
+			<div class="write-ch-position">
 				<form name="banana">
 					<select name="ch" onchange="abcd(this.value)">
 						<option>챕터</option>
@@ -233,15 +220,14 @@ p {
 					</select>
 				</form>
 			</div>
-			<div class="item_1 button">	
+			<!-- 작성 아이콘 -->
+			<div class="write-ch-position write-position">	
 				<a href="write.do?subject=${ subject }">
 					<img src="image/pencil-line.svg"/>
 				</a>
 			</div>
 		</div>
-		
-		${ rList }
-		
+		<!-- 테이블 표 -->
 		<div class="font" style="overflow-x: auto;">
 			<table border="1" class="table">
 				<thead>
@@ -250,6 +236,7 @@ p {
 					<th>학번</th>
 					<th>Chapter</th>
 					<th class="table-title">제목</th>
+					<th>조회수</th>
 				</tr>	
 				</thead>
 				<q:forEach items="${ rList }" var="t" >
@@ -258,6 +245,7 @@ p {
 					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
 					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
 					<td ><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a></td>
+					<td>${ t.views }</td>
 				</tr>
 				</q:forEach>
 			</table>
