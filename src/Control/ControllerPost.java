@@ -111,7 +111,7 @@ public class ControllerPost {
 	public String change
 		(HttpServletRequest request, HttpSession session) throws Exception
 	{
-		System.out.println("ControllerPost:: question:: ");
+		System.out.println("ControllerPost:: change:: ");
 		
 		// 로그인되어있지 않다면 login.do 로 redirect
 		Integer stid = (Integer)session.getAttribute("stid");
@@ -121,7 +121,6 @@ public class ControllerPost {
 			return "redirect:login.do?ecode=invalid_session";
 		}
 		
-		/*
 		MultipartRequest mpr = new MultipartRequest(request, Util.uploadDir(), 1024*1024*16, "utf-8", null);
 		
 		// 과목명
@@ -149,7 +148,9 @@ public class ControllerPost {
 		String content = mpr.getParameter("content");
 		System.out.println("content : " + content);
 		
-		postDAO.findPostByNo(subject, no);
+		// 원래 파일 이름
+		String fsn_q_original = mpr.getParameter("fsn_q_original");
+		if ( fsn_q_original != null ) System.out.println("fsn_q_original : " + fsn_q_original);
 		
 		if ( errorString != null ) {
 			System.out.println("errorString=["+errorString+"]");
@@ -157,13 +158,16 @@ public class ControllerPost {
 		}
 		
 		PostVO pvo = new PostVO();
+		pvo.setNo(no);
 		pvo.setStid(stid);
 		pvo.setTitle(title);
 		pvo.setCh(Integer.parseInt(ch));
 		pvo.setContent(content);
+		pvo.setFsn_q(fsn_q_original);
 		
 		// 질문 사진이 있다면 사진 저장 및 UUID 저장
 		String ofn = mpr.getOriginalFileName("fsn_q");
+		
 		if ( ofn != null ) {
 			// 사진 파일의 확장자 따로 분리하여 저장
 			int dotIdx = ofn.lastIndexOf('.');
@@ -178,12 +182,14 @@ public class ControllerPost {
 			pvo.setFsn_q(fsn_q);
 		}
 		
-		postDAO.add(subject, pvo);
+		int uc = postDAO.changePost(subject, pvo);
 		
-		return "redirect:sub_board.do?subject="+subject;
-		*/
+		if (uc > 0 && fsn_q_original != null) {
+			File file = new File( Util.uploadDir() + fsn_q_original );
+			if ( file.exists() ) file.delete();
+		}
 		
-		return "redirect:subs.do";
+		return "redirect:view_article.do?subject="+subject+"&no="+no;
 	}
 	
 	

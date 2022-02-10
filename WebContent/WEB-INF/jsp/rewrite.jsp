@@ -1,16 +1,4 @@
-<%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"
-import="Control.Util, java.io.File"%>
-<% 
-	String fname = request.getParameter("fname");
-	System.out.println( fname );
-	File file = null;
-	String file_dir = null;
-	if( fname != null ) {
-		file = new File( Util.uploadDir() + fname );
-		file_dir = file.toString();
-	}
-	
-%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"%>
 <%@taglib prefix="q" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -77,22 +65,6 @@ window.onload = function() {
 			$('#linear').css('background-color', '#A9D9CB');
 		});
 	}
-	
-}
-window.onload=function() {
-	const urlStr = window.location.href;
-	const url = new URL(urlStr);
-	const urlParam = url.searchParams;
-	var filename = document.getElementById('fileName');
-	var fname = urlParam.get('fname');
-	filename.innerText = fname;
-	
-	document.getElementById('submitFile').addEventListener('change', function(){
-		if( this.files[0] == fname ) {
-			filename.innerText = fname;
-		}
-		filename.innerText = this.files[0].name;
-	});
 	
 }
 </script>
@@ -215,7 +187,6 @@ h1 {
 }
 .content{
 	margin-left: 40px;
-	width: 500px;
 }
 .content-width {
 	width:528px;
@@ -257,8 +228,7 @@ h1 {
 	margin-bottom: 20px;
 }
 .write-button {
-	margin-top: 10px;
-	margin-right: -30px;
+	margin-right: -100px;
 	float: right;
 }
 .ch-margin {
@@ -271,12 +241,6 @@ h1 {
 	border-bottom: 1px solid #A6A6A6;
 	border-radius: 0.2em;
 }
-.submit-custom {
-	display:none;
-}
-span {
-	height: 10px;
-}
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -284,7 +248,7 @@ span {
 <nav class="container bgcolor">
 	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
-		<a href="view_article.do?subject=${ subject }&no=${ article.no }">
+		<a href="sub_board.do?subject=${ subject }">
 			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
@@ -308,7 +272,7 @@ span {
 		</div>
 	</div>
 	<div id="main" class="item wrap-title col-xs-11.9 col-sm-11 col-md-9">
-		<form name="form" method="POST" action="change.do" id="write" enctype="multipart/form-data">
+		<form name="form" method="POST" action="question.do" id="write" enctype="multipart/form-data">
 			<input type="hidden" name="subject" value="${ subject }"/>
 			<div>
 				<input class="title border-gray-radius" type="text" name="title" id="x" value="${ article.title }"/>
@@ -327,12 +291,9 @@ span {
 					</select>
 				</div>			
 				<textarea class="content-width border-gray-radius" rows="10" name="content" id="y">${ article.content }</textarea>
-			
-				<label class="btn btn-default btn-file" for="submitFile">파일업로드
-					<input class="file-margin border-gray-radius" id="submitFile" type="file" name="fsn_q" style="display:none;"/>
-				</label>
-				<span id="fileName">파일없음</span>
-				
+				<div>
+					<input class="file-margin border-gray-radius" type="file" name="fsn_q"/>
+				</div>
 				<div>
 					<input class="write-button border-gray-radius" type="button" onclick="fun();" value="작성완료"/>
 				</div>		

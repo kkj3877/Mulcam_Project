@@ -76,6 +76,36 @@ public class PostDAO_MariaImpl implements PostDAO {
 	}
 	
 	// -------------------------------------------------------------------------------
+	// Subject_T 의 특정 PK 를 가진 레코드의 데이터를 변경하는 함수
+	@Override
+	public int changePost(String subject, PostVO pvo) throws Exception {
+		String tableName = subject+"_T";
+		Integer no = pvo.getNo();
+		System.out.println("PostDAO_MariaImpl:: changePost("+subject+", "+no+")");
+		
+		String sql = "UPDATE "+tableName+" SET ch=?, title=?, content=?, fsn_q=? WHERE no = ?;";
+		Integer ch = pvo.getCh();
+		String title = pvo.getTitle();
+		String content = pvo.getContent();
+		String fsn_q = pvo.getFsn_q();
+		
+		PreparedStatementSetter pss = new PreparedStatementSetter() {
+			@Override
+			public void setValues(PreparedStatement stmt) throws Exception {
+				stmt.setInt(1, ch);
+				stmt.setString(2, title);
+				stmt.setString(3, content);
+				stmt.setString(4, fsn_q);
+				stmt.setInt(5, no);
+			}
+		};
+		
+		int uc = jtpl.update(sql, pss);
+		
+		return uc;
+	}
+	
+	// -------------------------------------------------------------------------------
 	// Subject_T 에서 특정 PK 를 가진 레코드를 제거하는 함수
 	@Override
 	public int delByNo(String subject, PostVO pvo) throws Exception {
