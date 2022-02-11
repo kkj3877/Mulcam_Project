@@ -22,7 +22,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 	public int add(String subject, PostVO pvo) throws Exception {
 		System.out.println("PostDAO_MariaImpl:: add("+subject+")");
 		String tableName = subject+"_T";
-		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL,0)";
+		String sql = "INSERT INTO "+tableName+" VALUES(DEFAULT,?,?,?,?,NULL,?,NULL,0, 0)";
 		
 		final Integer stid = pvo.getStid();
 		final Integer ch = pvo.getCh();
@@ -127,6 +127,21 @@ public class PostDAO_MariaImpl implements PostDAO {
 		
 		int uc = jtpl.update(psc);
 		
+		if (uc != 0) {
+			String viewTableName = subject+"_Viewer_T";
+			String sql2 = "DELETE FROM "+viewTableName+" WHERE no = ?";
+			System.out.println(sql2);
+			
+			PreparedStatementSetter pssNo = new PreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement stmt) throws Exception {
+					stmt.setInt(1, no);
+				}
+			};
+			int count = jtpl.update(sql2, pssNo);
+			System.out.println("count:" + count);
+		}
+		
 		return uc;
 	}
 	
@@ -153,6 +168,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
 				vo.setViews(rs.getInt("views"));
+				vo.setViewer(rs.getInt("viewer"));
 				
 				return vo;
 			}
@@ -193,6 +209,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
 				vo.setViews(rs.getInt("views"));
+				vo.setViewer(rs.getInt("viewer"));
 				
 				return vo;
 			}
@@ -206,12 +223,12 @@ public class PostDAO_MariaImpl implements PostDAO {
 	// -------------------------------------------------------------------------------
 	// Subject_T 의 특정 번호 레코드를 리스트에 저장해 반환하는 함수
 	@Override
-	public PostVO findPostByNo(String subject, Integer no) throws Exception {
-		System.out.println("PostDAO_MariaImpl:: findPostByNo("+subject+", "+no+")");
+	public PostVO findPostByNo(String subject, Integer no, Integer stid) throws Exception {
+		System.out.println("PostDAO_MariaImpl:: findPostByNo("+subject+", "+no+") by-"+stid);
 		String tableName = subject+"_T";
 		String sql = "SELECT * FROM "+tableName+" WHERE no=?";
 		
-		PreparedStatementSetter pss = new PreparedStatementSetter() {
+		PreparedStatementSetter pssNo = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
 				stmt.setInt(1, no);
@@ -232,15 +249,43 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
 				vo.setViews(rs.getInt("views") + 1);
+				vo.setViewer(rs.getInt("viewer"));
 				
 				return vo;
 			}
 		};
 		
-		PostVO vo = jtpl.queryForObject(sql, pss, rowMapper);
+		PostVO vo = jtpl.queryForObject(sql, pssNo, rowMapper);
 		if (vo != null) {
-			String sql2 = "UPDATE "+tableName+" SET views = views + 1 WHERE no = ?;";
-			jtpl.update(sql2, pss);
+			String viewTableName = subject+"_Viewer_T";
+			sql = "SELECT * FROM "+viewTableName+" WHERE no = ? AND stid = ?";
+			System.out.println(sql);
+			PreparedStatementSetter pssNoStid = new PreparedStatementSetter() {
+				@Override
+				public void setValues(PreparedStatement stmt) throws Exception {
+					stmt.setInt(1, no);
+					stmt.setInt(2, stid);
+				}
+			};
+			int count = jtpl.checkObject(sql, pssNoStid);
+			System.out.println("count:" + count);
+			
+			if (count == 0) {
+				String sql2 = "INSERT INTO "+viewTableName+ " VALUES(?,?)";
+				PreparedStatementSetter pss2 = new PreparedStatementSetter() {
+					@Override
+					public void setValues(PreparedStatement stmt) throws Exception {
+						stmt.setInt(1, no);
+						stmt.setInt(2, stid);
+					}
+				};
+				jtpl.update(sql2, pss2);
+				
+				sql = "UPDATE "+tableName+" SET views = views + 1, viewer = viewer + 1 WHERE no = ?;";
+			}
+			else sql = "UPDATE "+tableName+" SET views = views + 1 WHERE no = ?;";
+			
+			jtpl.update(sql, pssNo);
 		}
 		
 		return vo;
@@ -275,6 +320,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 				vo.setFsn_q(rs.getString("fsn_q"));
 				vo.setFsn_a(rs.getString("fsn_a"));
 				vo.setViews(rs.getInt("views"));
+				vo.setViewer(rs.getInt("viewer"));
 				
 				return vo;
 			}
