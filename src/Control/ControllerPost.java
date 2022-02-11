@@ -329,6 +329,19 @@ public class ControllerPost {
 			return null;
 		}
 		
+		// 답변이 달려있다면 수정이 불가능하도록 한다.
+		if (pvo.getAns() != null) {
+			System.out.println("answered post");
+			
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			String href = "view_article.do?subject="+subject+"&no="+no;
+			writer.println("<script>alert('관리자에게 문의하세요.'); location.href='"+href+"';</script>");
+			writer.close();
+			
+			return null;
+		}
+		
 		mnv.setViewName("rewrite");
 		mnv.addObject("subject", subject);
 		mnv.addObject("article", pvo);
