@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="EUC-KR"%>
 <%@taglib prefix="q" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,6 +42,15 @@ window.onload = function() {
 			$('#linear').css('background-color', '#A9D9CB');
 		});
 	}
+	
+	document.getElementById('reply-button').addEventListener('mouseover',function(event){
+		var text = document.getElementById('reply-text');
+		event.target.style.display = 'inline';
+		
+		setTimeout( function() {
+			event.target.style.display="";
+		}, 500);
+	}, false);
 }
 </script>
 <style type="text/css">
@@ -173,6 +185,19 @@ a {
 .write-position {
 	float: right;
 }
+.reply-button {
+	background-color : #C8C9C4;
+	display: inline-block;
+	text-align: center;
+}
+.border-gray-radius {
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	border-left: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	border-radius: 0.5em;
+	background-color: #C8C9C4;
+}
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -244,7 +269,13 @@ a {
 					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
 					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
 					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
-					<td ><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a></td>
+					<td >
+						<a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a>
+						<q:if test="${ t.ans != null}">
+							<div id="reply-button" class="reply-button border-gray-radius font-bold"><img src="image/chat-check-fill.svg"/>${ t.ans }</div>
+						</q:if>
+						
+					</td>
 					<td>${ t.views }</td>
 				</tr>
 				</q:forEach>
