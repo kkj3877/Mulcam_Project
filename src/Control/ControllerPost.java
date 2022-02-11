@@ -154,7 +154,7 @@ public class ControllerPost {
 			return "redirect:login.do?ecode=invalid_session";
 		}
 		
-		PostVO pvo = postDAO.findPostByNo(subject, no);
+		PostVO pvo = postDAO.findPostByNo(subject, no, stid);
 		System.out.println("LI_stid: " + stid);
 		System.out.println("DB_stid: " + pvo.getStid());
 		
@@ -165,6 +165,17 @@ public class ControllerPost {
 			PrintWriter writer = response.getWriter();
 			String href = "view_article.do?subject="+subject+"&no="+no;
 			writer.println("<script>alert('작성자만 삭제할 수 있습니다.'); location.href='"+href+"';</script>");
+			writer.close();
+			
+			return null;
+		}
+		else if (pvo.getAns() != null) {
+			System.out.println("answered post");
+			
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			String href = "view_article.do?subject="+subject+"&no="+no;
+			writer.println("<script>alert('관리자에게 문의하세요.'); location.href='"+href+"';</script>");
 			writer.close();
 			
 			return null;
@@ -302,7 +313,7 @@ public class ControllerPost {
 		}
 		
 		// 해당 번호의 글을 찾아 게시자와 현재 사람이 동일인물인지 확인한다.
-		PostVO pvo = postDAO.findPostByNo(subject, no);
+		PostVO pvo = postDAO.findPostByNo(subject, no, stid);
 		if (stid.compareTo(pvo.getStid()) != 0) { // 다르다면 안내문 출력 후 게시글로 redirect
 			System.out.println("other student");
 			
@@ -401,7 +412,7 @@ public class ControllerPost {
 			return mnv;
 		}
 		
-		PostVO vo = postDAO.findPostByNo(subject, no);
+		PostVO vo = postDAO.findPostByNo(subject, no, stid);
 		
 		if ( vo == null ) {
 			System.out.println("post(no="+no+")is not in DB");
