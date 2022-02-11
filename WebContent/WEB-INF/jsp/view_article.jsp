@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@taglib prefix="q" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 Integer stid = (Integer)session.getAttribute("stid");
 %>
@@ -46,7 +47,7 @@ window.onload = function() {
 	<%-- 관리자 일 떄 답변 작성 div 표시 --%>
 	var reply = document.getElementById('reply');
 	if( stid != '0') {
-		reply.style.display = 'none';
+		reply.remove();
 	}
 	<%-- 파일 업로드 이벤트리스너 --%>
 	document.getElementById('submitFile').addEventListener('change', function(){
@@ -124,7 +125,7 @@ function reply(){
 		border-radius: 0.7em;
 	}
 }
-@media (max-width: 540px) {
+@media (max-width: 698px) {
 	.item-title {
 		margin-left:0px;
 		padding-right: 100px !important;
@@ -144,17 +145,20 @@ a {
 	margin-top: 20px;
 	width: auto !important;
 	margin-bottom: 30px;
-	margin-right: 51.7px;
+	margin-right: 52.5px;
+	border-radius: 0.4em;
 }
 #calc {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 113px;
+	border-radius: 0.4em;
 }
 #linear {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 95px;
+	border-radius: 0.4em;
 }
 .ol {
 	border-right: 1px solid gray;
@@ -209,7 +213,7 @@ a {
 .wrap-title {
 	width: 500px;
 	height: 115px;
-	margin-left: 180px;
+	margin-left: 200px;
 	margin-top: 50px;
 	justify-self: center;
 	border: 1px solid;
@@ -224,34 +228,33 @@ a {
 	border: 1px solid;
 	border-radius: 0.7em;
 }
-.article {
-	width: 25px;
-	border-bottom: 2px solid #A6A6A6;
-}
 .article-margin {
 	margin-left: 10px;
 	margin-top: 7px;
-	margin-bottom: 8px;
+	margin-bottom: 0px;
 }
 .content {
 	width: 25px;
-	border-bottom: 2px solid #A6A6A6;
+	border-bottom: 2px solid black;
 }
 .content-margin {
-	margin-left: 19px;
+	margin-left: 23px;
 	margin-top: 7px;
 	margin-bottom: 8px;
 }
-.wrap-image {
-	margin-top: 10px;
+.write-image {
+	margin:0 auto;
+	overflow:hidden;
+	margin-top: 0px;
 	margin-left: -15px;
 	width: 500px;
 	height: 300px;
+	background-color: #FFFAF0;
+	border-radius: 0.9em;
 }
 .image-box {
-	width:100%;
-	height:99%;
-	object-fit:cover;
+	width: 100%;
+	height: 100%;
 }
 .buttons {
 	display: flex;
@@ -303,6 +306,38 @@ a {
 	float: right;
 	top: 70%;
 }
+.reply-view {
+	border-top: 1px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	border-left: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+	background-color: #E8E8E8;
+	border-radius: 0.9em;
+	height: 100px;
+	width: 500px;
+	margin-left: -15px;
+	padding-top: 7px;
+	margin-top: 30px;
+}
+.reply-margin {
+	margin-left: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.title-width-border {
+	width: 25px;
+	border-bottom: 2px solid black;
+}
+.reply-image {
+	margin:0 auto;
+	overflow:hidden;
+	margin-top: -0.6px;
+	margin-left: -15px;
+	width: 500px;
+	height: 300px;
+	background-color: #E8E8E8;
+	border-radius: 0.9em;
+}
 </style>
 </head>
 <body class="font">
@@ -336,20 +371,27 @@ a {
 	
 	<div class="border-gray-radius wrap-title col-xs-11.9 col-sm-11 col-md-9">
 		<div class="font-bold subject-size article-margin">${ subject } > ${ article.ch }</div>
-		<div class="font-bold article article-margin">제목</div>
+		<div class="font-bold title-width-border article-margin">제목</div>
 		<div class="article-margin">${ article.title }</div>
 		
 		<div class="border-gray-radius wrap-content">
-			<div class="font-bold content content-margin">내용</div>
+			<div class="font-bold title-width-border content-margin">내용</div>
 			<div class="content-margin">${ article.content }</div>
 		</div>
 		
-		<div class="wrap-image">
+		<div class="write-image">
 			<img class="image-box" src="image.jsp?fname=${fsn_q}"/>
 		</div>
 		
-		
-		
+		<q:if test="${ article.ans != null }"> 
+			<div class="reply-view">
+				<span style="padding-top: 10px;" class="font-bold reply-margin title-width-border">답변</span>
+				<div class="reply-margin">${ article.ans }</div>
+			</div>
+			<div class="reply-image">
+					<img class="image-box" src="image.jsp?fname=${fsn_a}"/>
+			</div>
+		</q:if>
 		
 		<div id="reply" class="reply-form">
 			<form method="POST" name="Sang" action="answer.do" enctype="multipart/form-data">
@@ -365,9 +407,6 @@ a {
 				<input class="write-button border-gray-button" type="button" onclick="reply();" value="작성완료"/>	
 			</form>
 		</div>
-		
-		<div style="bgcolor:yellow;"></div>
-		
 		
 		<div class="buttons">
 		<div class="button-margin">
