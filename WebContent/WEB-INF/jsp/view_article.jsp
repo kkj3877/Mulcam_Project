@@ -366,7 +366,7 @@ a {
 			</form>
 		</div>
 		
-		
+		<div style="bgcolor:yellow;"></div>
 		
 		
 		<div class="buttons">
@@ -385,6 +385,7 @@ a {
 				<img class="button-size" src="image/eraser-line.svg"/>
 			</a>
 		</div>
+		
 	</div>
 	</div>
 	
