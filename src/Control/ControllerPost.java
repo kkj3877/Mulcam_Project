@@ -181,14 +181,17 @@ public class ControllerPost {
 			return null;
 		}
 		
+		//
 		int uc = postDAO.delByNo(subject, pvo);
 		
+		// 질문 파일이 존재한다면 질문 파일 삭제
 		String fsn_q = pvo.getFsn_q();
 		if ( uc == 1 && fsn_q != null ) {
 			File file = new File( Util.uploadDir() + fsn_q );
 			if ( file.exists() ) file.delete();
 		}
 		
+		// 답변 파일이 존재한다면 답변 파일 삭제
 		String fsn_a = pvo.getFsn_a();
 		if ( uc == 1 && fsn_a != null ) {
 			File file = new File( Util.uploadDir() + fsn_a );
