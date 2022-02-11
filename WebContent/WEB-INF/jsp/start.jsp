@@ -4,12 +4,14 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style type="text/css">
+<%-- 폰트 --%>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&display=swap');
 .font {
 	font-family: 'IBM Plex Sans KR', sans-serif;
 	font-weight: bolder;
 	font-size: 20px;
 }
+<%-- 이미지 박스 --%>
 img {
 	float:left;
 	padding:0px auto;
@@ -29,9 +31,11 @@ img {
 .image-size {
 	height: 28px;
 }
+<%-- 로그인, 회원가입 버튼 사이 간격--%>
 .padding-bottom {
 	padding-bottom: 20px;
 }
+<%-- 로그인, 회원가입 텍스트 설정 --%>
 .text {
 	color: black;
 	text-decoration: none;
@@ -44,6 +48,7 @@ img {
 	width:100px;
 	margin-left:52px;
 }
+<%-- 로그인 , 회원가입 버튼 위치 --%>
 .a {
 	width:200px;
 	height:150px;
