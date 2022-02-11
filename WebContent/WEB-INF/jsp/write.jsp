@@ -138,17 +138,20 @@ a {
 	margin-top: 20px;
 	width: auto !important;
 	margin-bottom: 30px;
-	margin-right: 51.7px;
+	margin-right: 52.5px;
+	border-radius: 0.4em;
 }
 #calc {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 113px;
+	border-radius: 0.4em;
 }
 #linear {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 95px;
+	border-radius: 0.4em;
 }
 
 .title{

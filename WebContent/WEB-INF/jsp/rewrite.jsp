@@ -104,13 +104,13 @@ window.onload=function(){
 		display:none !important;
 	}
 	.title{
-		width:70% !important;
+		width:73.5% !important;
 	}
 	.content-width {
-		width: 77% !important;
+		width: 80% !important;
 	}	
 }
-@media (max-width: 540px) {
+@media (max-width: 690px) {
 	.toggle-title {
 		margin-left:0px;
 		padding-right: 100px !important;
@@ -122,6 +122,17 @@ window.onload=function(){
 	.write-button {
 		margin-right: 100px !important;
 		float: right;
+	}
+	.wrap-title {
+		width: 500px;
+		height: 100px;
+		margin-left: 30px !important;
+		margin-top: 50px;
+		justify-self: center;
+	}
+}@media (max-width: 550px) {
+	.content-width {
+		width:528px;
 	}
 }
 <%-- a 태그 검정색 고정 --%>
@@ -141,19 +152,21 @@ a {
 	margin-top: 20px;
 	width: auto !important;
 	margin-bottom: 30px;
-	margin-right: 51.7px;
+	margin-right: 52.5px;
+	border-radius: 0.4em;
 }
 #calc {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 113px;
+	border-radius: 0.4em;
 }
 #linear {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 95px;
+	border-radius: 0.4em;
 }
-
 .title{
 	margin-left: 40px;
 	width:528px;
@@ -204,7 +217,7 @@ a {
 .wrap-title {
 	width: 500px;
 	height: 100px;
-	margin-left: 150px;
+	margin-left: 100px;
 	margin-top: 50px;
 	justify-self: center;
 }
@@ -255,7 +268,7 @@ a {
 	</div>
 </nav>
 <!-- 사이드 메뉴 바 -->
-<div id="grid">
+<div>
 	<div class="col-xs-0.1 col-sm-1 col-md-3">
 		<div class="ol">
 			<div id="basic">

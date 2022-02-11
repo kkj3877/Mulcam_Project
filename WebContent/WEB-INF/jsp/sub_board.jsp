@@ -11,8 +11,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script>
-<%-- 로그아웃 함수 --%>
-function logout(value){
+
+<%-- 챕터 url 로 쏴주는 함수 --%>
+function abcd(value){
 	const urlStr = window.location.href;
 	const url = new URL(urlStr);
 	const urlParam = url.searchParams;
@@ -42,15 +43,6 @@ window.onload = function() {
 			$('#linear').css('background-color', '#A9D9CB');
 		});
 	}
-	
-	document.getElementById('reply-button').addEventListener('mouseover',function(event){
-		var text = document.getElementById('reply-text');
-		event.target.style.display = 'inline';
-		
-		setTimeout( function() {
-			event.target.style.display="";
-		}, 500);
-	}, false);
 }
 </script>
 <style type="text/css">
@@ -81,16 +73,29 @@ window.onload = function() {
 		padding-top: 20px;
 		padding-left:0px !important;
 	}	
+	
+	.table-container {
+		width: 50% !important;
+		margin-left: 10% !important;
+	}
+	.table-padding{
+		padding-top: 20px;
+		padding-left: 30px !important;
+	}
 }
-@media (max-width: 540px) {
-	.item-title {
+@media (max-width: 698px) {
+	.toggle-title {
 		margin-left:0px;
 		padding-right: 100px !important;
 	}
-	.item-button {
+	.toggle-button {
 		margin-right:0px;
 		padding-left: 100px !important;
 	}
+	.table {
+		overflow-x: auto !important;
+	}
+	
 }
 <%-- a 태그 검정색 고정 --%>
 a {
@@ -107,21 +112,20 @@ a {
 	margin-top: 20px;
 	width: auto !important;
 	margin-bottom: 30px;
-	margin-right: 51.7px;
+	margin-right: 52.5px;
+	border-radius: 0.4em;
 }
 #calc {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 113px;
+	border-radius: 0.4em;
 }
 #linear {
 	width: auto !important;
 	margin-bottom: 30px;
 	margin-right: 95px;
-}
-.table-padding{
-	padding-top: 20px;
-	padding-left: 150px;
+	border-radius: 0.4em;
 }
 .ol {
 	margin-left: 15px;
@@ -175,6 +179,7 @@ a {
 }
 <%-- 테이블 표 css --%>
 .table {
+	width: 600x;
 	border: 1px solid #ccc;
 	border-collapse: separate;
 }
@@ -186,17 +191,15 @@ a {
 	float: right;
 }
 .reply-button {
-	background-color : #C8C9C4;
-	display: inline-block;
+	display: inline-block ;
 	text-align: center;
 }
-.border-gray-radius {
-	border-top: 1px solid #FFFFFF;
-	border-right: 1px solid #FFFFFF;
-	border-left: 1px solid #FFFFFF;
-	border-bottom: 1px solid #FFFFFF;
-	border-radius: 0.5em;
-	background-color: #C8C9C4;
+.table-text-align {
+	text-align: center;
+}
+.table-padding{
+	padding-top: 20px;
+	padding-left: 150px;
 }
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -209,7 +212,7 @@ a {
 		<a href="subs.do">
 			<img class="icon-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
-		<a style="padding-left:17px;" href="login.do?ecode=logout" onclick="logout();">
+		<a style="padding-left:17px;" href="login.do?ecode=logout">
 			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size" href="mypost.do">나의 질문</a>
@@ -255,28 +258,28 @@ a {
 		<!-- 테이블 표 -->
 		<div class="font" style="overflow-x: auto;">
 			<table border="1" class="table">
-				<thead>
+				<thead >
 				<tr>
-					<th>순번</th>
-					<th>학번</th>
-					<th>Chapter</th>
-					<th class="table-title">제목</th>
-					<th>조회수</th>
+					<th class="table-text-align">순번</th>
+					<th class="table-text-align">학번</th>
+					<th class="table-text-align">Chapter</th>
+					<th class="table-title table-text-align">제목</th>
+					<th class="table-text-align">조회수</th>
 				</tr>	
 				</thead>
 				<q:forEach items="${ rList }" var="t" >
 				<tr >
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
-					<td><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
-					<td >
+					<td class="table-text-align"><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.no }</a></td>
+					<td class="table-text-align"><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
+					<td class="table-text-align"><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
+					<td>
 						<a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a>
 						<q:if test="${ t.ans != null}">
-							<div id="reply-button" class="reply-button border-gray-radius font-bold"><img src="image/chat-check-fill.svg"/>${ t.ans }</div>
+							<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/>답변완료</div>
 						</q:if>
 						
 					</td>
-					<td>${ t.views }</td>
+					<td class="table-text-align" style="text-align:center;">${ t.views }</td>
 				</tr>
 				</q:forEach>
 			</table>
