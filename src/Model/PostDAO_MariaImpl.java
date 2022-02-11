@@ -30,6 +30,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		final String content = pvo.getContent();
 		final String fsn_q = pvo.getFsn_q();
 		
+		// SQL 문의 ? 를 채워주기 위한 setValues 오버라이딩
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
@@ -58,6 +59,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		String ans = pvo.getAns();
 		String fsn_a = pvo.getFsn_a();
 				
+		// SQL 문으로 stmt 를 만들고 ? 를 채워넣어 준비시켜주는 psc
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
@@ -89,6 +91,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		String content = pvo.getContent();
 		String fsn_q = pvo.getFsn_q();
 		
+		// SQL 문의 ? 를 채워주기 위한 setValues 오버라이딩
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
@@ -115,6 +118,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		
 		String sql = "DELETE FROM "+tableName+" where no=?";
 		
+		// SQL 문으로 stmt 를 만들고 ? 를 채워넣어 준비시켜주는 psc
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
 			@Override
 			public PreparedStatement createPreparedStatement(Connection conn) throws SQLException {
@@ -125,8 +129,10 @@ public class PostDAO_MariaImpl implements PostDAO {
 			}
 		};
 		
+		// Subject_T 에서 특정 PK 의 레코드를 제거하는 SQL 문 실행
 		int uc = jtpl.update(psc);
 		
+		// 만약 게시물 레코드가 삭제되었다면 해당 게시물의 열람자 목록도 삭제
 		if (uc != 0) {
 			String viewTableName = subject+"_Viewer_T";
 			String sql2 = "DELETE FROM "+viewTableName+" WHERE no = ?";
@@ -154,6 +160,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		String tableName = subject+"_T";
 		String sql = "SELECT * FROM "+tableName+" ORDER BY no DESC";
 		
+		// Record 를 인스턴스화 하기 위한 mapRow 오버라이딩
 		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
 			@Override
 			public PostVO mapRow(ResultSet rs) throws SQLException {
@@ -188,6 +195,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		String tableName = subject+"_T";
 		String sql = "SELECT * FROM "+tableName+" WHERE ch=? ORDER BY no DESC";
 		
+		// SQL 문의 ? 를 채워주기 위한 setValues 오버라이딩
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
@@ -195,6 +203,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 			}
 		};
 		
+		// Record 를 인스턴스화 하기 위한 mapRow 오버라이딩
 		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
 			@Override
 			public PostVO mapRow(ResultSet rs) throws SQLException {
@@ -228,6 +237,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		String tableName = subject+"_T";
 		String sql = "SELECT * FROM "+tableName+" WHERE no=?";
 		
+		// SQL 문의 ? 를 채워주기 위한 setValues 오버라이딩
 		PreparedStatementSetter pssNo = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
@@ -235,6 +245,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 			}
 		};
 		
+		// Record 를 인스턴스화 하기 위한 mapRow 오버라이딩
 		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
 			@Override
 			public PostVO mapRow(ResultSet rs) throws SQLException {
@@ -255,11 +266,16 @@ public class PostDAO_MariaImpl implements PostDAO {
 			}
 		};
 		
+		// 특정 레코드를 찾아서 인스턴스화 하여 반환
 		PostVO vo = jtpl.queryForObject(sql, pssNo, rowMapper);
+		
+		// 만약 조건을 만족하는 레코드를 찾았다면 열람자 목록 최신화
 		if (vo != null) {
 			String viewTableName = subject+"_Viewer_T";
 			sql = "SELECT * FROM "+viewTableName+" WHERE no = ? AND stid = ?";
 			System.out.println(sql);
+			
+			// SQL 문의 ? 를 채워주기 위한 setValues 오버라이딩
 			PreparedStatementSetter pssNoStid = new PreparedStatementSetter() {
 				@Override
 				public void setValues(PreparedStatement stmt) throws Exception {
@@ -267,9 +283,13 @@ public class PostDAO_MariaImpl implements PostDAO {
 					stmt.setInt(2, stid);
 				}
 			};
+			
+			// 해당 게시물을 현재 로그인 한 사람이 본 적 있는지 검사
 			int count = jtpl.checkObject(sql, pssNoStid);
 			System.out.println("count:" + count);
 			
+			// 만약 현재 로그인 한 사람이 해당 게시물을 처음 본다면 열람자 목록에
+			// 게시글-유저 를 넣은 후 게시글의 열람자 수와 조회수에 1을 더함
 			if (count == 0) {
 				String sql2 = "INSERT INTO "+viewTableName+ " VALUES(?,?)";
 				PreparedStatementSetter pss2 = new PreparedStatementSetter() {
@@ -283,6 +303,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 				
 				sql = "UPDATE "+tableName+" SET views = views + 1, viewer = viewer + 1 WHERE no = ?;";
 			}
+			// 현재 로그인 한 사람이 해당 게시물을 본적 있다면 조회수만 1 더함
 			else sql = "UPDATE "+tableName+" SET views = views + 1 WHERE no = ?;";
 			
 			jtpl.update(sql, pssNo);
@@ -299,6 +320,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 		String tableName = subject+"_T";
 		String sql = "SELECT * FROM "+tableName+" WHERE stid=? ORDER BY no DESC";
 		
+		// SQL 문의 ? 를 채워주기 위한 setValues 오버라이딩
 		PreparedStatementSetter pss = new PreparedStatementSetter() {
 			@Override
 			public void setValues(PreparedStatement stmt) throws Exception {
@@ -306,6 +328,7 @@ public class PostDAO_MariaImpl implements PostDAO {
 			}
 		};
 		
+		// Record 를 인스턴스화 하기 위한 mapRow 오버라이딩
 		RowMapper<PostVO> rowMapper = new RowMapper<PostVO>() {
 			@Override
 			public PostVO mapRow(ResultSet rs) throws SQLException {

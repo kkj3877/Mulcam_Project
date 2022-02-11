@@ -47,7 +47,7 @@ public class PostVO {
 	public Integer getViews() { return views; }
 	public void setViews(Integer views) { this.views = views; }
 	
-	// 게시글 조회자 수
+	// 게시글 열람자 수
 	private Integer viewer = 0;
 	public Integer getViewer() { return viewer; }
 	public void setViewer(Integer viewer) { this.viewer = viewer; }

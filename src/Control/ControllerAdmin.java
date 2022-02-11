@@ -68,12 +68,18 @@ public class ControllerAdmin {
 		String ans = mpr.getParameter("content");
 		System.out.println("ans : " + ans);
 		
+		// 원래 파일 이름
+		String fsn_a_original = mpr.getParameter("fsn_a_original");
+		if ( fsn_a_original != null ) System.out.println("fsn_a_original : " + fsn_a_original);
+		
 		PostVO pvo = new PostVO();
 		pvo.setNo(no);
 		pvo.setAns(ans);
+		pvo.setFsn_a(fsn_a_original);
 		
 		// 답변 사진이 있다면 사진 저장 및 UUID 저장
 		String ofn = mpr.getOriginalFileName("fsn_q");
+		String fsn_a = null;
 		if ( ofn != null ) {
 			// 사진 파일의 확장자 따로 분리하여 저장
 			int dotIdx = ofn.lastIndexOf('.');
@@ -82,13 +88,20 @@ public class ControllerAdmin {
 			
 			File file = mpr.getFile("fsn_q");
 			
-			String fsn_a = UUID.randomUUID().toString().substring(0, 31) + extension;
+			fsn_a = UUID.randomUUID().toString().substring(0, 31) + extension;
 			file.renameTo( new File( Util.uploadDir() + fsn_a) );
 			System.out.println("fsn_a : " + fsn_a);
 			pvo.setFsn_a(fsn_a);
 		}
 		
-		postDAO.ansToPost(subject, pvo);
+		int uc = postDAO.ansToPost(subject, pvo);
+		
+		//if (uc > 0 && fsn_q_original != null) {
+		if (uc > 0 && fsn_a != null) {
+			File file = new File( Util.uploadDir() + fsn_a_original );
+			System.out.println("fsn_q_original : " + Util.uploadDir() + fsn_a_original );
+			if ( file.exists() ) file.delete();
+		}
 		
 		return "redirect:view_article.do?subject="+subject+"&no="+no;
 	}

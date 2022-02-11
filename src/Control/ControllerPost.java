@@ -181,14 +181,17 @@ public class ControllerPost {
 			return null;
 		}
 		
+		//
 		int uc = postDAO.delByNo(subject, pvo);
 		
+		// 질문 파일이 존재한다면 질문 파일 삭제
 		String fsn_q = pvo.getFsn_q();
 		if ( uc == 1 && fsn_q != null ) {
 			File file = new File( Util.uploadDir() + fsn_q );
 			if ( file.exists() ) file.delete();
 		}
 		
+		// 답변 파일이 존재한다면 답변 파일 삭제
 		String fsn_a = pvo.getFsn_a();
 		if ( uc == 1 && fsn_a != null ) {
 			File file = new File( Util.uploadDir() + fsn_a );
@@ -321,6 +324,19 @@ public class ControllerPost {
 			PrintWriter writer = response.getWriter();
 			String href = "view_article.do?subject="+subject+"&no="+no;
 			writer.println("<script>alert('작성자만 수정할 수 있습니다.'); location.href='"+href+"';</script>");
+			writer.close();
+			
+			return null;
+		}
+		
+		// 답변이 달려있다면 수정이 불가능하도록 한다.
+		if (pvo.getAns() != null) {
+			System.out.println("answered post");
+			
+			response.setContentType("text/html; charset=utf-8");
+			PrintWriter writer = response.getWriter();
+			String href = "view_article.do?subject="+subject+"&no="+no;
+			writer.println("<script>alert('관리자에게 문의하세요.'); location.href='"+href+"';</script>");
 			writer.close();
 			
 			return null;
