@@ -101,7 +101,7 @@ public class ControllerAdmin {
 	{
 		System.out.println("ControllerAdmin:: delPostFromStatus:: " + subject+", "+no);
 		
-		PostVO pvo = postDAO.findPostByNo(subject, no);
+		PostVO pvo = postDAO.findPostByNo(subject, no, 0);
 		
 		int uc = postDAO.delByNo(subject, pvo);
 		
@@ -187,7 +187,8 @@ public class ControllerAdmin {
 					sb.append(ans.replaceAll("\r\n", "@").replace(',', '.')).append(",");
 				sb = (vo.getFsn_q() == null) ? sb.append("X,") : sb.append("O,");
 				sb = (vo.getFsn_a() == null) ? sb.append("X,") : sb.append("O,");
-				sb.append(vo.getViews()).append("\n");
+				sb.append(vo.getViews()).append(",");
+				sb.append(vo.getViewer()).append("\n");
 			}
 		}
 		

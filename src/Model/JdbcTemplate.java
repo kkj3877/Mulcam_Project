@@ -14,6 +14,40 @@ public class JdbcTemplate {
 		this.dataSource = dataSource;
 	}
 	
+	
+	// 특정 조건의 레코드가 없으면 0, 단 하나 있으면 1, 2개 이상이면 2를 반환하는 함수
+	public <T> int checkObject
+		(String sql, PreparedStatementSetter pss)
+			throws Exception
+	{
+		int count = 0;
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			conn = dataSource.getConnection();
+			stmt = conn.prepareStatement(sql);
+			pss.setValues(stmt);
+			rs = stmt.executeQuery();
+			if ( rs.next() ) {
+				count = 1;
+				if ( rs.next() ) {
+					count = 2;
+				}
+			}
+		}
+		catch ( SQLException e ) { throw e; }
+		finally {
+			if ( rs != null ) rs.close();
+			if ( stmt != null ) stmt.close();
+			if ( conn != null ) conn.close();
+		}
+		
+		return count;
+	}
+	
+	
 	// SQL 문의 ? 를 채우고 update 처리하여 영향받은 레코드 수를 반환하는 함수
 	public int update(String sql, PreparedStatementSetter pss) throws Exception {
 		int uc = 0;
