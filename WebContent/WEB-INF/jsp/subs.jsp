@@ -23,14 +23,17 @@
 	font-weight: bold;
 }
 <%-- 반응형 웹 --%>
-@media (max-width: 540px) {
-	.item-title {
+@media (max-width: 690px) {
+	.toggle-title {
 		margin-left:0px;
 		padding-right: 100px !important;
 	}
-	.item-button {
+	.toggle-button {
 		margin-right:0px;
 		padding-left: 100px !important;
+	}
+	.table {
+		overflow-x: auto !important;
 	}
 }
 <%-- 과목 버튼 css --%>
@@ -116,7 +119,7 @@
 		<a href="login.do">
 			<img class="icon-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
-		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
+		<a style="padding-left:17px;"href="login.do?ecode=logout">
 			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size text-color" href="mypost.do">나의 질문</a>

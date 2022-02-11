@@ -70,11 +70,11 @@ window.onload = function() {
 	}	
 	.table-container {
 		width: 50% !important;
-		margin-left: 10% !important;
+		margin-left: 4% !important;
 	}
 	
 }
-@media (max-width: 540px) {
+@media (max-width: 690px) {
 	.item-title {
 		margin-left:0px;
 		padding-right: 100px !important;
@@ -262,7 +262,7 @@ th {
 		<a href="subs.do">
 			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
-		<a style="padding-left:17px;"href="login.do?ecode=logout" onclick="abcd();">
+		<a style="padding-left:17px;"href="login.do?ecode=logout">
 			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>

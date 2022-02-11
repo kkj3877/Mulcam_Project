@@ -26,6 +26,9 @@ img {
 	height:99%;
 	object-fit:cover;
 }
+.image-size {
+	height: 28px;
+}
 .padding-bottom {
 	padding-bottom: 20px;
 }
@@ -57,9 +60,6 @@ img {
 	border-bottom: 600px solid #A9D9CB;
 	border-right: 670px solid #F29985;
 	margin: auto;
-}
-.image-size {
-	height: 28px;
 }
 </style>
 </head>
