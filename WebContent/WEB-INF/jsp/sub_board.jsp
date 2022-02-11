@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script>
-
 <%-- 챕터 url 로 쏴주는 함수 --%>
 function abcd(value){
 	const urlStr = window.location.href;
@@ -187,19 +186,20 @@ a {
 	position: relative;
 	display: inline-block;
 }
+.table-padding{
+	padding-top: 20px;
+	padding-left: 150px;
+}
 .write-position {
 	float: right;
-}
-.reply-button {
-	display: inline-block ;
-	text-align: center;
 }
 .table-text-align {
 	text-align: center;
 }
-.table-padding{
-	padding-top: 20px;
-	padding-left: 150px;
+<%-- 답변완료 체크박스 --%>
+.reply-button {
+	display: inline-block ;
+	text-align: center;
 }
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -256,7 +256,7 @@ a {
 			</div>
 		</div>
 		<!-- 테이블 표 -->
-		<div class="font" style="overflow-x: auto;">
+		<div class="font">
 			<table border="1" class="table">
 				<thead >
 				<tr>
@@ -273,6 +273,7 @@ a {
 					<td class="table-text-align"><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
 					<td class="table-text-align"><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
 					<td>
+					<!-- 답변 속성이 있는 경우 답변완료 체크 박스 출력 -->
 						<a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a>
 						<q:if test="${ t.ans != null}">
 							<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/>답변완료</div>

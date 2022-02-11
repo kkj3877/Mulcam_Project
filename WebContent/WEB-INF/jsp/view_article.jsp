@@ -397,6 +397,7 @@ a {
 			<form method="POST" name="Sang" action="answer.do" enctype="multipart/form-data">
 				<input type="hidden" name="subject" value="${ subject }"/>
 				<input type="hidden" name="no" value="${ article.no }"/>
+				<input type="hidden" name="fsn_a_original" value="${ article.fsn_a }"/>
 				<textarea class="reply-width border-gray-reply"  rows="6" name="content" placeholder="답변"></textarea>
 				
 				<label class="btn btn-default btn-file" for="submitFile">파일업로드
@@ -427,8 +428,6 @@ a {
 		
 	</div>
 	</div>
-	
 </div>
-
 </body>
 </html>
