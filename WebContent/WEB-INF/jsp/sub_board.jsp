@@ -215,6 +215,9 @@ a {
 		<a style="padding-left:17px;" href="login.do?ecode=logout">
 			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
+		<a style="padding-left:17px;"href="status.do">
+			<img class="icon-size icon-white" src="image/settings-2-line.svg"/>
+		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
@@ -273,12 +276,11 @@ a {
 					<td class="table-text-align"><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.stid }</a></td>
 					<td class="table-text-align"><a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.ch }</a></td>
 					<td>
-					<!-- 답변 속성이 있는 경우 답변완료 체크 박스 출력 -->
-						<a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a>
+						<!-- 답변 속성이 있는 경우 답변완료 체크 박스 출력 -->
 						<q:if test="${ t.ans != null}">
-							<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/>답변완료</div>
+							<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/></div>
 						</q:if>
-						
+						<a href="view_article.do?subject=${ subject }&no=${t.no}">${ t.title }</a>
 					</td>
 					<td class="table-text-align" style="text-align:center;">${ t.views }</td>
 				</tr>
