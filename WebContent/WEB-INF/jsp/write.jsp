@@ -96,18 +96,7 @@ window.onload=function(){
 		display:none !important;
 	}
 }
-@media (max-width: 575px) {
-	.ol {
-		display:none !important;
-	}
-	.title{
-		width:70% !important;
-	}
-	.content-width {
-		width: 77% !important;
-	}	
-}
-@media (max-width: 540px) {
+@media (max-width: 690px) {
 	.toggle-title {
 		margin-left:0px;
 		padding-right: 100px !important;
@@ -119,6 +108,27 @@ window.onload=function(){
 	.write-button {
 		margin-right: 100px !important;
 		float: right;
+	}
+	.wrap-title {
+		width: 500px;
+		height: 100px;
+		margin-left: 0px !important;
+		margin-top: 50px;
+		justify-self: center;
+	}
+}
+@media (max-width: 575px) {
+	.ol {
+		display:none !important;
+	}
+	.title{
+		width:73.5% !important;
+	}
+	.content-width {
+		width: 80% !important;
+	}	
+	.content-width {
+		width:528px;
 	}
 }
 <%-- a 태그 검정색 고정 --%>
@@ -250,6 +260,9 @@ a {
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout">
 			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
+		</a>
+		<a style="padding-left:17px;"href="status.do">
+			<img class="icon-size icon-white" src="image/settings-2-line.svg"/>
 		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size" href="mypost.do">나의 질문</a>
 	</div>

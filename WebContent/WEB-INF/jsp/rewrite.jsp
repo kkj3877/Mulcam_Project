@@ -109,6 +109,9 @@ window.onload=function(){
 	.content-width {
 		width: 80% !important;
 	}	
+	.content-width {
+		width:528px;
+	}
 }
 @media (max-width: 690px) {
 	.toggle-title {
@@ -126,15 +129,12 @@ window.onload=function(){
 	.wrap-title {
 		width: 500px;
 		height: 100px;
-		margin-left: 30px !important;
+		margin-left: 0px !important;
 		margin-top: 50px;
 		justify-self: center;
 	}
-}@media (max-width: 550px) {
-	.content-width {
-		width:528px;
-	}
 }
+
 <%-- a 태그 검정색 고정 --%>
 a {
 	color: black;
@@ -263,6 +263,9 @@ a {
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout">
 			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
+		</a>
+		<a style="padding-left:17px;"href="status.do">
+			<img class="icon-size icon-white" src="image/settings-2-line.svg"/>
 		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size" href="mypost.do">나의 질문</a>
 	</div>

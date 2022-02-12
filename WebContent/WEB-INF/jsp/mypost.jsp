@@ -199,6 +199,10 @@ th {
 	background-color: white;
 	padding: 5px 5px 5px 5px;
 }
+.reply-button {
+	display: inline-block ;
+	text-align: center;
+}
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -212,6 +216,9 @@ th {
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout">
 			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
+		</a>
+		<a style="padding-left:17px;"href="status.do">
+			<img class="icon-size icon-white" src="image/settings-2-line.svg"/>
 		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
@@ -250,7 +257,12 @@ th {
 				<q:forEach items="${ rList_Basic }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.ch }</a></td>
-						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.title }</a></td>
+						<td><a href="view_article.do?subject=Basic&no=${ t.no }">
+							<q:if test="${ t.ans != null}">
+								<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/></div>
+							</q:if>
+							${ t.title }</a>
+						</td>
 						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
@@ -276,7 +288,12 @@ th {
 				<q:forEach items="${ rList_Calc }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.ch }</a></td>
-						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.title }</a></td>
+						<td><a href="view_article.do?subject=Calc&no=${ t.no }">
+							<q:if test="${ t.ans != null}">
+								<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/></div>
+							</q:if>
+							${ t.title }</a>
+						</td>
 						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
@@ -302,7 +319,12 @@ th {
 				<q:forEach items="${ rList_Linear }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Linear&no=${ t.no }">${ t.ch }</a></td>
-						<td><a href="view_article.do?subject=Linear&no=${ t.no }">${ t.title }</a></td>
+						<td><a href="view_article.do?subject=Linear&no=${ t.no }">
+							<q:if test="${ t.ans != null}">
+								<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/></div>
+							</q:if>
+							${ t.title }</a>
+						</td>
 						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
