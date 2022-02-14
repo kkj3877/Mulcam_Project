@@ -31,6 +31,9 @@ img {
 .image-size {
 	height: 28px;
 }
+.icon-white {
+	 filter:invert();
+}
 <%-- 로그인, 회원가입 버튼 사이 간격--%>
 .padding-bottom {
 	padding-bottom: 20px;
@@ -59,27 +62,25 @@ img {
 	margin-left:-100px;
 	margin-top:-75px;
 }
-.body {
-	background-color: #F2D7B6;
-	height: 600px;
-	border-bottom: 600px solid #A9D9CB;
-	border-right: 670px solid #F29985;
-	margin: auto;
+body {
+	background-image: url('image/board-4.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% auto;
 }
 </style>
 </head>
-<body class="body font">
+<body class="font">
 <div class="a">
 <div id="image">
 	<img id="image-box" src="image/KakaoTalk_20220204_164443247.jpg">
 </div>
  <br/>
-	<div class="width padding-bottom">
+	<div class="width icon-white padding-bottom">
  		<a class="text " href="login.do" >
  			<img class="image-size" src="image/login-box-line.svg">Login
  		</a>
 	</div>
- 	<div class="width-signup">
+ 	<div class="icon-white width-signup">
  		<a class="text font-weight " href="signup.do">
  			<img class="image-size" src="image/account-box-line.svg">Sign Up
  		</a>
@@ -89,7 +90,9 @@ img {
 </body>
 </html>
 <!--
- 메인페이지 
-
--- 로그인, 회원가입
+	background-color: #F2D7B6;
+	height: 600px;
+	border-bottom: 600px solid #A9D9CB;
+	border-right: 670px solid #F29985;
+	margin: auto;
 -->
