@@ -7,43 +7,22 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<script>
-function abcd(value){
-	const urlStr = window.location.href;
-	const url = new URL(urlStr);
-	const urlParam = url.searchParams;
-	const subject = urlParam.get('subject');
-	
-	window.location.href="sub_board.do?subject="+subject+"&ch="+value;
-}
-window.onload = function() {
-	const urlStr = window.location.href;
-	const url = new URL(urlStr);
-	const urlParam = url.searchParams;
-	const subject = urlParam.get('subject');
-	 
-	if( subject == 'Basic' ){
-		$(function(){
-			$('#basic').css('background-color', 'yellow');
-		});
-	}
-	else if( subject == 'Calc' ){
-		$(function(){
-			$('#calc').css('background-color', 'yellow');
-		});
-	}
-	else if( subject == 'Linear' ){
-		$(function(){
-			$('#linear').css('background-color', 'yellow');
-		});
-	}
-}
-</script>
 <style type="text/css">
+<%-- 폰트 --%>
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400&display=swap');
 .font {
 	font-family: 'IBM Plex Sans KR', sans-serif;
 }
+.font-bold {
+	font-weight: bold;
+}
+.font-size {
+	font-size: 30px;
+}
+.font-color {
+	color: #FFFFFF;
+}
+<%-- 반응형 웹 --%>
 @media (max-width: 890px) {
 	.table-container {
 		margin-left: 10% !important;
@@ -87,10 +66,12 @@ window.onload = function() {
 		overflow-x: auto !important;
 	}
 }
+<%-- a 태그 검정색 고정 --%>
 a {
 	color: black;
 	text-decoration: none;
 }
+<%-- 좌측 메뉴 과목 css --%>
 h1 {
 	text-align: center;
 	padding: 20px;
@@ -104,13 +85,6 @@ p {
 }
 th td {
 	width: auto;
-}
-#grid {
-	display:grid;
-	grid-template-columns: 200px 2fr 0.5fr;
-}
-#grid #main{
-	margin: 25px 25px 25px 25px;	
 }
 #basic {
 	margin-top: 20px;
@@ -128,10 +102,28 @@ th td {
 	margin-bottom: 30px;
 	margin-right: 95px;
 }
-.main{
-	padding-top: 20px;
-	padding-left: 150px;
+.li-font {
+	font-size: 18px;
 }
+.ol {
+	margin-left: 15px;
+	border-right: 1px solid gray;
+	height: 500px;
+	width:200px;
+	padding-top: 20px;
+	padding-left: 20px;
+	display: flex;
+	flex-direction: column;
+}
+<%-- 좌측 메뉴 바, 메인 영역 grid css --%>
+#grid {
+	display:grid;
+	grid-template-columns: 200px 2fr 0.5fr;
+}
+#grid #main{
+	margin: 25px 25px 25px 25px;	
+}
+<%-- 토글바 css --%>
 .container {
 	position: relative;
 	height: 70px;
@@ -152,46 +144,28 @@ th td {
 	margin-right:0px;
 	padding-left: 200px;
 }
-
-.write_button {
-	align:right;
-}
-.jm-font{
-	font-family:'Jeju Myeongjo', serif;
-}
-.item_1 {
-	position: relative;
-	display: inline-block;
-}
-.button {
-	float: right;
-}
-.ol {
-	margin-left: 15px;
-	border-right: 1px solid gray;
-	height: 500px;
-	width:200px;
-	padding-top: 20px;
-	padding-left: 20px;
-	display: flex;
-	flex-direction: column;
-}
-.li-font {
-	font-size: 18px;
-}
-.clicked {
-	color: yellow;
-}
-.color {
-	background-color: red;
-}
 .toggle-size {
 	font-size: 15px;
 	margin-top: 5px !important;
 	margin-left: 7px;
 }
+.toggle-margin {
+	margin-left: 10px;
+}
+.toggle-text-size {
+	font-size: 18px;
+}
+.icon-white {
+	 filter:invert();
+}
+.icon-size {
+	height: 35px;
+}
+.bgcolor {
+	background-color: black;
+}
+<%-- 테이블 css --%>
 .table-container {
-
 	margin-left: 30%;
 	width: auto;
 }
@@ -225,49 +199,31 @@ th {
 	background-color: white;
 	padding: 5px 5px 5px 5px;
 }
-.bgcolor {
-	background-color: black;
-}
-.font-bold {
-	font-weight: bold;
-}
-.font-size {
-	font-size: 30px;
-}
-.font-color {
-	color: #FFFFFF;
-}
-.image-size {
-	height: 35px;
-}
-.icon-white {
-	 filter:invert();
-}
-.toggle-margin {
-	margin-left: 10px;
-}
-.toggle-text-size {
-	font-size: 18px;
-}
-.li-font {
-	font-size: 18px;
+.reply-button {
+	display: inline-block ;
+	text-align: center;
 }
 </style>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body class="font">
+<!-- 토글바 -->
 <nav class="container bgcolor">
 	<div class="font-bold font-size font-color item-title">수학카페</div>
 	<div class="item-button">
 		<a href="subs.do">
-			<img class="image-size icon-white" src="image/arrow-left-line.svg"/>
+			<img class="icon-size icon-white" src="image/arrow-left-line.svg"/>
 		</a>
 		<a style="padding-left:17px;"href="login.do?ecode=logout">
-			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
+			<img class="icon-size icon-white" src="image/logout-box-line.svg"/>
+		</a>
+		<a style="padding-left:17px;"href="status.do">
+			<img class="icon-size icon-white" src="image/settings-2-line.svg"/>
 		</a>
 		<a class="toggle-margin icon-white font-bold toggle-text-size" class="toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
+<!-- 사이드 메뉴 바 -->
 <div id="grid">
 	<div class="ol">
 		<div id="basic">
@@ -280,14 +236,14 @@ th {
 		<a class="li-font font-bold" href="sub_board.do?subject=Linear">선형대수학</a>
 		</div>
 	</div>
+	<!-- 메인 테이블 영역 -->
 	<div class="table-container">
 		<div class="table_1">
 			<h2>기초수학 및 연습</h2>
-			
 			<table class="table">
 				<thead>
 					<tr>
-						<th class="th">
+						<th>
 							챕터
 						</th>
 						<th>
@@ -301,7 +257,12 @@ th {
 				<q:forEach items="${ rList_Basic }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.ch }</a></td>
-						<td><a href="view_article.do?subject=Basic&no=${ t.no }">${ t.title }</a></td>
+						<td><a href="view_article.do?subject=Basic&no=${ t.no }">
+							<q:if test="${ t.ans != null}">
+								<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/></div>
+							</q:if>
+							${ t.title }</a>
+						</td>
 						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
@@ -327,7 +288,12 @@ th {
 				<q:forEach items="${ rList_Calc }" var="t">
 					<tr>
 						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.ch }</a></td>
-						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.title }</a></td>
+						<td><a href="view_article.do?subject=Calc&no=${ t.no }">
+							<q:if test="${ t.ans != null}">
+								<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/></div>
+							</q:if>
+							${ t.title }</a>
+						</td>
 						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>
@@ -352,8 +318,13 @@ th {
 				</thead>
 				<q:forEach items="${ rList_Linear }" var="t">
 					<tr>
-						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.ch }</a></td>
-						<td><a href="view_article.do?subject=Calc&no=${ t.no }">${ t.title }</a></td>
+						<td><a href="view_article.do?subject=Linear&no=${ t.no }">${ t.ch }</a></td>
+						<td><a href="view_article.do?subject=Linear&no=${ t.no }">
+							<q:if test="${ t.ans != null}">
+								<div id="reply-button" class="reply-button font-bold"><img src="image/chat-check-fill.svg"/></div>
+							</q:if>
+							${ t.title }</a>
+						</td>
 						<td>${ t.views }</td>
 					</tr>
 				</q:forEach>

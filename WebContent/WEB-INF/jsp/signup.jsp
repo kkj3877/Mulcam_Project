@@ -139,19 +139,19 @@ function sign() {
 	<div class="input-padding">
 		<!-- 이름 입력칸 -->
 		<div class="padding_bottom">
-			<input class="input-border" type="text" name="name" placeholder="이름"/>
+			<input class="input-border" type="text" name="name" placeholder="이름" autocomplete="off"/>
 		</div>
 		<!-- 학번 입력칸 -->
 		<div class="padding_bottom">
-			<input class="input-border" type="text" name="stid" placeholder="학번"/>
+			<input class="input-border" type="text" name="stid" placeholder="학번" autocomplete="off"/>
 		</div>
 		<!-- 이메일 입력칸 -->
 		<div class="padding_bottom">
-			<input class="input-border" type="text" name="mail" placeholder="이메일"/>
+			<input class="input-border" type="text" name="mail" placeholder="이메일" autocomplete="off"/>
 		</div>
 		<!-- 비밀번호 입력칸 -->
 		<div>
-			<input class="input-border" type="password" name="pw" placeholder="비밀번호"/>
+			<input class="input-border" type="password" name="pw" placeholder="비밀번호" autocomplete="off"/>
 		</div>
 	</div>
 	<!-- 회원가입 버튼 -->

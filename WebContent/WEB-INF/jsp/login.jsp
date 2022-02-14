@@ -149,12 +149,12 @@ window.onload=function(){
 		<div class="input-padding">
 		<!-- 학번 입력칸 -->
 			<div>
-				<input class="input-border" type="text" id="stid" name="stid" placeholder="학번"/>
+				<input class="input-border" type="text" id="stid" name="stid" placeholder="학번" autocomplete="off"/>
 			</div>
 			<br/>
 		<!-- 비밀번호 입력칸 -->
 			<div>
-				<input class="input-border" type="password" id="pw" name="pw" placeholder="비밀번호"/>
+				<input class="input-border" type="password" id="pw" name="pw" placeholder="비밀번호" autocomplete="off"/>
 			</div>
 		</div>
 		<!-- 로그인 버튼 -->

@@ -209,7 +209,9 @@ a {
 .toggle-margin {
 	margin-left: 10px;
 }
-
+.icon-size {
+	height: 35px;
+}
 .wrap-title {
 	width: 500px;
 	height: 115px;
@@ -350,6 +352,9 @@ a {
 		<a style="padding-left:17px;"href="login.do?ecode=logout">
 			<img class="image-size icon-white" src="image/logout-box-line.svg"/>
 		</a>
+		<a style="padding-left:17px;"href="status.do">
+			<img class="icon-size icon-white" src="image/settings-2-line.svg"/>
+		</a>
 		<a class="toggle-margin icon-white font-bold toggle-size" href="mypost.do">나의 질문</a>
 	</div>
 </nav>
@@ -428,8 +433,6 @@ a {
 		
 	</div>
 	</div>
-	
 </div>
-
 </body>
 </html>
