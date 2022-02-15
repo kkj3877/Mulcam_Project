@@ -1,3 +1,4 @@
+////////////////////////////////////////////
 // 회원(학생) 정보 테이블 생성 SQL
 CREATE TABLE Student_T(
   stid INT PRIMARY KEY,
@@ -6,10 +7,11 @@ CREATE TABLE Student_T(
   mail VARCHAR(30) NOT NULL
 );
 
+////////////////////////////////////////////
 // 과목별 질문 테이블 생성 SQL
 과목 : 기초수학(Basic), 미적분학(Calc), 선형대수학(Linear)
 
-CREATE TABLE 과목_T (
+CREATE TABLE Basic_T (
   no INT AUTO_INCREMENT PRIMARY KEY,
   stid INT NOT NULL,
   ch INT NOT NULL,
@@ -19,16 +21,61 @@ CREATE TABLE 과목_T (
   fsn_a CHAR(36)
 );
 
+CREATE TABLE Calc_T (
+  no INT AUTO_INCREMENT PRIMARY KEY,
+  stid INT NOT NULL,
+  ch INT NOT NULL,
+  title VARCHAR(60),
+  content VARCHAR(600),
+  ans VARCHAR(600),
+  fsn_q CHAR(36),
+  fsn_a CHAR(36)
+);
 
-// 테이블 삭제 SQL
-DROP TABLE ??;
+CREATE TABLE Linear_T(
+  no INT AUTO_INCREMENT PRIMARY KEY,
+  stid INT NOT NULL,
+  ch INT NOT NULL,
+  title VARCHAR(60),
+  content VARCHAR(600),
+  ans VARCHAR(600),
+  fsn_q CHAR(36),
+  fsn_a CHAR(36)
+);
 
-// 테이블 조회 SQL
-SELECT * FROM ??;
+////////////////////////////////////////////
+// 열람자 수(중복X 조회수) 체크를 위한 테이블 생성
+CREATE TABLE Basic_Viewer_T (
+  no INT,
+  stid INT
+);
 
-// 레코드 삽입 SQL
-INSERT INTO ?? VALUES( );
+CREATE TABLE Calc_Viewer_T (
+  no INT,
+  stid INT
+);
 
-// PK 값으로 삭제하는 SQL
-DELETE FROM ?? WHERE no=?;
+CREATE TABLE Linear_Viewer_T (
+  no INT,
+  stid INT
+);
 
+////////////////////////////////////////////
+// 조회수와 열람자 수를 저장하기 위해 게시글 테이블에 view, viewer 추가
+- 기초수학
+ALTER TABLE Basic_T ADD COLUMN views INT;
+UPDATE Basic_T SET views = 0;
+ALTER TABLE Basic_T ADD COLUMN viewer INT;
+UPDATE Basic_T SET viewer = 0;
+
+- 미적분학
+ALTER TABLE Calc_T ADD COLUMN views INT;
+UPDATE Calc_T SET views = 0;
+ALTER TABLE Calc_T ADD COLUMN viewer INT;
+UPDATE Calc_T SET viewer = 0;
+
+- 선형대수학
+ALTER TABLE Linear_T ADD COLUMN views INT;
+UPDATE Linear_T SET views = 0;
+ALTER TABLE Linear_T ADD COLUMN viewer INT;
+UPDATE Linear_T SET viewer = 0;
