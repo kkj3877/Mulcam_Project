@@ -5,7 +5,11 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -150,12 +154,15 @@ public class ControllerAdmin {
 	public String toCsv() throws Exception {
 		System.out.println("ControllerAdmin:: toCsv");
 		System.out.println("csvDir: " + Util.csvDir());
+		
+		// csv 파일이 저장될 디렉토리가 없다면 디렉토리 생성
 		File file = new File(Util.csvDir());
 		if (!file.exists()) {
 			file.mkdir();
 			System.out.println("Directory Created");
 		}
 		
+		// 'mathcafe_현재시간' 이름으로 csv 파일 생성 
 		LocalDateTime LDT = LocalDateTime.now();		
 		String formatedTime = "mathcafe_"+LDT.format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"));
 		
@@ -163,6 +170,7 @@ public class ControllerAdmin {
 		System.out.println("fildDir: " + fileDir);
 		OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(fileDir));
 		
+		// csv 파일 내용 추가 시작
 		StringBuffer sb = new StringBuffer();
 		sb.append("학생\n");
 		sb.append("학번,pw,이름,메일").append("\n");
@@ -174,21 +182,41 @@ public class ControllerAdmin {
 			sb.append(vo.getName()).append(",");
 			sb.append(vo.getMail()).append("\n");
 		}
+		out.write(sb.toString());
+		
 		
 		String[] subjects = {"Basic", "Calc", "Linear"};
 		String[] subjects_kor = {"기초수학", "미적분학", "선형대수학"};
 		List<PostVO> pList = null;
-		
+		StringBuffer sbStat = null;
+		Map<Integer, Integer> tm = null;
+		List<Integer> ls = null;
 		int idx = -1;
 		for ( String subject : subjects ) {
+			ls = new ArrayList<Integer>();
+			tm = new TreeMap<Integer, Integer>();
+			for ( StudentVO vo : sList ) {
+				ls.add(vo.getStid());
+				tm.put(vo.getStid(), 0);
+			}
+			
+			sb = new StringBuffer();
+			sbStat = new StringBuffer();
+			int[] cnt = new int[16];
+			Arrays.fill(cnt, 0);
 			idx++;
-			sb.append("\n\n").append(subjects_kor[idx]).append("\n");
-			sb.append("번호,학번,챕터,제목,내용,답변,질문사진,답변사진,조회수,순수조회수\n");
+			sbStat.append("\n\n").append(subjects_kor[idx]).append("\n\n");
+			
+			sb.append("\n번호,학번,챕터,제목,내용,답변,질문사진,답변사진,조회수,순수조회수\n");
 			pList = postDAO.findAll(subject);
 			for (PostVO vo : pList) {
 				sb.append(vo.getNo()).append(",");
-				sb.append(vo.getStid()).append(",");
-				sb.append(vo.getCh()).append(",");
+				Integer stid = vo.getStid();
+				if (tm.get(stid) != null) tm.replace(stid, tm.get(stid) + 1);
+				sb.append(stid).append(",");
+				int ch = vo.getCh();
+				cnt[ch]++;
+				sb.append(ch).append(",");
 				String title = vo.getTitle();
 				sb = (title==null) ? sb.append(",") :
 					sb.append(title.replaceAll("\r\n", "@").replace(',', '.')).append(",");
@@ -203,9 +231,25 @@ public class ControllerAdmin {
 				sb.append(vo.getViews()).append(",");
 				sb.append(vo.getViewer()).append("\n");
 			}
+			
+			// 챕터별 질문 수
+			sbStat.append(",챕터, 질문 수\n");
+			for (int i = 1; i < 16; i++) {
+				sbStat = (cnt[i] != 0) ? sbStat.append(",").append(i).append(",").append(cnt[i]).append("\n") : sbStat;
+			}
+			
+			// 학번별 질문 수
+			sbStat.append("\n");
+			sbStat.append(",학번, 질문 수\n");
+			for (Integer stid : ls) {
+				sbStat.append(",").append(stid).append(",").append(tm.get(stid)).append("\n");
+			}
+			
+			
+			out.write(sbStat.toString());
+			out.write(sb.toString());
 		}
 		
-		out.write(sb.toString());
 		
 		out.flush();
 		out.close();
