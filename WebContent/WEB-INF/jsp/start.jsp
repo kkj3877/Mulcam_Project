@@ -63,9 +63,11 @@ img {
 	margin-top:-75px;
 }
 body {
-	background-image: url('image/board-4.jpg');
-	background-repeat: no-repeat;
-	background-size: 100% auto;
+	background: url('image/board-4.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 </style>
 </head>
