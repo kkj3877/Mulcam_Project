@@ -11,7 +11,7 @@
 		<init-param>
 			<param-name>dataSourceSettings</param-name>
 			<param-value>
-				org.mariadb.jdbc.Driver,jdbc:mariadb://183.111.242.21/pukyung08,pukyung08,pukyung00!!1
+				org.mariadb.jdbc.Driver,jdbc:mariadb://183.111.242.54:3306/kkj3877,kkj3877,wnsdl198*
 			</param-value>
 		</init-param>
 	</servlet>
