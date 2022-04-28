@@ -8,7 +8,7 @@ public class Util {
 	public static String uploadDir() {
 		String t = System.getProperty("os.name");
 		
-		String upload = "/pukyung08/mathcafe_upload/";
+		String upload = "/kkj3877/mathcafe_upload/";
 		if ( t.indexOf("indows") != -1 ) {
 			upload = "C:\\mathcafe_upload\\";
 		}
@@ -19,7 +19,7 @@ public class Util {
 		public static String csvDir() {
 			String t = System.getProperty("os.name");
 			
-			String upload = "/pukyung08/mathcafe_upload/csv/";
+			String upload = "/kkj3877/mathcafe_upload/csv/";
 			if ( t.indexOf("indows") != -1 ) {
 				upload = "C:\\mathcafe_upload\\csv\\";
 			}
