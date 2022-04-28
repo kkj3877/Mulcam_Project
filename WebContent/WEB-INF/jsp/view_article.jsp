@@ -385,6 +385,7 @@ a {
 		</div>
 		
 		<div class="write-image">
+			<div>${fsn_q}</div>
 			<img class="image-box" src="image.jsp?fname=${fsn_q}"/>
 		</div>
 		
